@@ -1,5 +1,6 @@
 package com.example.mani.studentapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -78,11 +79,12 @@ public class NewsFeed extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_timetable) {
-            // Handle the camera action
+            startActivity(new Intent(NewsFeed.this,TimeTable.class));
+
         } else if (id == R.id.nav_attendence) {
 
         } else if (id == R.id.nav_chatroom) {

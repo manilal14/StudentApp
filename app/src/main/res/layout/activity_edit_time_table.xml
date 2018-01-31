@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mani.studentapp.EditTimeTable">
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Monday"
+        android:layout_weight="1"
+        android:background="#42A5F5"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tuesday"
+        android:layout_weight="1"
+        android:background="#42A5F5"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Wednesday"
+        android:layout_weight="1"
+        android:background="#42A5F5"
+        style="?android:attr/borderlessButtonStyle"/>
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Thursday"
+        android:layout_weight="1"
+        android:background="#42A5F5"
+        style="?android:attr/borderlessButtonStyle"/>
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Friday"
+        android:layout_weight="1"
+        android:background="#42A5F5"
+        style="?android:attr/borderlessButtonStyle"/>
+
+
+
+</LinearLayout>
+

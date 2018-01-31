@@ -25,6 +25,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".TimeTable"
+            android:label="Time Table"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".EditTimeTable"
+            android:label="Edit TimeTable"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

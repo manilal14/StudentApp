@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Monday"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:background="#42A5F5"
         style="?android:attr/borderlessButtonStyle"/>
@@ -17,6 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Tuesday"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:background="#42A5F5"
         style="?android:attr/borderlessButtonStyle"/>
@@ -24,7 +26,8 @@
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Wednesday"
+        android:text="Wednes"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:background="#42A5F5"
         style="?android:attr/borderlessButtonStyle"/>
@@ -32,6 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Thursday"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:background="#42A5F5"
         style="?android:attr/borderlessButtonStyle"/>
@@ -39,6 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Friday"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:background="#42A5F5"
         style="?android:attr/borderlessButtonStyle"/>

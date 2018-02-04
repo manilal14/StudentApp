@@ -4,50 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.mani.studentapp.EditTimeTable">
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Monday"
-        android:textColor="@color/white"
-        android:layout_weight="1"
-        android:background="#42A5F5"
-        style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tuesday"
-        android:textColor="@color/white"
-        android:layout_weight="1"
-        android:background="#42A5F5"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Wednes"
-        android:textColor="@color/white"
-        android:layout_weight="1"
-        android:background="#42A5F5"
-        style="?android:attr/borderlessButtonStyle"/>
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Thursday"
-        android:textColor="@color/white"
-        android:layout_weight="1"
-        android:background="#42A5F5"
-        style="?android:attr/borderlessButtonStyle"/>
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Friday"
-        android:textColor="@color/white"
-        android:layout_weight="1"
-        android:background="#42A5F5"
-        style="?android:attr/borderlessButtonStyle"/>
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btn_monday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42A5F5"
+            android:text="Monday"
 
+            android:textColor="@color/white" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btn_tuesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42A5F5"
+            android:text="Tuesday"
+            android:textColor="@color/white" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btn_wednesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42A5F5"
+            android:text="Wednes"
+            android:textColor="@color/white" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btn_thursday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42A5F5"
+            android:text="Thursday"
+            android:textColor="@color/white" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btn_friday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42A5F5"
+            android:text="Friday"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+        <fragment
+            android:id="@+id/fragment_edit_time_table"
+            android:name="com.example.mani.studentapp.FragmentMonday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </fragment>
 
 
 </LinearLayout>

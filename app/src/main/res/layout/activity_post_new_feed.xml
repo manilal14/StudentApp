@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="8dp"
+    tools:context="com.example.mani.studentapp.PostNewFeed">
+
+    <ImageButton
+        android:id="@+id/post_new_feed_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:adjustViewBounds="true"
+        android:paddingLeft="8dp"
+        android:background="@color/white"
+        android:paddingRight="8dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/add_btn" />
+
+    <EditText
+        android:id="@+id/post_new_feed_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/post_new_feed_imageview"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/input_outline"
+        android:hint="Feed Title..."
+        android:padding="12dp"
+        android:singleLine="true"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/post_new_feed_describtion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/post_new_feed_title"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_outline"
+        android:hint="Feed Describtion..."
+        android:padding="12dp"
+        android:singleLine="false" />
+
+
+    <Button
+        android:id="@+id/post_new_feed_submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="Submit Feed"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

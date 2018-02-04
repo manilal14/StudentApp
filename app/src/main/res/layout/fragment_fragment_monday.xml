@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:orientation="vertical"
+    tools:context="com.example.mani.studentapp.FragmentMonday">
+
+
+    <EditText
+        android:id="@+id/period1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period1"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/period2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period2"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/period3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period3"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/period4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period4"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/period5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period5"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/period6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period6"
+        android:gravity="center"
+        />
+
+</LinearLayout>

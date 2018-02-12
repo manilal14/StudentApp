@@ -72,6 +72,7 @@ public class PostNewFeed extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == GALLARY_REQUEST && resultCode == RESULT_OK && data != null)
         {
             Uri imageUri = data.getData();
@@ -109,19 +110,18 @@ public class PostNewFeed extends AppCompatActivity {
         And then updated information will be fetched and will be shown in News Feed.
      */
 
-    private void sendDataToDatabase()
-    {
+    private void sendDataToDatabase() {
+
         //Todo 1. send data to database  done
         //Todo 2. Fetch from database
 
-        final String title,description;
+        final String title, description;
 
         title = mTitle.getText().toString().trim();
         description = mDescription.getText().toString().trim();
 
-        if(title.equals("") || description.equals(""))
-        {
-            Toast.makeText(PostNewFeed.this,"Required fields are empty",Toast.LENGTH_SHORT).show();
+        if (title.equals("") || description.equals("")) {
+            Toast.makeText(PostNewFeed.this, "Required fields are empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -134,19 +134,19 @@ public class PostNewFeed extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String Response = jsonObject.getString("response");
-                            Toast.makeText(PostNewFeed.this,Response,Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(PostNewFeed.this, Response, Toast.LENGTH_LONG).show();
                             mTitle.setText("");
+                            mDescription.setText("");
+                            mImageView.setImageResource(R.mipmap.add_btn);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PostNewFeed.this,error.toString(),Toast.LENGTH_SHORT).show();
+
             }
         })
 
@@ -154,17 +154,22 @@ public class PostNewFeed extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
+                Log.e("asdasd", imageToString(bitmap));
 
-                Map<String,String> params = new HashMap<>();
-                params.put("title",title);
-                params.put("description",description);
-                params.put("image",imageToString(bitmap));
+                Map<String, String> params = new HashMap<>();
+                params.put("name", mTitle.getText().toString().trim());
+                //params.put("description",mTitle.getText().toString().trim());
+                params.put("image", imageToString(bitmap));
                 return params;
             }
         };
 
         MySingleton.getInstance(PostNewFeed.this).addToRequestQueue(stringRequest);
+
+
+
     }
+
 
     private String imageToString(Bitmap bitmap)
     {

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +37,7 @@ public class PostNewFeed extends AppCompatActivity {
     private Bitmap bitmap = null;
     private static final int GALLARY_REQUEST = 1;
 
-    private static final  String uploadUrl ="http://192.168.0.106/imageUploadApp/updateinfo.php";
+    private static final  String uploadUrl ="http://192.168.0.106/studentApp/upload_data_from_app_to_database.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +111,7 @@ public class PostNewFeed extends AppCompatActivity {
 
     private void sendDataToDatabase() {
 
+
         //Todo 1. send data to database  done
         //Todo 2. Fetch from database
 
@@ -130,8 +130,9 @@ public class PostNewFeed extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.e("resposne", response);
+
                         try {
+
                             JSONObject jsonObject = new JSONObject(response);
                             String Response = jsonObject.getString("response");
                             Toast.makeText(PostNewFeed.this, Response, Toast.LENGTH_LONG).show();
@@ -154,12 +155,12 @@ public class PostNewFeed extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                Log.e("asdasd", imageToString(bitmap));
+
 
                 Map<String, String> params = new HashMap<>();
-                params.put("name", mTitle.getText().toString().trim());
-                //params.put("description",mTitle.getText().toString().trim());
                 params.put("image", imageToString(bitmap));
+                params.put("title", mTitle.getText().toString().trim());
+                params.put("description",mTitle.getText().toString().trim());
                 return params;
             }
         };

@@ -107,6 +107,7 @@ public class PostNewFeed extends AppCompatActivity {
         In this method, if title and description field are not empty the
         data will be send to database.
         And then updated information will be fetched and will be shown in News Feed.
+        App will return to News Feed page.
      */
 
     private void sendDataToDatabase() {
@@ -129,16 +130,14 @@ public class PostNewFeed extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
                             String Response = jsonObject.getString("response");
                             Toast.makeText(PostNewFeed.this, Response, Toast.LENGTH_LONG).show();
-                            mTitle.setText("");
-                            mDescription.setText("");
-                            mImageView.setImageResource(R.mipmap.add_btn);
+
+                            startActivity(new Intent(PostNewFeed.this,NewsFeed.class));
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -147,6 +146,7 @@ public class PostNewFeed extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(PostNewFeed.this,error.toString(),Toast.LENGTH_SHORT);
 
             }
         })
@@ -155,12 +155,10 @@ public class PostNewFeed extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-
-
                 Map<String, String> params = new HashMap<>();
                 params.put("image", imageToString(bitmap));
                 params.put("title", mTitle.getText().toString().trim());
-                params.put("description",mTitle.getText().toString().trim());
+                params.put("description",mDescription.getText().toString().trim());
                 return params;
             }
         };

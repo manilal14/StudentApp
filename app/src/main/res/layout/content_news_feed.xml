@@ -9,11 +9,12 @@
     tools:context="com.example.mani.studentapp.NewsFeed"
     tools:showIn="@layout/app_bar_news_feed">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:layout_margin="8dp"
+        android:id="@+id/news_feed_recycylerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:text="Content of News Feed"
-        />
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

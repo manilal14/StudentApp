@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 /**
@@ -44,8 +46,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
         holder.recycler_desc.setText(feeds.getDesc());
 
 
-        holder.recycler_imageView.setImageDrawable(mCtx.getResources().getDrawable(feeds.getImage()));
-        //Glide.with(mCtx).load(product.getImage()).into(holder.imageView);
+        //holder.recycler_imageView.setImageDrawable(mCtx.getResources().getDrawable(feeds.getImage()));
+        Glide.with(mCtx).load(feeds.getImagePath()).into(holder.recycler_imageView);
 
     }
 

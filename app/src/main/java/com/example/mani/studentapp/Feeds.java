@@ -6,17 +6,22 @@ package com.example.mani.studentapp;
 
 public class Feeds {
 
+    int id;
     private String title,desc;
-    int image;
+    String image_path;
 
-    public Feeds(int image, String title, String desc) {
-        this.image = image;
+    public Feeds(int id,String title, String desc,String image_path) {
+        this.id = id;
         this.title = title;
         this.desc = desc;
+        this.image_path = image_path;
     }
 
-    public int getImage() {
-        return image;
+    public int getId(){
+        return id;
+    }
+    public String getImagePath() {
+        return image_path;
     }
 
     public String getTitle() {

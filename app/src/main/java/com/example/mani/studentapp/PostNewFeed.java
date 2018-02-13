@@ -37,7 +37,8 @@ public class PostNewFeed extends AppCompatActivity {
     private Bitmap bitmap = null;
     private static final int GALLARY_REQUEST = 1;
 
-    private static final  String uploadUrl ="http://192.168.0.106/studentApp/upload_data_from_app_to_database.php";
+    public static final String BASE_URL = "http://192.168.0.106/studentApp/";
+    private static final  String uploadUrl = BASE_URL +  "upload_data_from_app_to_database.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class PostNewFeed extends AppCompatActivity {
 
 
         //Todo 1. send data to database  done
-        //Todo 2. Fetch from database
+        //Todo 2. Fetch from database done
 
         final String title, description;
 

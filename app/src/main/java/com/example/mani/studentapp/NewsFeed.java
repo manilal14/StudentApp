@@ -14,6 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +34,9 @@ public class NewsFeed extends AppCompatActivity
 
     List<Feeds> feedsList;
     RecyclerView recyclerView;
+
+    public static final String BASE_URL = "http://192.168.0.106/studentApp/";
+    private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +72,7 @@ public class NewsFeed extends AppCompatActivity
 
         feedsList = new ArrayList<>();
 
-        feedsList.add(new Feeds(R.drawable.image_one, "This will be the title","This will " +
-                "be the description which can be of multiple lined."));
-
-        feedsList.add(new Feeds(R.drawable.image_two, "This will be the title","This will " +
-                "be the description which can be of multiple lined."));
-
-        feedsList.add(new Feeds(R.drawable.image_three, "This will be the title","This will " +
-                "be the description which can be of multiple lined."));
-
-
-
-        FeedsAdapter adapter = new FeedsAdapter(NewsFeed.this, feedsList);
-        recyclerView.setAdapter(adapter);
+        loadFeedsFromDatabase();
 
     }
 
@@ -99,7 +101,7 @@ public class NewsFeed extends AppCompatActivity
         int id = item.getItemId();
         if(id == R.id.action_refresh)
         {
-
+            startActivity(getIntent());
         }
 
         //noinspection SimplifiableIfStatement
@@ -135,4 +137,49 @@ public class NewsFeed extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void loadFeedsFromDatabase()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, FETCHING_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray products = new JSONArray(response);
+                            for(int i=0;i<products.length();i++)
+                            {
+                                JSONObject productObject = products.getJSONObject(i);
+
+                                int id           = productObject.getInt("id");
+                                String title     = productObject.getString("title");
+                                String description = productObject.getString("description");
+                                int imageInt     = productObject.getInt("image_path");
+                                String image = Integer.toString(imageInt) + ".jpeg";
+
+                                image = BASE_URL + "uploaded_image/" + image;
+
+                                Feeds feeds = new Feeds(id,title,description,image);
+                                feedsList.add(feeds);
+                            }
+
+                            FeedsAdapter adapter = new FeedsAdapter(NewsFeed.this,feedsList);
+                            recyclerView.setAdapter(adapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewsFeed.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
 }
+
+

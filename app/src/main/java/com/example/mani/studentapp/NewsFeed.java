@@ -35,7 +35,7 @@ public class NewsFeed extends AppCompatActivity
     List<Feeds> feedsList;
     RecyclerView recyclerView;
 
-    public static final String BASE_URL = "http://192.168.0.106/studentApp/";
+    public static final String BASE_URL = "http://studentappcloud.gearhostpreview.com/";
     private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
 
     @Override

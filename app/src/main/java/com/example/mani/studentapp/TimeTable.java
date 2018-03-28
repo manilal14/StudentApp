@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class TimeTable extends AppCompatActivity {
 
@@ -12,6 +13,12 @@ public class TimeTable extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
+
+        TextView saveTimeTable = findViewById(R.id.save_timetable);
+
+
+
+
     }
 
     @Override
@@ -31,4 +38,5 @@ public class TimeTable extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    
 }

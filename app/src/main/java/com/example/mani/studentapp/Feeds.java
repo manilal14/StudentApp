@@ -6,6 +6,7 @@ package com.example.mani.studentapp;
 
 public class Feeds {
 
+
     int id;
     private String title,desc;
     String image_path;

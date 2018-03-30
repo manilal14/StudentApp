@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".FridayFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/er1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/edit_timetable_outline"
+
+                android:gravity="center"
+                android:hint="FridayP1"
+                android:padding="8dp"
+
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/er2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:background="@drawable/edit_timetable_outline"
+                android:gravity="center"
+                android:hint="FridayP2"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/er3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/edit_timetable_outline"
+                android:gravity="center"
+                android:hint="FridayP3"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/er4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/edit_timetable_outline"
+                android:gravity="center"
+                android:hint="FridayP4"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/er5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/edit_timetable_outline"
+                android:gravity="center"
+                android:hint="FridayP5"
+                android:padding="8dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/er6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:singleLine="true"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/edit_timetable_outline"
+                android:gravity="center"
+                android:hint="FridayP6"
+                android:padding="8dp"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/save_timetable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="SAVE"
+        android:textColor="@color/white"
+        android:textSize="24dp" />
+</RelativeLayout>

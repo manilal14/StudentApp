@@ -16,7 +16,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,10 +33,21 @@
         <activity
             android:name=".TimeTable"
             android:label="Time Table"
-            android:screenOrientation="landscape"></activity>
+            android:parentActivityName=".NewsFeed"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsFeed" />
+        </activity>
         <activity
             android:name=".EditTimeTable"
-            android:label="Edit TimeTable"></activity>
+            android:label="Edit TimeTable"
+            android:parentActivityName=".NewsFeed">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsFeed" />
+        </activity>
+
         <activity
             android:name=".PostNewFeed"
             android:label="Add New Feed"></activity>

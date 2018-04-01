@@ -15,6 +15,8 @@ public class EditTimeTableFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch(position){
+
+
             case 0: return new MondayFragment();
             case 1: return new TuesdayFragment();
             case 2: return new WednesdayFragment();

@@ -25,11 +25,9 @@
                 android:singleLine="true"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/edit_timetable_outline"
-
                 android:gravity="center"
                 android:hint="FridayP1"
                 android:padding="8dp"
-
                 android:textSize="20dp" />
 
             <EditText
@@ -99,15 +97,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/save_timetable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="SAVE"
-        android:textColor="@color/white"
-        android:textSize="24dp" />
 </RelativeLayout>

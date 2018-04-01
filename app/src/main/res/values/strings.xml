@@ -9,4 +9,41 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="mp1_key">Monday P1 Key</string>
+    <string name="mp2_key">Monday P2 Key</string>
+    <string name="mp3_key">Monday P3 Key</string>
+    <string name="mp4_key">Monday P4 Key</string>
+    <string name="mp5_key">Monday P5 Key</string>
+    <string name="mp6_key">Monday P6 Key</string>
+
+    <string name="tp1_key">Tuesday P1 Key</string>
+    <string name="tp2_key">Tuesday P2 Key</string>
+    <string name="tp3_key">Tuesday P3 Key</string>
+    <string name="tp4_key">Tuesday P4 Key</string>
+    <string name="tp5_key">Tuesday P5 Key</string>
+    <string name="tp6_key">Tuesday P6 Key</string>
+
+    <string name="wp1_key">Wednesday P1 Key</string>
+    <string name="wp2_key">Wednesday P2 Key</string>
+    <string name="wp3_key">Wednesday P3 Key</string>
+    <string name="wp4_key">Wednesday P4 Key</string>
+    <string name="wp5_key">Wednesday P5 Key</string>
+    <string name="wp6_key">Wednesday P6 Key</string>
+
+    <string name="thp1_key">Thrusday P1 Key</string>
+    <string name="thp2_key">Thrusday P2 Key</string>
+    <string name="thp3_key">Thrusday P3 Key</string>
+    <string name="thp4_key">Thrusday P4 Key</string>
+    <string name="thp5_key">Thrusday P5 Key</string>
+    <string name="thp6_key">Thrusday P6 Key</string>
+
+    <string name="fp1_key">Friday P1 Key</string>
+    <string name="fp2_key">Friday P2 Key</string>
+    <string name="fp3_key">Friday P3 Key</string>
+    <string name="fp4_key">Friday P4 Key</string>
+    <string name="fp5_key">Friday P5 Key</string>
+    <string name="fp6_key">Friday P6 Key</string>
+
+
 </resources>

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+
     tools:context=".MondayFragment">
 
     <RelativeLayout
@@ -98,6 +100,20 @@
                 android:textSize="20dp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/save_monday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textSize="24dp"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"/>
+
+
 
     </RelativeLayout>
 </ScrollView>

@@ -131,6 +131,8 @@ public class NewsFeed extends AppCompatActivity
 
         } else if (id == R.id.nav_about) {
 
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

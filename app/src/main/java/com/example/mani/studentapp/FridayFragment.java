@@ -1,5 +1,7 @@
 package com.example.mani.studentapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +13,8 @@ import android.widget.EditText;
 public class FridayFragment extends Fragment {
 
     EditText er1,er2,er3,er4,er5,er6;
-    public static String sr1,sr2,sr3,sr4,sr5,sr6;
+    String sr1,sr2,sr3,sr4,sr5,sr6;
+    SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -20,12 +23,24 @@ public class FridayFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_friday, container, false);
 
-        er1 = view.findViewById(R.id.er1);
-        er2 = view.findViewById(R.id.er2);
-        er3 = view.findViewById(R.id.er3);
-        er4 = view.findViewById(R.id.er4);
-        er5 = view.findViewById(R.id.er5);
-        er6 = view.findViewById(R.id.er6);
+        sharedPreferences = getContext().getSharedPreferences(TimeTable.MY_PREFERENCES, Context.MODE_PRIVATE);
+
+        er1 = view.findViewById(R.id.ef1);
+        er2 = view.findViewById(R.id.ef2);
+        er3 = view.findViewById(R.id.ef3);
+        er4 = view.findViewById(R.id.ef4);
+        er5 = view.findViewById(R.id.ef5);
+        er6 = view.findViewById(R.id.ef6);
+
+
+
+        return view;
+    }
+
+    /**  This function save the Monday timeTable in shared
+     *     prefence on click of save button in TimeTable.
+     */
+    public void saveFridayTimeTable() {
 
         sr1 = er1.getText().toString().trim();
         sr2 = er2.getText().toString().trim();
@@ -35,7 +50,21 @@ public class FridayFragment extends Fragment {
         sr6 = er6.getText().toString().trim();
 
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        return view;
+        if(! (sr1.equals("") && sr2.equals("") && sr3.equals("") &&
+                sr4.equals("") && sr5.equals("") && sr6.equals("")) )
+        {
+            editor.putString("f1key", sr1);
+            editor.putString("f2key", sr2);
+            editor.putString("f3key", sr3);
+            editor.putString("f4key", sr4);
+            editor.putString("f5key", sr5);
+            editor.putString("f6key", sr6);
+            editor.commit();
+        }
+
+
+
     }
 }

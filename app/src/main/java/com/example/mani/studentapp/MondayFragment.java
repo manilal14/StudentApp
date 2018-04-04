@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 
 public class MondayFragment extends Fragment {
@@ -32,22 +31,14 @@ public class MondayFragment extends Fragment {
         em5 = view.findViewById(R.id.em5);
         em6 = view.findViewById(R.id.em6);
 
-        TextView t = view.findViewById(R.id.save_monday);
-        t.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveMondayTimeTable();
-            }
-        });
-
-
-
-
-
         return view;
     }
 
-    private void saveMondayTimeTable() {
+    /**  This function save the Monday timeTable in shared
+     *     prefence on click of save button in TimeTable.
+     */
+    public void saveMondayTimeTable() {
+
         sm1 = em1.getText().toString().trim();
         sm2 = em2.getText().toString().trim();
         sm3 = em3.getText().toString().trim();
@@ -57,9 +48,10 @@ public class MondayFragment extends Fragment {
 
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (!sm1.equals("") && !sm2.equals("") && !sm3.equals("") && !sm4.equals("") &&
-                !sm5.equals("") && !sm6.equals("")) {
 
+        if(! (sm1.equals("") && sm2.equals("") && sm3.equals("") &&
+                sm4.equals("") && sm5.equals("") && sm6.equals("")) )
+        {
             editor.putString("mp1key", sm1);
             editor.putString("mp2key", sm2);
             editor.putString("mp3key", sm3);
@@ -67,7 +59,7 @@ public class MondayFragment extends Fragment {
             editor.putString("mp5key", sm5);
             editor.putString("mp6key", sm6);
             editor.commit();
-    }
+        }
 
 
 

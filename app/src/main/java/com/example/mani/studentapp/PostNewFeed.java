@@ -165,9 +165,6 @@ public class PostNewFeed extends AppCompatActivity {
         };
 
         MySingleton.getInstance(PostNewFeed.this).addToRequestQueue(stringRequest);
-
-
-
     }
 
 

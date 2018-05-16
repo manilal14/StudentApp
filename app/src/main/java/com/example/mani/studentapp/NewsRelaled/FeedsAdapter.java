@@ -1,4 +1,4 @@
-package com.example.mani.studentapp;
+package com.example.mani.studentapp.NewsRelaled;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.mani.studentapp.R;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
     public FeedsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.news_feed_recycler_view_layout, null);
+        View view = inflater.inflate(R.layout.news_feed_recycler_view_layout,parent,false);
         return new FeedsViewHolder(view);
     }
 

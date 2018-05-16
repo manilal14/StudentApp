@@ -1,4 +1,4 @@
-package com.example.mani.studentapp;
+package com.example.mani.studentapp.NewsRelaled;
 
 import android.content.Context;
 

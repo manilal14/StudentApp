@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.mani.studentapp.NewsRelaled.NewsFeed;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView mLogin;

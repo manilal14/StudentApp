@@ -1,4 +1,4 @@
-package com.example.mani.studentapp;
+package com.example.mani.studentapp.AttandanceRelated;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

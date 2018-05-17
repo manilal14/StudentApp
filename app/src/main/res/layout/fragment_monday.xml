@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
 
-    tools:context=".MondayFragment">
+    tools:context=".TimeTableRelated.MondayFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.example.mani.studentapp.NewsRelaled;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mani.studentapp.AttendanceRelated.AttendanceHomePage;
 import com.example.mani.studentapp.R;
-import com.example.mani.studentapp.AttandanceRelated.TimeTable;
+import com.example.mani.studentapp.TimeTableRelated.TimeTable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +40,7 @@ public class NewsFeed extends AppCompatActivity
     List<Feeds> feedsList;
     RecyclerView recyclerView;
 
-    public static final String BASE_URL = "http://studentappcloud.gearhostpreview.com/";
+    public static final String BASE_URL = "http://192.168.43.154/studentApp/";
     private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
 
     @Override
@@ -83,10 +86,27 @@ public class NewsFeed extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
-            super.onBackPressed();
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Really Exit?")
+                    .setMessage("Are you sure you want to exit?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            //MainActivity.super.onBackPressed();
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                        }
+                    }).create().show();
+
+
+            //super.onBackPressed();
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,6 +142,7 @@ public class NewsFeed extends AppCompatActivity
             startActivity(new Intent(NewsFeed.this,TimeTable.class));
 
         } else if (id == R.id.nav_attendence) {
+            startActivity(new Intent(NewsFeed.this, AttendanceHomePage.class));
 
         } else if (id == R.id.nav_chatroom) {
 
@@ -149,8 +170,9 @@ public class NewsFeed extends AppCompatActivity
 
                         try {
                             JSONArray products = new JSONArray(response);
-                            for(int i=0;i<products.length();i++)
-                            {
+
+                            for(int i=0;i<products.length();i++) {
+
                                 JSONObject productObject = products.getJSONObject(i);
 
                                 int id           = productObject.getInt("id");

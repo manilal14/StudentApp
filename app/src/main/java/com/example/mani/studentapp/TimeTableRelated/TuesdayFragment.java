@@ -1,4 +1,4 @@
-package com.example.mani.studentapp.AttandanceRelated;
+package com.example.mani.studentapp.TimeTableRelated;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,8 +12,7 @@ import android.widget.EditText;
 import com.example.mani.studentapp.R;
 
 
-public class ThrusdayFragment extends Fragment {
-
+public class TuesdayFragment extends Fragment {
     EditText t1,t2,t3,t4,t5,t6;
     String sm1,sm2,sm3,sm4,sm5,sm6;
     SharedPreferences sharedPreferences;
@@ -22,26 +21,26 @@ public class ThrusdayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_thrusday, container, false);
+        View view  = inflater.inflate(R.layout.fragment_tuesday, container, false);
 
         sharedPreferences = getContext().getSharedPreferences(TimeTable.MY_PREFERENCES, Context.MODE_PRIVATE);
 
-        t1 = view.findViewById(R.id.eth1);
-        t2 = view.findViewById(R.id.eth2);
-        t3 = view.findViewById(R.id.eth3);
-        t4 = view.findViewById(R.id.eth4);
-        t5 = view.findViewById(R.id.eth5);
-        t6 = view.findViewById(R.id.eth6);
+        t1 = view.findViewById(R.id.et1);
+        t2 = view.findViewById(R.id.et2);
+        t3 = view.findViewById(R.id.et3);
+        t4 = view.findViewById(R.id.et4);
+        t5 = view.findViewById(R.id.et5);
+        t6 = view.findViewById(R.id.et6);
+
+        
+
 
 
         return view;
     }
 
 
-    /**  This function save the Monday timeTable in shared
-     *     prefence on click of save button in TimeTable.
-     */
-    public void saveThrusdayTimeTable() {
+    public void saveTuesdayTimeTable() {
 
         sm1 = t1.getText().toString().trim();
         sm2 = t2.getText().toString().trim();
@@ -54,18 +53,19 @@ public class ThrusdayFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if(! (sm1.equals("") && sm2.equals("") && sm3.equals("") &&
-                sm4.equals("") && sm5.equals("") && sm6.equals("")) )
-        {
-            editor.putString("th1key", sm1);
-            editor.putString("th2key", sm2);
-            editor.putString("th3key", sm3);
-            editor.putString("th4key", sm4);
-            editor.putString("th5key", sm5);
-            editor.putString("th6key", sm6);
+                sm4.equals("") && sm5.equals("") && sm6.equals("")) ) {
+
+            editor.putString("t1key", sm1);
+            editor.putString("t2key", sm2);
+            editor.putString("t3key", sm3);
+            editor.putString("t4key", sm4);
+            editor.putString("t5key", sm5);
+            editor.putString("t6key", sm6);
             editor.commit();
         }
 
 
-
     }
+
+
 }

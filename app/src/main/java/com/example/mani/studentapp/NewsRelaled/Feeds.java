@@ -5,8 +5,6 @@ package com.example.mani.studentapp.NewsRelaled;
  */
 
 public class Feeds {
-
-
     int id;
     private String title,desc;
     String image_path;
@@ -24,7 +22,6 @@ public class Feeds {
     public String getImagePath() {
         return image_path;
     }
-
     public String getTitle() {
         return title;
     }

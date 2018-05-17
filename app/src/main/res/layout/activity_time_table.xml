@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.example.mani.studentapp.TimeTable">
+    tools:context="com.example.mani.studentapp.TimeTableRelated.TimeTable">
 
     <LinearLayout
         android:layout_marginLeft="16dp"

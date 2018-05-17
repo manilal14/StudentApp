@@ -1,4 +1,4 @@
-package com.example.mani.studentapp.AttandanceRelated;
+package com.example.mani.studentapp.TimeTableRelated;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

@@ -23,7 +23,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
     private Context mCtx;
     private List<Feeds> feedsList;
 
-
     public FeedsAdapter(Context mCtx, List<Feeds> feeds) {
         this.mCtx = mCtx;
         this.feedsList = feeds;
@@ -32,7 +31,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
 
     @Override
     public FeedsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.news_feed_recycler_view_layout,parent,false);
         return new FeedsViewHolder(view);
@@ -45,7 +43,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
 
         holder.recycler_title.setText(feeds.getTitle());
         holder.recycler_desc.setText(feeds.getDesc());
-
 
         //holder.recycler_imageView.setImageDrawable(mCtx.getResources().getDrawable(feeds.getImage()));
         Glide.with(mCtx).load(feeds.getImagePath()).into(holder.recycler_imageView);

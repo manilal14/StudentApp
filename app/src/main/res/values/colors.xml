@@ -5,4 +5,9 @@
     <color name="colorAccent">#424242</color>
     <color name="white">#ffffff</color>
     <color name="border">#5c5c3d</color>
+    <color name="black">#000000</color>
+    <color name="link_color">#2ECCFA</color>
+    <color name="sub_color">#01DF74</color>
+    <color name="dark_blue">#0B2161</color>
+    <color name="sky_blue">#01DFD7</color>
 </resources>

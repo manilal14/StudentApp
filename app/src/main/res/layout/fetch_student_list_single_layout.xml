@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:id="@+id/tv_roll_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="#EB984E  "
+            android:background="@drawable/circle"/>
+
+        <TextView
+            android:id="@+id/tv_student_name"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Manilal Kasera"
+            android:fontFamily="serif-monospace"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_for_attendence"
+            android:layout_marginRight="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

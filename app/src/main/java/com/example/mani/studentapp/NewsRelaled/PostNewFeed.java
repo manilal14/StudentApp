@@ -38,7 +38,7 @@ public class PostNewFeed extends AppCompatActivity {
     private Bitmap bitmap = null;
     private static final int GALLARY_REQUEST = 1;
 
-    public static final String BASE_URL = "http://studentappcloud.gearhostpreview.com/";
+    public static final String BASE_URL = "http://192.168.43.154/studentApp/";
     private static final  String uploadUrl = BASE_URL +  "upload_data_from_app_to_database.php";
 
     @Override

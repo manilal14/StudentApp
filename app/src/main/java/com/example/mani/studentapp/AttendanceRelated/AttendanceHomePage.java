@@ -153,13 +153,13 @@ public class AttendanceHomePage extends AppCompatActivity {
                                     sem_id      = Integer.parseInt(et_sem_id.getText().toString().trim());
                                     student_id  = Integer.parseInt(et_student_id.getText().toString().trim());
 
-                                  /*  Intent i = new Intent(AttendanceHomePage.this,CheckAttendance.class);
+                                    Intent i = new Intent(AttendanceHomePage.this,CheckAttendance.class);
                                     i.putExtra("college_id",college_id);
                                     i.putExtra("branch_id",branch_id);
                                     i.putExtra("sem_id",sem_id);
                                     i.putExtra("student_id",student_id);
 
-                                    startActivity(i);*/
+                                    startActivity(i);
 
                                 }catch (NumberFormatException e){
                                     Toast.makeText(AttendanceHomePage.this,"Fill all details",Toast.LENGTH_SHORT).show();

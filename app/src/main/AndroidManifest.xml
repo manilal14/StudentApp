@@ -55,10 +55,12 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".AttendanceRelated.AttendanceHomePage"
-            android:noHistory="true"/>
+        <activity
+            android:name=".AttendanceRelated.AttendanceHomePage"
+            android:noHistory="true" />
         <activity android:name=".AttendanceRelated.FetchSubjectList" />
-        <activity android:name=".AttendanceRelated.FetchStudentList"></activity>
+        <activity android:name=".AttendanceRelated.FetchStudentList" />
+        <activity android:name=".AttendanceRelated.CheckAttendance"></activity>
     </application>
 
 </manifest>

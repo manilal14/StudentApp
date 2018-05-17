@@ -12,11 +12,8 @@ import com.example.mani.studentapp.R;
 
 public class TimeTable extends AppCompatActivity {
 
-    TextView mon1,mon2,mon3,mon4,mon5,mon6;
-    TextView tue1,tue2,tue3,tue4,tue5,tue6;
-    TextView wed1,wed2,wed3,wed4,wed5,wed6;
-    TextView thr1,thr2,thr3,thr4,thr5,thr6;
-    TextView fri1,fri2,fri3,fri4,fri5,fri6;
+
+
 
     public static final String MY_PREFERENCES = "MyPreferences" ;
 
@@ -25,19 +22,7 @@ public class TimeTable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
 
-        mon1 = findViewById(R.id.mon1);
-        mon2 = findViewById(R.id.mon2);
-        mon3 = findViewById(R.id.mon3);
-        mon4 = findViewById(R.id.mon4);
-        mon5 = findViewById(R.id.mon5);
-        mon6 = findViewById(R.id.mon6);
-
-
         setTimeTable();
-
-
-
-
     }
 
     @Override
@@ -60,6 +45,14 @@ public class TimeTable extends AppCompatActivity {
 
     public void setTimeTable()
     {
+        TextView mon1,mon2,mon3,mon4,mon5,mon6;
+
+        mon1 = findViewById(R.id.mon1);
+        mon2 = findViewById(R.id.mon2);
+        mon3 = findViewById(R.id.mon3);
+        mon4 = findViewById(R.id.mon4);
+        mon5 = findViewById(R.id.mon5);
+        mon6 = findViewById(R.id.mon6);
 
 
         TextView tue1 = findViewById(R.id.tue1);
@@ -92,40 +85,40 @@ public class TimeTable extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(TimeTable.MY_PREFERENCES,MODE_PRIVATE);
 
-        String m1 = sharedPreferences.getString("mp1key","1");
-        String m2 = sharedPreferences.getString("mp2key","2");
-        String m3 = sharedPreferences.getString("mp3key","3");
-        String m4 = sharedPreferences.getString("mp4key","4");
-        String m5 = sharedPreferences.getString("mp5key","5");
-        String m6 = sharedPreferences.getString("mp6key","6");
+        String m1 = sharedPreferences.getString("mp1key",null);
+        String m2 = sharedPreferences.getString("mp2key",null);
+        String m3 = sharedPreferences.getString("mp3key",null);
+        String m4 = sharedPreferences.getString("mp4key",null);
+        String m5 = sharedPreferences.getString("mp5key",null);
+        String m6 = sharedPreferences.getString("mp6key",null);
 
-        String t1 = sharedPreferences.getString("t1key","7");
-        String t2 = sharedPreferences.getString("t2key","8");
-        String t3 = sharedPreferences.getString("t3key","9");
-        String t4 = sharedPreferences.getString("t4key","10");
-        String t5 = sharedPreferences.getString("t5key","11");
-        String t6 = sharedPreferences.getString("t6key","12");
+        String t1 = sharedPreferences.getString("t1key",null);
+        String t2 = sharedPreferences.getString("t2key",null);
+        String t3 = sharedPreferences.getString("t3key",null);
+        String t4 = sharedPreferences.getString("t4key",null);
+        String t5 = sharedPreferences.getString("t5key",null);
+        String t6 = sharedPreferences.getString("t6key",null);
 
-        String w1 = sharedPreferences.getString("w1key","13");
-        String w2 = sharedPreferences.getString("w2key","14");
-        String w3 = sharedPreferences.getString("w3key","15");
-        String w4 = sharedPreferences.getString("w4key","16");
-        String w5 = sharedPreferences.getString("w5key","17");
-        String w6 = sharedPreferences.getString("w6key","18");
+        String w1 = sharedPreferences.getString("w1key",null);
+        String w2 = sharedPreferences.getString("w2key",null);
+        String w3 = sharedPreferences.getString("w3key",null);
+        String w4 = sharedPreferences.getString("w4key",null);
+        String w5 = sharedPreferences.getString("w5key",null);
+        String w6 = sharedPreferences.getString("w6key",null);
 
-        String th1 = sharedPreferences.getString("th1key","19");
-        String th2 = sharedPreferences.getString("th2key","20");
-        String th3 = sharedPreferences.getString("th3key","21");
-        String th4 = sharedPreferences.getString("th4key","22");
-        String th5 = sharedPreferences.getString("th5key","23");
-        String th6 = sharedPreferences.getString("th6key","24");
+        String th1 = sharedPreferences.getString("th1key",null);
+        String th2 = sharedPreferences.getString("th2key",null);
+        String th3 = sharedPreferences.getString("th3key",null);
+        String th4 = sharedPreferences.getString("th4key",null);
+        String th5 = sharedPreferences.getString("th5key",null);
+        String th6 = sharedPreferences.getString("th6key",null);
 
-        String f1 = sharedPreferences.getString("f1key","25");
-        String f2 = sharedPreferences.getString("f2key","26");
-        String f3 = sharedPreferences.getString("f3key","27");
-        String f4 = sharedPreferences.getString("f4key","28");
-        String f5 = sharedPreferences.getString("f5key","29");
-        String f6 = sharedPreferences.getString("f6key","30");
+        String f1 = sharedPreferences.getString("f1key",null);
+        String f2 = sharedPreferences.getString("f2key",null);
+        String f3 = sharedPreferences.getString("f3key",null);
+        String f4 = sharedPreferences.getString("f4key",null);
+        String f5 = sharedPreferences.getString("f5key",null);
+        String f6 = sharedPreferences.getString("f6key",null);
 
 
         mon1.setText(m1);

@@ -21,11 +21,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
 
 
     private Context mCtx;
-    private List<Feeds> feedsList;
+    private List<Feeds> mFeedsList;
 
     public FeedsAdapter(Context mCtx, List<Feeds> feeds) {
         this.mCtx = mCtx;
-        this.feedsList = feeds;
+        this.mFeedsList = feeds;
     }
 
 
@@ -39,7 +39,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
     @Override
     public void onBindViewHolder(FeedsViewHolder holder, int position) {
 
-        Feeds feeds = feedsList.get(position);
+        Feeds feeds = mFeedsList.get(position);
 
         holder.recycler_title.setText(feeds.getTitle());
         holder.recycler_desc.setText(feeds.getDesc());
@@ -51,7 +51,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
 
     @Override
     public int getItemCount() {
-        return feedsList.size();
+        return mFeedsList.size();
     }
 
     class FeedsViewHolder extends RecyclerView.ViewHolder{
@@ -66,5 +66,17 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
             recycler_title =  itemView.findViewById(R.id.news_feed_recycyler_view_title);
             recycler_desc =  itemView.findViewById(R.id.news_feed_recycyler_view_desc);
         }
+    }
+
+    public void clear() {
+        mFeedsList.clear();
+        notifyDataSetChanged();
+
+    }
+
+    public void addAll(List<Feeds> list) {
+        mFeedsList.addAll(list);
+        notifyDataSetChanged();
+
     }
 }

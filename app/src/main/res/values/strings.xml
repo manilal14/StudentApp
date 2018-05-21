@@ -45,5 +45,14 @@
     <string name="fp5_key">Friday P5 Key</string>
     <string name="fp6_key">Friday P6 Key</string>
 
+    <string name="not_connected_to_internet">No Internet Connection, Try to refresh</string>
+    <string name="connection_error">Connection Timeout</string>
+    <string name="no_connection">No Connection</string>
+    <string name="auth_failure_error">AuthFailureError</string>
+    <string name="server_error">Server Error</string>
+    <string name="network_error">Network Error</string>
+    <string name="parse_error">Parse Error</string>
+    <string name="volley_error">Volly Error</string>
+
 
 </resources>

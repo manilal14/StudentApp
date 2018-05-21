@@ -2,11 +2,14 @@ package com.example.mani.studentapp.NewsRelaled;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,21 +42,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Feeds> feedsList;
+    ArrayList<Feeds> mFeedsList;
     RecyclerView recyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    FeedsAdapter mFeedAdapter;
+
+    TextView mErrorTextView;
 
     public static final String BASE_URL = "http://192.168.43.154/studentApp/";
     private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
+
+        // Error handling Views
+        mErrorTextView      = findViewById(R.id.tv_error_message);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+
+        mFeedsList =  new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,15 +95,25 @@ public class NewsFeed extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        feedsList = new ArrayList<>();
-
         loadFeedsFromDatabase();
+
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                loadFeedsFromDatabase();
+
+            }
+        });
+
+
 
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
@@ -96,17 +126,20 @@ public class NewsFeed extends AppCompatActivity
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
-                            //MainActivity.super.onBackPressed();
-                            android.os.Process.killProcess(android.os.Process.myPid());
+                            ///NewsFeed.super.onBackPressed();
+                            //android.os.Process.killProcess(android.os.Process.myPid());
+                            finish();
                         }
                     }).create().show();
-
-
-            //super.onBackPressed();
         }
     }
 
+    @Override
+    protected void onResume() {
 
+        loadFeedsFromDatabase();
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,12 +149,12 @@ public class NewsFeed extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
+
         if(id == R.id.action_refresh) {
-            //startActivity(getIntent());
+            mSwipeRefreshLayout.setRefreshing(true);
+            loadFeedsFromDatabase();
         }
 
         //noinspection SimplifiableIfStatement
@@ -132,7 +165,6 @@ public class NewsFeed extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -163,12 +195,23 @@ public class NewsFeed extends AppCompatActivity
 
     private void loadFeedsFromDatabase()
     {
+        mSwipeRefreshLayout.setRefreshing(true);
+        mErrorTextView.setVisibility(View.GONE);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, FETCHING_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
+                        // First clear the adaptar if something is there
+                        // useful on refreshing
+                        if(mFeedAdapter != null) {
+                            mFeedAdapter.clear();
+                            mFeedAdapter.addAll(mFeedsList);
+                        }
+
                         try {
+
                             JSONArray products = new JSONArray(response);
 
                             for(int i=0;i<products.length();i++) {
@@ -184,11 +227,13 @@ public class NewsFeed extends AppCompatActivity
                                 image = BASE_URL + "uploaded_image/" + image;
 
                                 Feeds feeds = new Feeds(id,title,description,image);
-                                feedsList.add(feeds);
+                                mFeedsList.add(feeds);
                             }
 
-                            FeedsAdapter adapter = new FeedsAdapter(NewsFeed.this,feedsList);
-                            recyclerView.setAdapter(adapter);
+                            mSwipeRefreshLayout.setRefreshing(false);
+
+                            mFeedAdapter = new FeedsAdapter(NewsFeed.this,mFeedsList);
+                            recyclerView.setAdapter(mFeedAdapter);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -198,12 +243,50 @@ public class NewsFeed extends AppCompatActivity
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(NewsFeed.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                handleVolleyError(error);
             }
         });
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (10*1000),0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(stringRequest);
     }
+
+    public boolean amIConnectedToInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void handleVolleyError(VolleyError error){
+
+        mSwipeRefreshLayout.setRefreshing(false);
+        mErrorTextView.setVisibility(View.VISIBLE);
+
+        if(error instanceof TimeoutError){
+            mErrorTextView.setText(R.string.connection_error);
+        }
+        else if (error instanceof NoConnectionError){
+            mErrorTextView.setText(R.string.no_connection);
+        }
+        else if (error instanceof AuthFailureError){
+            mErrorTextView.setText(R.string.auth_failure_error);
+        }
+        else if (error instanceof ServerError){
+            mErrorTextView.setText(R.string.server_error);
+        }
+        else if (error instanceof NetworkError){
+            mErrorTextView.setText(R.string.network_error);
+        }
+        else if(error instanceof ParseError){
+            mErrorTextView.setText(R.string.parse_error);
+        }
+        else {
+            mErrorTextView.setText(R.string.volley_error);
+        }
+
+    }
+
 }
 
 

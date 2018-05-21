@@ -1,58 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mani.studentapp.NewsRelaled.PostNewFeed">
 
-    <ImageButton
-        android:id="@+id/post_new_feed_imageview"
+    <RelativeLayout
+        android:id="@+id/post_new_fee_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/post_new_feed_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_margin="8dp"
+            android:background="@color/white"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/add_btn" />
+
+        <EditText
+            android:id="@+id/post_new_feed_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_new_feed_imageview"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/input_outline"
+            android:hint="Feed Title..."
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/post_new_feed_describtion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_new_feed_title"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_outline"
+            android:hint="Feed Describtion..."
+            android:padding="12dp"
+            android:singleLine="false" />
+
+
+        <Button
+            android:id="@+id/post_new_feed_submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:text="Submit Feed"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_error_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_margin="8dp"
-        android:background="@color/white"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/add_btn" />
+        android:text="Error TextView"
+        android:textSize="24dp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
-    <EditText
-        android:id="@+id/post_new_feed_title"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/post_new_feed_imageview"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/input_outline"
-        android:hint="Feed Title..."
-        android:padding="12dp"
-        android:singleLine="true"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/post_new_feed_describtion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/post_new_feed_title"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/input_outline"
-        android:hint="Feed Describtion..."
-        android:padding="12dp"
-        android:singleLine="false" />
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 
-    <Button
-        android:id="@+id/post_new_feed_submit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        android:text="Submit Feed"
-        android:textColor="@color/white" />
 
-</RelativeLayout>
+
+
+</FrameLayout>
+
 
 

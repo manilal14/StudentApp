@@ -14,14 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:noHistory="true">
+
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+
+
+        <activity
+            android:name=".MainActivity"
+            android:noHistory="true">
         </activity>
         <activity
             android:name=".NewsRelaled.NewsFeed"
@@ -60,7 +67,8 @@
             android:noHistory="true" />
         <activity android:name=".AttendanceRelated.FetchSubjectList" />
         <activity android:name=".AttendanceRelated.FetchStudentList" />
-        <activity android:name=".AttendanceRelated.CheckAttendance"></activity>
+        <activity android:name=".AttendanceRelated.CheckAttendance" />
+
     </application>
 
 </manifest>

@@ -63,14 +63,8 @@ public class FetchSubjectList extends AppCompatActivity {
         mTeacher_id = getIntent().getIntExtra("teacher_id",0);
         subjectList = new ArrayList<>();
 
+        loadSubjectsFromDatabase();
 
-
-        if(amIConnectedToInternet())
-            loadSubjectsFromDatabase();
-        else{
-            mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText("No Internet Connection");
-        }
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -20,7 +20,7 @@
             android:text="4"
             android:gravity="center"
             android:textSize="16dp"
-            android:textColor="#EB984E  "
+            android:textColor="@color/roll_no_color"
             android:background="@drawable/circle"/>
 
         <TextView

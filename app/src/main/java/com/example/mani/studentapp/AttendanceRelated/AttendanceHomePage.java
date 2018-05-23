@@ -104,9 +104,6 @@ public class AttendanceHomePage extends AppCompatActivity {
                 } else {
                     alertDialog = new AlertDialog.Builder(context);
                 }
-
-
-
                 alertDialog.setTitle("Welcome Student");
                 alertDialog.setMessage("Enter Your details");
 

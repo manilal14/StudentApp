@@ -2,8 +2,6 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -89,15 +87,9 @@ public class FetchStudentList extends AppCompatActivity {
         mStudentList = new ArrayList<>();
 
         // Calling function to get Student list of a particular class
-        if(amIConnectedToInternet())
             loadStudentsFromDatabase();
-        else{
-            mErrorTextView.setVisibility(View.VISIBLE);
-            mErrorTextView.setText("No Internet Connection");
-        }
 
-
-        //Launching Calender
+        // Launching calender
         tv_choose_date = findViewById(R.id.tv_choose_date);
         tv_choose_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,11 +254,11 @@ public class FetchStudentList extends AppCompatActivity {
     }
 
     // Funtion to check if app has Internet connectivity or not
-    public boolean amIConnectedToInternet() {
+    /*public boolean amIConnectedToInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
-    }
+    }*/
 
 
     private void prepareForSubmission() {

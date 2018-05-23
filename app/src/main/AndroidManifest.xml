@@ -21,24 +21,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
-
-
-        <activity
-            android:name=".MainActivity"
-            android:noHistory="true">
-        </activity>
         <activity
             android:name=".NewsRelaled.NewsFeed"
             android:label="@string/title_activity_news_feed"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.MainActivity" />
         </activity>
+
         <activity
             android:name=".TimeTableRelated.TimeTable"
             android:label="Time Table"
@@ -48,6 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
         </activity>
+
         <activity
             android:name=".TimeTableRelated.EditTimeTable"
             android:label="Edit TimeTable"
@@ -56,19 +47,50 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
         </activity>
+
         <activity
             android:name=".NewsRelaled.PostNewFeed"
-            android:label="Add New Feed" />
+            android:label="Add New Feed"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+        </activity>
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <activity
             android:name=".AttendanceRelated.AttendanceHomePage"
             android:noHistory="true" />
-        <activity android:name=".AttendanceRelated.FetchSubjectList" />
-        <activity android:name=".AttendanceRelated.FetchStudentList" />
-        <activity android:name=".AttendanceRelated.CheckAttendance" />
 
+        <activity
+            android:name=".AttendanceRelated.FetchSubjectList"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+        </activity>
+
+        <activity
+            android:name=".AttendanceRelated.FetchStudentList"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+        </activity>
+
+        <activity
+            android:name=".AttendanceRelated.CheckAttendance"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+        </activity>
+
+        <activity android:name=".LoginPage" />
+        <activity android:name=".NewsRelaled.EditProfile"></activity>
     </application>
 
 </manifest>

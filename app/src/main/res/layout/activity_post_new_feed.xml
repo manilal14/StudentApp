@@ -61,16 +61,8 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_error_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Error TextView"
-        android:textSize="24dp"
-        android:textStyle="italic"
-        android:visibility="gone"
-        android:gravity="center"
-        android:layout_gravity="center"/>
+    <include
+        layout="@layout/common_error_layout"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -78,10 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"/>
-
-
-
-
 
 </FrameLayout>
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,13 +19,8 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.mani.studentapp.R;
@@ -39,6 +35,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.postingNewFeed;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+
 public class PostNewFeed extends AppCompatActivity {
 
     private ImageButton mImageView;
@@ -47,11 +49,11 @@ public class PostNewFeed extends AppCompatActivity {
     private Bitmap  mBitmap = null;
     private static final int GALLARY_REQUEST = 1;
 
-    ProgressBar mProgressBar;
+    LinearLayout mErrorLinearLayout;
     TextView mErrorTextView;
 
+    ProgressBar mProgressBar;
 
-    public static final String BASE_URL = "http://192.168.43.154/studentApp/";
     private static final  String uploadUrl = BASE_URL +  "upload_data_from_app_to_database.php";
 
     @Override
@@ -60,7 +62,22 @@ public class PostNewFeed extends AppCompatActivity {
         setContentView(R.layout.activity_post_new_feed);
 
         mProgressBar = findViewById(R.id.progress_bar);
-        mErrorTextView = findViewById(R.id.tv_error_message);
+       // mErrorTextView = findViewById(R.id.tv_error_message);
+
+        mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
+        mErrorTextView      = findViewById(R.id.tv_error_message);
+        Button mRetry       = findViewById(R.id.btn_retry);
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mErrorLinearLayout.setVisibility(View.GONE);
+                RelativeLayout postNewFeedMainLayout = findViewById(R.id.post_new_fee_layout);
+                postNewFeedMainLayout.setVisibility(View.VISIBLE);
+
+            }
+        });
+
 
         mImageView    = findViewById(R.id.post_new_feed_imageview);
         mTitle        = findViewById(R.id.post_new_feed_title);
@@ -124,7 +141,9 @@ public class PostNewFeed extends AppCompatActivity {
         finish();
     }
 
-    /*
+
+
+   /*
         In this method, if title and description field are not empty the
         data will be send to database.
         And then updated information will be fetched and will be shown in News Feed.
@@ -143,8 +162,6 @@ public class PostNewFeed extends AppCompatActivity {
             return;
         }
 
-
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -155,8 +172,8 @@ public class PostNewFeed extends AppCompatActivity {
                             String Response = jsonObject.getString("response");
 
                             Toast.makeText(PostNewFeed.this, Response, Toast.LENGTH_LONG).show();
-
                             mProgressBar.setVisibility(View.GONE);
+                            postingNewFeed = true;
                             finish();
 
 
@@ -167,7 +184,8 @@ public class PostNewFeed extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
+
             }
         })
 
@@ -187,7 +205,7 @@ public class PostNewFeed extends AppCompatActivity {
         postNewFeedMainLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (10*1000),0,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(PostNewFeed.this).addToRequestQueue(stringRequest);
     }
@@ -201,35 +219,5 @@ public class PostNewFeed extends AppCompatActivity {
         return Base64.encodeToString(imgBytes,Base64.DEFAULT);
 
     }
-
-    private void handleVolleyError(VolleyError error){
-
-        mProgressBar.setVisibility(View.GONE);
-        mErrorTextView.setVisibility(View.VISIBLE);
-
-        if(error instanceof TimeoutError){
-            mErrorTextView.setText(R.string.connection_error);
-        }
-        else if (error instanceof NoConnectionError){
-            mErrorTextView.setText(R.string.no_connection);
-        }
-        else if (error instanceof AuthFailureError){
-            mErrorTextView.setText(R.string.auth_failure_error);
-        }
-        else if (error instanceof ServerError){
-            mErrorTextView.setText(R.string.server_error);
-        }
-        else if (error instanceof NetworkError){
-            mErrorTextView.setText(R.string.network_error);
-        }
-        else if(error instanceof ParseError){
-            mErrorTextView.setText(R.string.parse_error);
-        }
-        else {
-            mErrorTextView.setText(R.string.volley_error);
-        }
-
-    }
-
 
 }

@@ -12,9 +12,6 @@ import com.example.mani.studentapp.R;
 
 public class TimeTable extends AppCompatActivity {
 
-
-
-
     public static final String MY_PREFERENCES = "MyPreferences" ;
 
     @Override
@@ -43,17 +40,14 @@ public class TimeTable extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setTimeTable()
-    {
-        TextView mon1,mon2,mon3,mon4,mon5,mon6;
+    public void setTimeTable() {
 
-        mon1 = findViewById(R.id.mon1);
-        mon2 = findViewById(R.id.mon2);
-        mon3 = findViewById(R.id.mon3);
-        mon4 = findViewById(R.id.mon4);
-        mon5 = findViewById(R.id.mon5);
-        mon6 = findViewById(R.id.mon6);
-
+        TextView mon1 = findViewById(R.id.mon1);
+        TextView mon2 = findViewById(R.id.mon2);
+        TextView mon3 = findViewById(R.id.mon3);
+        TextView mon4 = findViewById(R.id.mon4);
+        TextView mon5 = findViewById(R.id.mon5);
+        TextView mon6 = findViewById(R.id.mon6);
 
         TextView tue1 = findViewById(R.id.tue1);
         TextView tue2 = findViewById(R.id.tue2);

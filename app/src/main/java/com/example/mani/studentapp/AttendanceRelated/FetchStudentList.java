@@ -58,7 +58,8 @@ public class FetchStudentList extends AppCompatActivity {
     Integer mPeriod,mHrs;
     String mDateSelected = null;
     Spinner spinner_period,spinner_duration;
-    LinearLayout mStudentListLayout,mResponseLayout;
+
+    LinearLayout mStudentListLayout;
 
     ProgressBar mProgressBar;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -75,10 +76,10 @@ public class FetchStudentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch_student_list);
 
-        //mErrorTextView     = findViewById(R.id.tv_error_message);
+
         mProgressBar       = findViewById(R.id.progress_bar);
+
         mStudentListLayout = findViewById(R.id.ll_student_list );
-        mResponseLayout    = findViewById(R.id.ll_response_layout);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
@@ -235,7 +236,6 @@ public class FetchStudentList extends AppCompatActivity {
                             JSONArray students = new JSONArray(response);
 
                             if(students.length() == 0){
-                               // mProgressBar.setVisibility(View.GONE);
                                 mSwipeRefreshLayout.setRefreshing(false);
                                 mErrorLinearLayout.setVisibility(View.VISIBLE);
                                 mErrorTextView.setText("No students are available !");
@@ -406,51 +406,14 @@ public class FetchStudentList extends AppCompatActivity {
 
                             mErrorLinearLayout.setVisibility(View.GONE);
                             mProgressBar.setVisibility(View.GONE);
-                            //mSwipeRefreshLayout.setRefreshing(false);
 
                             JSONObject jsonObject = new JSONObject(response);
                             int responseCode      = jsonObject.getInt("responseCode");
-                            String message        = jsonObject.getString("message");
+                            String responseMessage = jsonObject.getString("message");
 
-
-                            // Response message
-                            TextView response_tv = findViewById(R.id.tv_response_layout);
-                            mResponseLayout.setVisibility(View.VISIBLE);
-
-                            if(responseCode == 1){
-                                message = message+"\nDate"+ mDateSelected +
-                                        "\nPeriod No. "+ mPeriod+
-                                        "\nStrength " +presentStrength;
-                            }
-
-                            response_tv.setText(message);
-
-                            // Update attendance option will only be visible if attendance is
-                            // already taken means response code = 0
-                            TextView tv_updateAttendence = findViewById(R.id.tv_update_attendance);
-                            if(responseCode == 0) {
-                                tv_updateAttendence.setVisibility(View.VISIBLE);
-                                tv_updateAttendence.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Toast.makeText(FetchStudentList.this,"Feature coming soon",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                            }
-
-                            // Ok button to finish current activity
-                            Button response_btn  = findViewById(R.id.btn_response_layout);
-                            response_btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    finish();
-                                }
-                            });
-
-
-                        } catch (JSONException e) {
+                            setResponseLayout(responseCode,presentStrength);
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -475,6 +438,90 @@ public class FetchStudentList extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MySingleton.getInstance(FetchStudentList.this).addToRequestQueue(stringRequest);
+    }
+
+
+    private void setResponseLayout(int responseCode, int presentStrength){
+
+        // Response message if attendance taken successcfully
+        if(responseCode == 1){
+
+            LinearLayout successResponseLayout;
+            TextView srlDate,srlPeriod,srlNoOfHrs,srlTotalStrength,srlPresent;
+            Button srlOk;
+
+            successResponseLayout = findViewById(R.id.ll_success_response_layout);
+            successResponseLayout.setVisibility(View.VISIBLE);
+
+
+            srlDate          = findViewById(R.id.srl_date);
+            srlPeriod        = findViewById(R.id.srl_peroid);
+            srlNoOfHrs       = findViewById(R.id.srl_no_of_hrs);
+            srlTotalStrength = findViewById(R.id.srl_total_strength);
+            srlPresent       = findViewById(R.id.srl_present);
+
+            srlOk            = findViewById(R.id.srl_ok);
+
+            srlDate.setText(mDateSelected);
+            srlPeriod.setText(String.valueOf(mPeriod));
+            srlNoOfHrs.setText(String.valueOf(mHrs));
+            srlTotalStrength.setText(String.valueOf(mStudentList.size()));
+            srlPresent.setText(String.valueOf(presentStrength));
+
+            srlOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+        // Response message if attendance is already taken
+        else if(responseCode == 0){
+
+            LinearLayout attandaceAlreadyTakenLL;
+            Button ok;
+            TextView updateAttendace;
+
+            attandaceAlreadyTakenLL = findViewById(R.id.ll_attandence_already_taken_response_layout);
+            ok = findViewById(R.id.alert_ok);
+            updateAttendace = findViewById(R.id.tv_update_attendance);
+
+            attandaceAlreadyTakenLL.setVisibility(View.VISIBLE);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+            updateAttendace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(FetchStudentList.this,"stay tuned for this feature",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
+        //Default response layout
+        else{
+
+            LinearLayout defaultResponseLayout;
+            Button defaultRetry;
+
+            defaultResponseLayout = findViewById(R.id.default_response_layout);
+            defaultRetry = findViewById(R.id.default_retry);
+
+            defaultResponseLayout.setVisibility(View.VISIBLE);
+            defaultRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+        }
+
     }
 
 }

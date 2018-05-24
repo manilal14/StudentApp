@@ -1,7 +1,5 @@
 package com.example.mani.studentapp.AttendanceRelated;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,17 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.mani.studentapp.NewsRelaled.MySingleton;
@@ -35,14 +30,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+
 public class FetchSubjectList extends AppCompatActivity {
 
     RecyclerView recyclerView_class_List;
     List<Subject> subjectList;
     Integer mTeacher_id;
-    TextView mErrorTextView;
+    //TextView mErrorTextView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     SubjectAdapter mSubjectAdapter;
+
+    LinearLayout mErrorLinearLayout;
+    TextView mErrorTextView;
+    Button mRetry;
 
 
     public static final String FETCH_CLASS_URL = "http://192.168.43.154/studentApp_attendance/fetch_subjects_tought_by_teacher.php";
@@ -54,8 +57,19 @@ public class FetchSubjectList extends AppCompatActivity {
         setContentView(R.layout.activity_fetch_subject_list);
 
 
-        mErrorTextView = findViewById(R.id.tv_error_message);
+       // mErrorTextView = findViewById(R.id.tv_error_message);
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+
+        mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
+        mErrorTextView      = findViewById(R.id.tv_error_message);
+        mRetry              = findViewById(R.id.btn_retry);
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadSubjectsFromDatabase();
+            }
+        });
 
         recyclerView_class_List = findViewById(R.id.recycler_view_class_list);
         recyclerView_class_List.setHasFixedSize(true);
@@ -69,16 +83,12 @@ public class FetchSubjectList extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mSwipeRefreshLayout.setRefreshing(true);
                 loadSubjectsFromDatabase();
 
             }
         });
 
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,7 +114,7 @@ public class FetchSubjectList extends AppCompatActivity {
     private void loadSubjectsFromDatabase() {
 
         mSwipeRefreshLayout.setRefreshing(true);
-        mErrorTextView.setVisibility(View.GONE);
+        mErrorLinearLayout.setVisibility(View.GONE);
 
         final StringRequest stringRequest =  new StringRequest(Request.Method.POST, FETCH_CLASS_URL,
                 new Response.Listener<String>() {
@@ -124,8 +134,9 @@ public class FetchSubjectList extends AppCompatActivity {
 
                             if(allSubjects.length() == 0) {
                                 mSwipeRefreshLayout.setRefreshing(false);
-                                mErrorTextView.setVisibility(View.VISIBLE);
+                                mErrorLinearLayout.setVisibility(View.VISIBLE);
                                 mErrorTextView.setText("No subjects found!");
+                                mRetry.setVisibility(View.GONE);
                                 return;
                             }
 
@@ -143,8 +154,6 @@ public class FetchSubjectList extends AppCompatActivity {
                                 subjectList.add(subject);
                             }
 
-
-
                             mSwipeRefreshLayout.setRefreshing(false);
 
                             mSubjectAdapter = new SubjectAdapter(FetchSubjectList.this, subjectList);
@@ -159,7 +168,7 @@ public class FetchSubjectList extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
+                handleVolleyError(error,mSwipeRefreshLayout,mErrorTextView,mErrorLinearLayout);
             }
         }){
 
@@ -172,50 +181,8 @@ public class FetchSubjectList extends AppCompatActivity {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (10*1000),0,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds * 1000),maxNoOfTries,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(FetchSubjectList.this).addToRequestQueue(stringRequest);
     }
-
-    public boolean amIConnectedToInternet()
-    {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        return networkInfo != null && networkInfo.isConnected();
-    }
-
-    private void handleVolleyError(VolleyError error){
-
-        mSwipeRefreshLayout.setRefreshing(false);
-        mErrorTextView.setVisibility(View.VISIBLE);
-
-        if(error instanceof TimeoutError){
-            mErrorTextView.setText("Connection Timeout");
-        }
-        else if (error instanceof NoConnectionError){
-            mErrorTextView.setText("NoConnectionError");
-        }
-        else if (error instanceof AuthFailureError){
-            mErrorTextView.setText("AuthFailureError");
-        }
-        else if (error instanceof ServerError){
-            mErrorTextView.setText("ServerError");
-        }
-        else if (error instanceof NetworkError){
-            mErrorTextView.setText("NetworkError");
-        }
-        else if(error instanceof ParseError){
-            mErrorTextView.setText("ParseError");
-        }
-        else {
-            mErrorTextView.setText("Volly Error");
-        }
-
-    }
-
-
-
-
-
 }

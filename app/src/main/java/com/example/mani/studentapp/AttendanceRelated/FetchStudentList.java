@@ -87,7 +87,7 @@ public class FetchStudentList extends AppCompatActivity {
         mStudentList = new ArrayList<>();
 
         // Calling function to get Student list of a particular class
-            loadStudentsFromDatabase();
+        loadStudentsFromDatabase();
 
         // Launching calender
         tv_choose_date = findViewById(R.id.tv_choose_date);
@@ -128,6 +128,7 @@ public class FetchStudentList extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        // If there are no students, then there is no need of menu.
         if(mStudentList.size() == 0) {
             Toast.makeText(FetchStudentList.this,"No Students available",Toast.LENGTH_SHORT).show();
             return true;
@@ -253,14 +254,6 @@ public class FetchStudentList extends AppCompatActivity {
 
     }
 
-    // Funtion to check if app has Internet connectivity or not
-    /*public boolean amIConnectedToInternet() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
-    }*/
-
-
     private void prepareForSubmission() {
 
         if(mDateSelected == null) {
@@ -350,6 +343,7 @@ public class FetchStudentList extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         mProgressBar.setVisibility(View.VISIBLE);
                         mStudentListLayout.setVisibility(View.GONE);
+                        getSupportActionBar().hide();
                         submitAttendance(commonProperties, studentJsonArray, finalPresentStrength);
                     }
                 });

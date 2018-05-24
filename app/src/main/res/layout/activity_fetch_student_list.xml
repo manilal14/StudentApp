@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/border"
     tools:context=".AttendanceRelated.FetchStudentList">
 
     <LinearLayout
@@ -61,8 +60,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
-
     </LinearLayout>
+
+    <!--Error handling-->
+
     <TextView
         android:id="@+id/tv_error_message"
         android:layout_width="match_parent"
@@ -97,8 +98,7 @@
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"/>
-
+            android:gravity="center" />
         <Button
             android:id="@+id/btn_response_layout"
             android:background="@color/white"
@@ -119,4 +119,6 @@
             android:text="Want to update the Attendance?"
             android:visibility="gone"/>
     </LinearLayout>
+
+
 </FrameLayout>

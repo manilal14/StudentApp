@@ -51,6 +51,7 @@ public class NewsFeed extends AppCompatActivity
     ArrayList<Feeds> mFeedsList;
     SwipeRefreshLayout mSwipeRefreshLayout;
     FeedsAdapter mFeedAdapter;
+
     LinearLayout mErrorLinearLayout;
     TextView mErrorTextView;
     Button mRetry;

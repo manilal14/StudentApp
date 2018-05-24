@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,13 +23,8 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.mani.studentapp.NewsRelaled.MySingleton;
@@ -46,6 +42,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+
 public class FetchStudentList extends AppCompatActivity {
 
     RecyclerView recyclerView_studentList;
@@ -54,13 +54,17 @@ public class FetchStudentList extends AppCompatActivity {
     Integer mSubject_id;
     Calendar mCalendar;
     TextView tv_choose_date;
-    StudentAdapter adapter;
+    StudentAdapter mStudentAdapter;
     Integer mPeriod,mHrs;
     String mDateSelected = null;
     Spinner spinner_period,spinner_duration;
-    TextView mErrorTextView;
     LinearLayout mStudentListLayout,mResponseLayout;
+
     ProgressBar mProgressBar;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    LinearLayout mErrorLinearLayout;
+    TextView mErrorTextView;
+    Button mRetry;
 
     String FETCH_STUDENTS_URL = "http://192.168.43.154/studentApp_attendance/fetch_studentList.php";
     String SUBMIT_ATTENDENCE_URL = "http://192.168.43.154/studentApp_attendance/send_attendence_to_database.php";
@@ -71,10 +75,16 @@ public class FetchStudentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch_student_list);
 
-        mErrorTextView     = findViewById(R.id.tv_error_message);
+        //mErrorTextView     = findViewById(R.id.tv_error_message);
         mProgressBar       = findViewById(R.id.progress_bar);
         mStudentListLayout = findViewById(R.id.ll_student_list );
         mResponseLayout    = findViewById(R.id.ll_response_layout);
+
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
+        mErrorTextView      = findViewById(R.id.tv_error_message);
+        mRetry              = findViewById(R.id.btn_retry);
+
 
         recyclerView_studentList = findViewById(R.id.recycler_view_student_list);
         recyclerView_studentList.setHasFixedSize(true);
@@ -116,6 +126,20 @@ public class FetchStudentList extends AppCompatActivity {
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_items);
         spinner_duration.setAdapter(adapter2);
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadStudentsFromDatabase();
+            }
+        });
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadStudentsFromDatabase();
+            }
+        });
+
 
     }
 
@@ -142,7 +166,7 @@ public class FetchStudentList extends AppCompatActivity {
                 break;
 
             case R.id.menu_select_all:
-                adapter.selectAll();
+                mStudentAdapter.selectAll();
                 for(int i=0;i<mStudentList.size();i++) {
                     mStudentList.get(i).setPresent(true);
                 }
@@ -150,7 +174,7 @@ public class FetchStudentList extends AppCompatActivity {
                 break;
 
             case R.id.menu_deselect_all:
-                adapter.deSelectAll();
+                mStudentAdapter.deSelectAll();
                 for (int i=0;i<mStudentList.size();i++)
                     mStudentList.get(i).setPresent(false);
                 break;
@@ -191,21 +215,31 @@ public class FetchStudentList extends AppCompatActivity {
 
     private void loadStudentsFromDatabase() {
 
-        mProgressBar.setVisibility(View.VISIBLE);
+        mSwipeRefreshLayout.setRefreshing(true);
 
         StringRequest stringRequest =  new StringRequest(Request.Method.POST, FETCH_STUDENTS_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
+                        // First clear the adaptar if something is there
+                        // useful on refreshing
+                        if(mStudentAdapter != null) {
+                            mStudentAdapter.clear();
+                            mStudentAdapter.addAll(mStudentList);
+                        }
+
+
                         try{
 
                             JSONArray students = new JSONArray(response);
 
                             if(students.length() == 0){
-                                mProgressBar.setVisibility(View.GONE);
-                                mErrorTextView.setVisibility(View.VISIBLE);
+                               // mProgressBar.setVisibility(View.GONE);
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mErrorLinearLayout.setVisibility(View.VISIBLE);
                                 mErrorTextView.setText("No students are available !");
+                                mRetry.setVisibility(View.GONE);
                                 return;
                             }
 
@@ -219,12 +253,12 @@ public class FetchStudentList extends AppCompatActivity {
                                 mStudentList.add(new Student(student_id,student_roll_no,name));
                             }
 
-                            mErrorTextView.setVisibility(View.GONE);
-                            mProgressBar.setVisibility(View.GONE);
+                            mErrorLinearLayout.setVisibility(View.GONE);
+                            mSwipeRefreshLayout.setRefreshing(false);
 
-                            adapter = new StudentAdapter(FetchStudentList.this,mStudentList);
+                            mStudentAdapter = new StudentAdapter(FetchStudentList.this,mStudentList);
                             recyclerView_studentList.setLayoutManager(new LinearLayoutManager(FetchStudentList.this));
-                            recyclerView_studentList.setAdapter(adapter);
+                            recyclerView_studentList.setAdapter(mStudentAdapter);
 
 
                         } catch (JSONException e) {
@@ -235,7 +269,7 @@ public class FetchStudentList extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
+                handleVolleyError(error,mSwipeRefreshLayout,mErrorTextView,mErrorLinearLayout);
             }
         }){
 
@@ -247,7 +281,7 @@ public class FetchStudentList extends AppCompatActivity {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (20*1000),0,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MySingleton.getInstance(FetchStudentList.this).addToRequestQueue(stringRequest);
@@ -342,6 +376,7 @@ public class FetchStudentList extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mProgressBar.setVisibility(View.VISIBLE);
+                        //mSwipeRefreshLayout.setRefreshing(true);
                         mStudentListLayout.setVisibility(View.GONE);
                         getSupportActionBar().hide();
                         submitAttendance(commonProperties, studentJsonArray, finalPresentStrength);
@@ -362,10 +397,6 @@ public class FetchStudentList extends AppCompatActivity {
     private void submitAttendance(final JSONArray commomProperties,
                                   final JSONArray studentJsonArray, final int presentStrength) {
 
-      /* Intent i = new Intent(FetchStudentList.this,temp.class);
-       i.putExtra("json",studentJsonArray.toString());
-       startActivity(i);*/
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, SUBMIT_ATTENDENCE_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -373,8 +404,9 @@ public class FetchStudentList extends AppCompatActivity {
 
                         try {
 
-                            mErrorTextView.setVisibility(View.GONE);
+                            mErrorLinearLayout.setVisibility(View.GONE);
                             mProgressBar.setVisibility(View.GONE);
+                            //mSwipeRefreshLayout.setRefreshing(false);
 
                             JSONObject jsonObject = new JSONObject(response);
                             int responseCode      = jsonObject.getInt("responseCode");
@@ -389,7 +421,6 @@ public class FetchStudentList extends AppCompatActivity {
                                 message = message+"\nDate"+ mDateSelected +
                                         "\nPeriod No. "+ mPeriod+
                                         "\nStrength " +presentStrength;
-
                             }
 
                             response_tv.setText(message);
@@ -426,7 +457,7 @@ public class FetchStudentList extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
             }
         }){
 
@@ -440,36 +471,10 @@ public class FetchStudentList extends AppCompatActivity {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (10*1000),0,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MySingleton.getInstance(FetchStudentList.this).addToRequestQueue(stringRequest);
     }
 
-    private void handleVolleyError(VolleyError error){
-
-        mErrorTextView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
-        if(error instanceof TimeoutError){
-            mErrorTextView.setText("TimeoutError");
-        }
-        else if (error instanceof NoConnectionError){
-            mErrorTextView.setText("NoConnectionError");
-        }
-        else if (error instanceof AuthFailureError){
-            mErrorTextView.setText("AuthFailureError");
-        }
-        else if (error instanceof ServerError){
-            mErrorTextView.setText("ServerError");
-        }
-        else if (error instanceof NetworkError){
-            mErrorTextView.setText("NetworkError");
-        }
-        else if(error instanceof ParseError){
-            mErrorTextView.setText("ParseError");
-        }
-        else {
-            mErrorTextView.setText("Volly Error");
-        }
-    }
 }

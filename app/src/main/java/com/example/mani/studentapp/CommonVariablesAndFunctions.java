@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 
 public class CommonVariablesAndFunctions {
 
-    public static final int retrySeconds = 2;
+    public static final int retrySeconds = 3;
     public static final int maxNoOfTries = 1;
     public static final String BASE_URL = "http://192.168.43.154/studentApp/";
 

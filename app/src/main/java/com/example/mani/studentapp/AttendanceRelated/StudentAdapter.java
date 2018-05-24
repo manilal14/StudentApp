@@ -81,4 +81,16 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void deSelectAll() {
         notifyDataSetChanged();
     }
+
+    public void clear() {
+        mStudentList.clear();
+        notifyDataSetChanged();
+
+    }
+
+    public void addAll(List<Student> list) {
+        mStudentList.addAll(list);
+        notifyDataSetChanged();
+
+    }
 }

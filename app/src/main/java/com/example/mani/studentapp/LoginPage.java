@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LoginPage extends AppCompatActivity {
 
-    TextView btn_login,btn_signup;
+    TextView btn_login,btn_register;
     TextView skip;
     EditText mLoginEt,mPassEt;
 
@@ -36,7 +36,7 @@ public class LoginPage extends AppCompatActivity {
         mPassEt  = findViewById(R.id.et_login_password);
 
         btn_login  = findViewById(R.id.btn_login);
-        btn_signup = findViewById(R.id.btn_signup);
+        btn_register = findViewById(R.id.btn_register);
         skip       = findViewById(R.id.tv_skip);
 
         skip.setOnClickListener(new View.OnClickListener() {
@@ -47,12 +47,26 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        btn_signup.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setUpAleartBox();
             }
         });
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginToStudentApp();
+            }
+        });
+
+
+    }
+
+    private void loginToStudentApp() {
+
+        Toast.makeText(LoginPage.this,"Need to implement",Toast.LENGTH_SHORT).show();
     }
 
     private void setUpAleartBox(){
@@ -67,9 +81,9 @@ public class LoginPage extends AppCompatActivity {
         }
 
         final String email_id = "14kasera.mani@gmail.com";
-        String message = "Sign-up option is not available due to security reasons. " +
+        String message = "Registration option is not available due to security reasons. " +
                 "Contact your Class-cordinator or email us at " + email_id+" with your credentials.";
-        final String email_subject = "Sign-up in StudentApp";
+        final String email_subject = "Register for StudentApp";
         final String email_text = "Mention your name, date-of-birth, college, branch, class and current semester" +
                 " and attach a college id with this mail.\n\n";
 

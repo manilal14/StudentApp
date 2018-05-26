@@ -11,4 +11,6 @@
     <color name="dark_blue">#0B2161</color>
     <color name="sky_blue">#01DFD7</color>
     <color name="roll_no_color">#EB984E</color>
+    <color name="green_tick">#088A08</color>
+    <color name="failed_red">#B40404</color>
 </resources>

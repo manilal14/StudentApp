@@ -55,25 +55,24 @@
                 android:spinnerMode="dropdown" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_student_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_student_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
     <!--Error handling-->
-
-    <TextView
-        android:id="@+id/tv_error_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textStyle="italic"
-        android:text="Error Message"
-        android:textSize="24dp"
-        android:visibility="gone"/>
+    <include
+        layout="@layout/common_error_layout"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -82,30 +81,215 @@
         android:layout_gravity="center"
         android:visibility="gone"/>
 
+    <!--Response layout for successfully taking attendance-->
     <LinearLayout
         android:visibility="gone"
-        android:id="@+id/ll_response_layout"
+        android:id="@+id/ll_success_response_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_response_layout"
-            android:text="Response Message"
-            android:textSize="20dp"
-            android:textStyle="italic"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" />
-        <Button
-            android:id="@+id/btn_response_layout"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:text="Attendance Report"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textSize="32dp"
+            android:fontFamily="serif"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/green_tick"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Date"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/srl_date"
+                android:text="26-08-2018"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Period"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/srl_peroid"
+                android:text="1"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="No. of Hrs."
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/srl_no_of_hrs"
+                android:text="1"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Total Strength"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/srl_total_strength"
+                android:text="47"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Present"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/srl_present"
+                android:text="38"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginTop="80dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/check"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="success"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/srl_ok"
+            android:background="@color/green_tick"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="OK"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+    <!--Response layout if attendance already taken-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_attandence_already_taken_response_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/alert"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="attendance of this peroid\nis already taken"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/alert_ok"
+            android:background="@color/failed_red"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
             android:layout_gravity="center"/>
 
@@ -116,9 +300,48 @@
             android:gravity="center"
             android:layout_marginTop="64dp"
             android:textColor="@color/link_color"
-            android:text="Want to update the Attendance?"
-            android:visibility="gone"/>
+            android:text="Want to update the Attendance?"/>
     </LinearLayout>
+
+    <!-- Default Response layout -->
+
+    <LinearLayout
+
+        android:visibility="gone"
+        android:id="@+id/default_response_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="attendance can't be taken rightnow"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/default_retry"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="retry"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+
+
+
+
 
 
 </FrameLayout>

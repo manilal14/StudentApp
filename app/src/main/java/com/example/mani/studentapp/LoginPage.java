@@ -15,15 +15,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.mani.studentapp.NewsRelaled.MySingleton;
 import com.example.mani.studentapp.NewsRelaled.NewsFeed;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 
 public class LoginPage extends AppCompatActivity {
 
     TextView btn_login,btn_register;
     TextView skip;
-    EditText mLoginEt,mPassEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +47,6 @@ public class LoginPage extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         getSupportActionBar().hide();
-
-        mLoginEt = findViewById(R.id.et_login_userid);
-        mPassEt  = findViewById(R.id.et_login_password);
 
         btn_login  = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
@@ -66,7 +79,112 @@ public class LoginPage extends AppCompatActivity {
 
     private void loginToStudentApp() {
 
-        Toast.makeText(LoginPage.this,"Need to implement",Toast.LENGTH_SHORT).show();
+        final EditText et_login, etPassword;
+        final String student_id;
+        final String password;
+
+        final String URL_LOGIN = BASE_URL_ATTENDANCE + "login.php";
+
+        et_login    = findViewById(R.id.et_login_userid);
+        etPassword  = findViewById(R.id.et_login_password);
+
+        student_id = et_login.getText().toString().trim();
+        password = etPassword.getText().toString().trim();
+
+        if(student_id.equals("") || password.equals("")){
+            Toast.makeText(LoginPage.this, "Enter user_id and password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,URL_LOGIN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray studentArray = new JSONArray(response);
+                            JSONObject studentObj = studentArray.getJSONObject(0);
+
+                            int responseCode = studentObj.getInt("response_code");
+                            String message   = studentObj.getString("message");
+
+                            //Toast.makeText(LoginPage.this,""+responseCode,Toast.LENGTH_SHORT).show();
+
+                            if(responseCode == 0) {
+                                Toast.makeText(LoginPage.this, "" + message, Toast.LENGTH_SHORT).show();
+                                etPassword.setText("");
+                                return;
+                            }
+
+                            if(responseCode == 1){
+
+                                String student_id = studentObj.getString("student_id");
+                                String name   = studentObj.getString("name");
+                                String semester = studentObj.getString("semester");
+                                String college_name   = studentObj.getString("college_name");
+                                String branch_name   = studentObj.getString("branch_name");
+                                String class_name   = studentObj.getString("class_name");
+
+                                String dob   = studentObj.getString("dob");
+                                String contact_no   = studentObj.getString("contact_no");
+
+                                String email   = studentObj.getString("email");
+                                String password   = studentObj.getString("password");
+
+                                String gender = studentObj.getString("gender");
+
+                                if(gender.equals("0"))
+                                    gender = "male";
+                                else
+                                    gender = "female";
+
+                                Toast.makeText(LoginPage.this,
+                                                ""+student_id
+                                                +" "+name
+                                                +" "+semester
+                                                +" "+class_name
+                                                +" "+college_name
+                                                +" "+branch_name
+                                                +" "+dob
+                                                        +" "+contact_no
+                                                +" "+email
+                                                +" "+password
+                                                        +" "+gender
+                                        ,Toast.LENGTH_LONG).show();
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> params = new HashMap<>();
+                params.put("student_id",student_id);
+                params.put("password",password);
+
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        MySingleton.getInstance(LoginPage.this).addToRequestQueue(stringRequest);
+
     }
 
     private void setUpAleartBox(){

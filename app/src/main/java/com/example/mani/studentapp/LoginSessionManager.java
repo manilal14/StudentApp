@@ -93,10 +93,10 @@ public class LoginSessionManager {
         user.put(KEY_CLASS, pref.getString(KEY_CLASS, null));
         user.put(KEY_SEMESTER, pref.getString(KEY_SEMESTER, null));
 
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, "You are Awesome"));
         user.put(KEY_DOB, pref.getString(KEY_DOB, null));
         user.put(KEY_CONTACT, pref.getString(KEY_CONTACT, null));
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "someoneawesom@gmail.com"));
         user.put(KEY_GENDER, pref.getString(KEY_GENDER, null));
 
         return user;
@@ -116,8 +116,9 @@ public class LoginSessionManager {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
-        context.startActivity(i);
         Toast.makeText(context,"Logged Out",Toast.LENGTH_SHORT).show();
+        context.startActivity(i);
+
     }
 
     public boolean isLoggedIn(){

@@ -46,11 +46,12 @@ public class LoginPage extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        skipedLogin = false;
 
         getSupportActionBar().hide();
 
@@ -183,12 +184,12 @@ public class LoginPage extends AppCompatActivity {
 
                                 LoginSessionManager session = new LoginSessionManager(LoginPage.this);
 
-
                                 session.createLoginSession(student_id,password,
                                         college_name,branch_name,class_name,semester,
                                         name,dob,contact_no,email,gender);
 
                                 startActivity(new Intent(LoginPage.this,NewsFeed.class));
+                                Toast.makeText(LoginPage.this,"Welcome "+name,Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 

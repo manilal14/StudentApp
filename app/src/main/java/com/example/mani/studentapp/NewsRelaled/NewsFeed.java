@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mani.studentapp.AttendanceRelated.AttendanceHomePage;
+import com.example.mani.studentapp.LoginPage;
 import com.example.mani.studentapp.LoginSessionManager;
 import com.example.mani.studentapp.R;
 import com.example.mani.studentapp.TimeTableRelated.TimeTable;
@@ -59,6 +60,8 @@ public class NewsFeed extends AppCompatActivity
     TextView mErrorTextView;
     Button mRetry;
 
+    Menu mMenu;
+
     LoginSessionManager mLoginSession;
 
 
@@ -73,48 +76,19 @@ public class NewsFeed extends AppCompatActivity
 
         // If Login is to be skipped, then skip checkLogin()
         // else check it
-        if(skipedLogin == false){
+        if(skipedLogin == false) {
 
-            /**
-             * Call this function whenever you want to check user login
-             * This will redirect user to LoginActivity is he is not
-             * logged in
-             * */
-            if(!mLoginSession.isLoggedIn()) {
-
+            if (!mLoginSession.isLoggedIn()) {
                 mLoginSession.checkLogin();
                 finish();
             }
-
-            HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
-
-            String college    = student.get(LoginSessionManager.KEY_COLLEGE);
-            String branch     = student.get(LoginSessionManager.KEY_BRANCH);
-            String class_name = student.get(LoginSessionManager.KEY_CLASS);
-            String sem        = student.get(LoginSessionManager.KEY_SEMESTER);
-
-            String name       = student.get(LoginSessionManager.KEY_NAME);
-            String dob        = student.get(LoginSessionManager.KEY_DOB);
-            String contact    = student.get(LoginSessionManager.KEY_CONTACT);
-            String email      = student.get(LoginSessionManager.KEY_EMAIL);
-            String gender     = student.get(LoginSessionManager.KEY_GENDER);
-
-          Toast.makeText(NewsFeed.this,
-                            " "+name
-                            +" "+sem
-                            +" "+class_name
-                            +" "+college
-                            +" "+branch
-                            +" "+dob
-                            +" "+contact
-                            +" "+email
-                            +" "+gender
-                    ,Toast.LENGTH_LONG).show();
         }
 
 
 
         // If skipedLoginCheck == true then execution will start from here
+        if(skipedLogin == true)
+            Toast.makeText(NewsFeed.this,"Login is skipped",Toast.LENGTH_SHORT).show();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,18 +125,35 @@ public class NewsFeed extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
         View header;
         TextView headerName,headerEmail;
         ImageView headerImageView;
         LinearLayout headerLinearLayout;
 
-        //int count = navigationView.getHeaderCount();
         header = navigationView.getHeaderView(0);
 
         headerLinearLayout = header.findViewById(R.id.ll_header);
         headerName         = header.findViewById(R.id.header_name);
         headerEmail        = header.findViewById(R.id.header_email);
         headerImageView    = header.findViewById(R.id.header_image);
+
+        HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
+
+        String college    = student.get(LoginSessionManager.KEY_COLLEGE);
+        String branch     = student.get(LoginSessionManager.KEY_BRANCH);
+        String class_name = student.get(LoginSessionManager.KEY_CLASS);
+        String sem        = student.get(LoginSessionManager.KEY_SEMESTER);
+
+        String name       = student.get(LoginSessionManager.KEY_NAME);
+        String dob        = student.get(LoginSessionManager.KEY_DOB);
+        String contact    = student.get(LoginSessionManager.KEY_CONTACT);
+        String email      = student.get(LoginSessionManager.KEY_EMAIL);
+
+        headerName.setText(name);
+        headerEmail.setText(email);
 
         headerLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +163,11 @@ public class NewsFeed extends AppCompatActivity
         });
 
 
+
+
+
         mFeedsList =  new ArrayList<>();
+
         loadFeedsFromDatabase();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -181,6 +176,8 @@ public class NewsFeed extends AppCompatActivity
                 loadFeedsFromDatabase();
             }
         });
+
+        //setMenuTitle();
 
     }
 
@@ -221,8 +218,11 @@ public class NewsFeed extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.news_feed, menu);
+        mMenu = menu;
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -232,14 +232,32 @@ public class NewsFeed extends AppCompatActivity
         if(id == R.id.action_refresh) {
             loadFeedsFromDatabase();
         }
-        else if (id == R.id.action_logout) {
-            mLoginSession.logoutStudent();
+        else if (id == R.id.menu_login_logout) {
+
+            if(mLoginSession.isLoggedIn())
+                mLoginSession.logoutStudent();
+            else
+                startActivity(new Intent(NewsFeed.this, LoginPage.class));
+
             finish();
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem login_logout = menu.findItem(R.id.menu_login_logout);
+
+        if(mLoginSession.isLoggedIn())
+            login_logout.setTitle("Logout");
+        else
+            login_logout.setTitle("Login");
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

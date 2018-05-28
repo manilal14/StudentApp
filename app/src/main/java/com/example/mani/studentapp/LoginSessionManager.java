@@ -32,7 +32,7 @@ public class LoginSessionManager {
     public static final String KEY_EMAIL    = "email";
     public static final String KEY_GENDER   = "gender";
 
-
+    // constructor
     public LoginSessionManager(Context context) {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);

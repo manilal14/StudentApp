@@ -161,10 +161,10 @@ public class LoginPage extends AppCompatActivity {
 
                                 String gender       = studentObj.getString("gender");
 
-                                if(gender.equals("0"))
+                               /* if(gender.equals("0"))
                                     gender = "male";
                                 else
-                                    gender = "female";
+                                    gender = "female";*/
 
                                /*Toast.makeText(LoginPage.this,
                                                 ""+student_id

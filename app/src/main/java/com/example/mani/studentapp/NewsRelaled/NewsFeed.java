@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mani.studentapp.AttendanceRelated.AttendanceHomePage;
+import com.example.mani.studentapp.EditProfile;
 import com.example.mani.studentapp.LoginPage;
 import com.example.mani.studentapp.LoginSessionManager;
 import com.example.mani.studentapp.R;
@@ -130,15 +131,26 @@ public class NewsFeed extends AppCompatActivity
 
         View header;
         TextView headerName,headerEmail;
-        ImageView headerImageView;
+        ImageView headerProfileImg,headerEditProfile;
         LinearLayout headerLinearLayout;
 
         header = navigationView.getHeaderView(0);
 
-        headerLinearLayout = header.findViewById(R.id.ll_header);
         headerName         = header.findViewById(R.id.header_name);
         headerEmail        = header.findViewById(R.id.header_email);
-        headerImageView    = header.findViewById(R.id.header_image);
+        headerProfileImg    = header.findViewById(R.id.header_image);
+        headerEditProfile  = header.findViewById(R.id.header_edit_profile);
+
+        headerEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mLoginSession.isLoggedIn())
+                    startActivity(new Intent(NewsFeed.this, EditProfile.class));
+                else
+                    Toast.makeText(NewsFeed.this,"You must Login to edit your profile",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
 
         HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
 
@@ -151,16 +163,19 @@ public class NewsFeed extends AppCompatActivity
         String dob        = student.get(LoginSessionManager.KEY_DOB);
         String contact    = student.get(LoginSessionManager.KEY_CONTACT);
         String email      = student.get(LoginSessionManager.KEY_EMAIL);
+        String gender      = student.get(LoginSessionManager.KEY_GENDER);
 
         headerName.setText(name);
         headerEmail.setText(email);
 
-        headerLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NewsFeed.this,"mess",Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(skipedLogin == false) {
+            if (gender.equals("0"))
+                headerProfileImg.setImageResource(R.drawable.ic_male);
+            else
+                headerProfileImg.setImageResource(R.drawable.ic_female);
+        }
+
+
 
 
 

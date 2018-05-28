@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,6 +42,10 @@ public class LoginPage extends AppCompatActivity {
 
     TextView btn_login,btn_register;
     TextView skip;
+
+    boolean doubleBackToExitPressedOnce = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,24 @@ public class LoginPage extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     private void loginToStudentApp() {
@@ -122,27 +145,27 @@ public class LoginPage extends AppCompatActivity {
 
                             if(responseCode == 1){
 
-                                String student_id = studentObj.getString("student_id");
-                                String name   = studentObj.getString("name");
-                                String semester = studentObj.getString("semester");
-                                String college_name   = studentObj.getString("college_name");
-                                String branch_name   = studentObj.getString("branch_name");
+                                String student_id   = studentObj.getString("student_id");
+                                String name         = studentObj.getString("name");
+                                String semester     = studentObj.getString("semester");
+                                String college_name = studentObj.getString("college_name");
+                                String branch_name  = studentObj.getString("branch_name");
                                 String class_name   = studentObj.getString("class_name");
 
-                                String dob   = studentObj.getString("dob");
+                                String dob          = studentObj.getString("dob");
                                 String contact_no   = studentObj.getString("contact_no");
 
-                                String email   = studentObj.getString("email");
-                                String password   = studentObj.getString("password");
+                                String email        = studentObj.getString("email");
+                                String password     = studentObj.getString("password");
 
-                                String gender = studentObj.getString("gender");
+                                String gender       = studentObj.getString("gender");
 
                                 if(gender.equals("0"))
                                     gender = "male";
                                 else
                                     gender = "female";
 
-                               /* Toast.makeText(LoginPage.this,
+                               /*Toast.makeText(LoginPage.this,
                                                 ""+student_id
                                                 +" "+name
                                                 +" "+semester
@@ -159,15 +182,14 @@ public class LoginPage extends AppCompatActivity {
                                 // Need to save all these in sharedPreference
 
                                 LoginSessionManager session = new LoginSessionManager(LoginPage.this);
-                                session.createLoginSession(student_id,password,name);
+
+
+                                session.createLoginSession(student_id,password,
+                                        college_name,branch_name,class_name,semester,
+                                        name,dob,contact_no,email,gender);
 
                                 startActivity(new Intent(LoginPage.this,NewsFeed.class));
                                 finish();
-
-
-
-
-
                             }
 
                         } catch (JSONException e) {

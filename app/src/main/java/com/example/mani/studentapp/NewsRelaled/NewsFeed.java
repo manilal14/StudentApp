@@ -69,12 +69,10 @@ public class NewsFeed extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
 
-
         mLoginSession = new LoginSessionManager(getApplicationContext());
 
         // If Login is to be skipped, then skip checkLogin()
         // else check it
-
         if(skipedLogin == false){
 
             /**
@@ -83,14 +81,38 @@ public class NewsFeed extends AppCompatActivity
              * logged in
              * */
             if(!mLoginSession.isLoggedIn()) {
+
                 mLoginSession.checkLogin();
                 finish();
             }
 
             HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
-            String name = student.get(LoginSessionManager.KEY_NAME);
-            Toast.makeText(NewsFeed.this,"Name "+name,Toast.LENGTH_SHORT).show();
+
+            String college    = student.get(LoginSessionManager.KEY_COLLEGE);
+            String branch     = student.get(LoginSessionManager.KEY_BRANCH);
+            String class_name = student.get(LoginSessionManager.KEY_CLASS);
+            String sem        = student.get(LoginSessionManager.KEY_SEMESTER);
+
+            String name       = student.get(LoginSessionManager.KEY_NAME);
+            String dob        = student.get(LoginSessionManager.KEY_DOB);
+            String contact    = student.get(LoginSessionManager.KEY_CONTACT);
+            String email      = student.get(LoginSessionManager.KEY_EMAIL);
+            String gender     = student.get(LoginSessionManager.KEY_GENDER);
+
+          Toast.makeText(NewsFeed.this,
+                            " "+name
+                            +" "+sem
+                            +" "+class_name
+                            +" "+college
+                            +" "+branch
+                            +" "+dob
+                            +" "+contact
+                            +" "+email
+                            +" "+gender
+                    ,Toast.LENGTH_LONG).show();
         }
+
+
 
         // If skipedLoginCheck == true then execution will start from here
 
@@ -105,9 +127,6 @@ public class NewsFeed extends AppCompatActivity
                 startActivity(new Intent(NewsFeed.this,PostNewFeed.class));
             }
         });
-
-
-
 
         // Error handling Views
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
@@ -214,6 +233,8 @@ public class NewsFeed extends AppCompatActivity
             loadFeedsFromDatabase();
         }
         else if (id == R.id.action_logout) {
+            mLoginSession.logoutStudent();
+            finish();
             return true;
         }
 

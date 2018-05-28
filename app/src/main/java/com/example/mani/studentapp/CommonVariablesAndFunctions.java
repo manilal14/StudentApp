@@ -25,6 +25,7 @@ public class CommonVariablesAndFunctions {
     public static final String BASE_URL_ATTENDANCE = "http://192.168.43.154/studentApp_attendance/";
 
     public static boolean postingNewFeed = false;
+    public static boolean skipedLogin = false;
 
     public static void setUpAleartBox(Context context,String title, String message){
 

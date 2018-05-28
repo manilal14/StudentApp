@@ -35,6 +35,7 @@ import java.util.Map;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.skipedLogin;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -55,6 +56,7 @@ public class LoginPage extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                skipedLogin = true;
                 startActivity(new Intent(LoginPage.this, NewsFeed.class));
                 finish();
             }
@@ -140,7 +142,7 @@ public class LoginPage extends AppCompatActivity {
                                 else
                                     gender = "female";
 
-                                Toast.makeText(LoginPage.this,
+                               /* Toast.makeText(LoginPage.this,
                                                 ""+student_id
                                                 +" "+name
                                                 +" "+semester
@@ -152,7 +154,19 @@ public class LoginPage extends AppCompatActivity {
                                                 +" "+email
                                                 +" "+password
                                                         +" "+gender
-                                        ,Toast.LENGTH_LONG).show();
+                                        ,Toast.LENGTH_LONG).show();*/
+
+                                // Need to save all these in sharedPreference
+
+                                LoginSessionManager session = new LoginSessionManager(LoginPage.this);
+                                session.createLoginSession(student_id,password,name);
+
+                                startActivity(new Intent(LoginPage.this,NewsFeed.class));
+                                finish();
+
+
+
+
 
                             }
 

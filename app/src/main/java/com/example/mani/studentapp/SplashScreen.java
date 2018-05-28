@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.mani.studentapp.NewsRelaled.NewsFeed;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
@@ -34,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            startActivity(new Intent(SplashScreen.this, LoginPage.class));
+            startActivity(new Intent(SplashScreen.this, NewsFeed.class));
             //finish();
             SplashScreen.this.finish();
         }

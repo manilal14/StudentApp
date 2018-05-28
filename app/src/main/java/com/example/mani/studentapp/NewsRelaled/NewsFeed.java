@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mani.studentapp.AttendanceRelated.AttendanceHomePage;
+import com.example.mani.studentapp.LoginSessionManager;
 import com.example.mani.studentapp.R;
 import com.example.mani.studentapp.TimeTableRelated.TimeTable;
 
@@ -38,12 +39,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.postingNewFeed;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.skipedLogin;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +59,8 @@ public class NewsFeed extends AppCompatActivity
     TextView mErrorTextView;
     Button mRetry;
 
+    LoginSessionManager mLoginSession;
+
 
     private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
 
@@ -63,6 +68,31 @@ public class NewsFeed extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
+
+
+        mLoginSession = new LoginSessionManager(getApplicationContext());
+
+        // If Login is to be skipped, then skip checkLogin()
+        // else check it
+
+        if(skipedLogin == false){
+
+            /**
+             * Call this function whenever you want to check user login
+             * This will redirect user to LoginActivity is he is not
+             * logged in
+             * */
+            if(!mLoginSession.isLoggedIn()) {
+                mLoginSession.checkLogin();
+                finish();
+            }
+
+            HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
+            String name = student.get(LoginSessionManager.KEY_NAME);
+            Toast.makeText(NewsFeed.this,"Name "+name,Toast.LENGTH_SHORT).show();
+        }
+
+        // If skipedLoginCheck == true then execution will start from here
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,6 +105,9 @@ public class NewsFeed extends AppCompatActivity
                 startActivity(new Intent(NewsFeed.this,PostNewFeed.class));
             }
         });
+
+
+
 
         // Error handling Views
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
@@ -148,6 +181,7 @@ public class NewsFeed extends AppCompatActivity
 
                         public void onClick(DialogInterface arg0, int arg1) {
                             //android.os.Process.killProcess(android.os.Process.myPid());
+                            skipedLogin = false;
                             finish();
                         }
                     }).create().show();

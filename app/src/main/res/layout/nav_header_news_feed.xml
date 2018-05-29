@@ -54,7 +54,7 @@
             android:layout_margin="8dp"
             android:padding="16dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/pencil"/>
+            android:src="@drawable/pencil_white"/>
 
     </RelativeLayout>
 </FrameLayout>

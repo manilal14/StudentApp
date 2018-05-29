@@ -49,7 +49,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:text="Name"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_name"
@@ -59,12 +60,15 @@
                 android:text="MANILAL KASERA" />
 
             <TextView
+                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Gender" />
+                android:text="Gender"
+                android:textColor="@color/black"/>
 
             <RadioGroup
+                android:layout_marginBottom="16dp"
                 android:id="@+id/radio_group_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,25 +91,42 @@
 
             </RadioGroup>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="Password"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_profile_password"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="12345678910"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pencil_black"
+                    android:onClick="resetPassword"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Password" />
-
-            <EditText
-                android:id="@+id/edit_profile_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="College" />
+                android:text="College"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_college"
@@ -118,7 +139,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Branch" />
+                android:text="Branch"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_branch"
@@ -142,7 +164,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Semester" />
+                        android:text="Semester"
+                        android:textColor="@color/black"/>
 
                     <EditText
                         android:id="@+id/edit_profile_sem"
@@ -164,7 +187,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Class" />
+                        android:text="Class"
+                        android:textColor="@color/black"/>
 
                     <EditText
                         android:id="@+id/edit_profile_class"
@@ -180,7 +204,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="DOB" />
+                android:text="DOB"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_dob"
@@ -193,7 +218,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Mobile" />
+                android:text="Mobile"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_mobile"
@@ -206,7 +232,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Email" />
+                android:text="Email"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edit_profile_email"

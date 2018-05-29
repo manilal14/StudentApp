@@ -53,6 +53,8 @@
     <string name="network_error">Network Error</string>
     <string name="parse_error">Parse Error</string>
     <string name="volley_error">Volly Error</string>
+    <string name="female">female</string>
+    <string name="male">male</string>
 
 
 </resources>

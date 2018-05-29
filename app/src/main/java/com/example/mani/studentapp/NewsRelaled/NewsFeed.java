@@ -163,7 +163,7 @@ public class NewsFeed extends AppCompatActivity
         String dob        = student.get(LoginSessionManager.KEY_DOB);
         String contact    = student.get(LoginSessionManager.KEY_CONTACT);
         String email      = student.get(LoginSessionManager.KEY_EMAIL);
-        String gender      = student.get(LoginSessionManager.KEY_GENDER);
+        String gender     = student.get(LoginSessionManager.KEY_GENDER);
 
         headerName.setText(name);
         headerEmail.setText(email);

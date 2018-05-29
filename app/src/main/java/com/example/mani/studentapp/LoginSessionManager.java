@@ -97,6 +97,8 @@ public class LoginSessionManager {
         user.put(KEY_DOB, pref.getString(KEY_DOB, null));
         user.put(KEY_CONTACT, pref.getString(KEY_CONTACT, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "someoneawesom@gmail.com"));
+
+        // gender is saved as int in shared pref but in HashMap it is passed as String
         user.put(KEY_GENDER, pref.getString(KEY_GENDER, null));
 
         return user;

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -114,25 +115,24 @@ public class EditProfile extends AppCompatActivity {
 
     private void  getFromEditProfile(){
 
-        EditText et_dob, et_mobile, et_email;
+        EditText et_password,et_dob, et_contact, et_email;
         RadioGroup rg_gender;
+        ImageView edit_password;
 
 
+
+        et_password = findViewById(R.id.edit_profile_password);
         et_dob      = findViewById(R.id.edit_profile_dob);
-        et_mobile   = findViewById(R.id.edit_profile_mobile);
+        et_contact   = findViewById(R.id.edit_profile_mobile);
         et_email    = findViewById(R.id.edit_profile_email);
 
         rg_gender = findViewById(R.id.radio_group_gender);
 
-        /*et_password.setClickable(true);
-        et_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetPassword();
-                Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
+        String Password = et_password.getText().toString();
+        String dob      = et_dob.getText().toString();
+        String contact  = et_contact.getText().toString();
+        String email    = et_email.getText().toString();
 
 
         //get gender
@@ -147,15 +147,25 @@ public class EditProfile extends AppCompatActivity {
 
 
 
-        Toast.makeText(EditProfile.this,"Gender "+gender_int,
+        Toast.makeText(EditProfile.this,"Gender "+gender_int
+                +" Password "+ Password
+
+                        +" DOB "+ dob
+                        +" Contact "+ contact
+                        +" Email "+ email,
                 Toast.LENGTH_SHORT).show();
     }
 
-
+    /*
+        Its reset password.
+        Take password from user and set it to TextView
+     */
     public void resetPassword(View view) {
 
+        final EditText et_password = findViewById(R.id.edit_profile_password);
+
         Context context = EditProfile.this;
-        final AlertDialog.Builder alertDialog;
+        final AlertDialog alertDialog;
 
         LayoutInflater inflater = LayoutInflater.from(context);
         final View v = inflater.inflate(R.layout.reset_password_layout,null);
@@ -163,15 +173,15 @@ public class EditProfile extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             alertDialog = new AlertDialog.Builder(context,android.
-                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth);
+                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth).create();
         } else {
-            alertDialog = new AlertDialog.Builder(context);
+            alertDialog = new AlertDialog.Builder(context).create();
         }
 
         alertDialog.setView(v);
 
         final EditText et_current_pass,et_new_pass, et_confirm_pass;
-        final TextView current_pass_error,new_pass_error,confirm_pass_error;
+        final TextView password_error;
         TextView done,cancel;
 
 
@@ -179,11 +189,8 @@ public class EditProfile extends AppCompatActivity {
         et_new_pass     = v.findViewById(R.id.new_password);
         et_confirm_pass = v.findViewById(R.id.confirm_password);
 
-        current_pass_error = v.findViewById(R.id.current_password_error);
-        new_pass_error     = v.findViewById(R.id.new_password_error);
-        confirm_pass_error = v.findViewById(R.id.confirm_password_error);
 
-
+        password_error = v.findViewById(R.id.tv_password_error);
 
         done   = v.findViewById(R.id.done);
         cancel = v.findViewById(R.id.cancel);
@@ -198,31 +205,54 @@ public class EditProfile extends AppCompatActivity {
                 newPass     = et_new_pass.getText().toString().trim();
                 confirmPass = et_confirm_pass.getText().toString().trim();
 
+
+                if(currentPass.equals("") || newPass.equals("") ||
+                        confirmPass.equals("")){
+                    password_error.setVisibility(View.VISIBLE);
+                    password_error.setText("All field are required");
+                    return;
+                }
+
                 //if old password is wrong
                 if(!currentPass.equals(mLoginSession.getStudentDetailsFromSharedPreference()
                         .get(KEY_PASSWORD))){
-                    current_pass_error.setVisibility(View.VISIBLE);
+                    password_error.setVisibility(View.VISIBLE);
+                    password_error.setText("Current password is wrong");
                     return;
                 }
 
                 //if new password is shorter than six character
                 if(newPass.length()<6){
-                    new_pass_error.setVisibility(View.VISIBLE);
+                    password_error.setVisibility(View.VISIBLE);
+                    password_error.setText("New password must be of at least six characters");
                     return;
                 }
 
                 if(!newPass.equals(confirmPass)){
-                    confirm_pass_error.setVisibility(View.VISIBLE);
+                    password_error.setVisibility(View.VISIBLE);
+                    password_error.setText("New password and confirm password do not march");
                     return;
                 }
+
+                password_error.setVisibility(View.GONE);
+
+                //Toast.makeText(EditProfile.this,"new Pass "+newPass,Toast.LENGTH_SHORT).show();
+
+                et_password.setText(newPass);
+                alertDialog.dismiss();
 
             }
 
         });
 
-
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         alertDialog.show();
+
 
     }
 }

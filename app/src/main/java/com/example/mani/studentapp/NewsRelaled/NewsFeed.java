@@ -60,6 +60,7 @@ public class NewsFeed extends AppCompatActivity
     LinearLayout mErrorLinearLayout;
     TextView mErrorTextView;
     Button mRetry;
+    NavigationView mNavigationView;
 
     Menu mMenu;
 
@@ -122,63 +123,11 @@ public class NewsFeed extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
-
-
-
-        View header;
-        TextView headerName,headerEmail;
-        ImageView headerProfileImg,headerEditProfile;
-        LinearLayout headerLinearLayout;
-
-        header = navigationView.getHeaderView(0);
-
-        headerName         = header.findViewById(R.id.header_name);
-        headerEmail        = header.findViewById(R.id.header_email);
-        headerProfileImg    = header.findViewById(R.id.header_image);
-        headerEditProfile  = header.findViewById(R.id.header_edit_profile);
-
-        headerEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mLoginSession.isLoggedIn())
-                    startActivity(new Intent(NewsFeed.this, EditProfile.class));
-                else
-                    Toast.makeText(NewsFeed.this,"You must Login to edit your profile",
-                            Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
-
-        String college    = student.get(LoginSessionManager.KEY_COLLEGE);
-        String branch     = student.get(LoginSessionManager.KEY_BRANCH);
-        String class_name = student.get(LoginSessionManager.KEY_CLASS);
-        String sem        = student.get(LoginSessionManager.KEY_SEMESTER);
-
-        String name       = student.get(LoginSessionManager.KEY_NAME);
-        String dob        = student.get(LoginSessionManager.KEY_DOB);
-        String contact    = student.get(LoginSessionManager.KEY_CONTACT);
-        String email      = student.get(LoginSessionManager.KEY_EMAIL);
-        String gender     = student.get(LoginSessionManager.KEY_GENDER);
-
-        headerName.setText(name);
-        headerEmail.setText(email);
-
-        if(skipedLogin == false) {
-            if (gender.equals("0"))
-                headerProfileImg.setImageResource(R.drawable.ic_male);
-            else
-                headerProfileImg.setImageResource(R.drawable.ic_female);
-        }
-
-
-
-
-
-
+        // Setting navigation header with name, email an profilePic
+        setNavigationHeader();
 
         mFeedsList =  new ArrayList<>();
 
@@ -220,6 +169,7 @@ public class NewsFeed extends AppCompatActivity
 
     @Override
     protected void onResume() {
+        setNavigationHeader();
         if(postingNewFeed) {
             loadFeedsFromDatabase();
             postingNewFeed = false;
@@ -227,16 +177,12 @@ public class NewsFeed extends AppCompatActivity
         super.onResume();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.news_feed, menu);
         mMenu = menu;
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -272,7 +218,6 @@ public class NewsFeed extends AppCompatActivity
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -297,6 +242,51 @@ public class NewsFeed extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setNavigationHeader(){
+
+        View header;
+        TextView headerName,headerEmail;
+        ImageView headerProfilePic, headerEditProfile;
+
+        header = mNavigationView.getHeaderView(0);
+
+        headerName         = header.findViewById(R.id.header_name);
+        headerEmail        = header.findViewById(R.id.header_email);
+        headerProfilePic   = header.findViewById(R.id.header_image);
+        headerEditProfile  = header.findViewById(R.id.header_edit_profile);
+
+        headerEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mLoginSession.isLoggedIn()) {
+                    // First close the drawer then start activity
+                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    startActivity(new Intent(NewsFeed.this, EditProfile.class));
+                }
+                else
+                    Toast.makeText(NewsFeed.this,"You must Login to edit your profile",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
+
+        String name       = student.get(LoginSessionManager.KEY_NAME);
+        String email      = student.get(LoginSessionManager.KEY_EMAIL);
+        String gender     = student.get(LoginSessionManager.KEY_GENDER);
+
+        headerName.setText(name);
+        headerEmail.setText(email);
+
+        if(skipedLogin == false) {
+            if (gender.equals("0"))
+                headerProfilePic.setImageResource(R.drawable.me);
+            else
+                headerProfilePic.setImageResource(R.drawable.ic_female);
+        }
     }
 
     private void loadFeedsFromDatabase()

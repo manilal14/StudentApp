@@ -18,7 +18,7 @@ public class LoginSessionManager {
     private static final String PREF_NAME = "LoginPreference";
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    private final String KEY_STUDENT_ID = "student_id";
+    public static final String KEY_STUDENT_ID = "student_id";
     private final String KEY_PASSWORD = "password";
 
     public static final String KEY_SEMESTER = "semester";
@@ -62,6 +62,18 @@ public class LoginSessionManager {
         editor.putString(KEY_GENDER,gender);
 
         editor.commit();
+    }
+
+    public void updatePreference(String password, String dob, String contact, String email, String gender){
+
+        editor.putString(KEY_PASSWORD, password);
+        editor.putString(KEY_DOB,dob);
+        editor.putString(KEY_CONTACT,contact);
+        editor.putString(KEY_EMAIL,email);
+        editor.putString(KEY_GENDER,gender);
+
+        editor.commit();
+
     }
 
     public void checkLogin() {

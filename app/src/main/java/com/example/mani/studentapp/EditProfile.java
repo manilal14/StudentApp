@@ -17,12 +17,28 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.mani.studentapp.NewsRelaled.MySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.accounts.AccountManager.KEY_PASSWORD;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_BRANCH;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_CLASS;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_COLLEGE;
@@ -32,6 +48,7 @@ import static com.example.mani.studentapp.LoginSessionManager.KEY_EMAIL;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_GENDER;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_NAME;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_SEMESTER;
+import static com.example.mani.studentapp.LoginSessionManager.KEY_STUDENT_ID;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -104,7 +121,7 @@ public class EditProfile extends AppCompatActivity {
         et_sem.setText(student.get(KEY_SEMESTER));
         et_class.setText(student.get(KEY_CLASS));
 
-        et_password.setText("12345678910");
+        et_password.setText(student.get(KEY_PASSWORD));
         et_dob.setText(student.get(KEY_DOB));
         et_mobile.setText(student.get(KEY_CONTACT));
         et_email.setText(student.get(KEY_EMAIL));
@@ -141,14 +158,13 @@ public class EditProfile extends AppCompatActivity {
         RadioButton rb_gender = findViewById(id_gender);
         String gender         = rb_gender.getText().toString();
         // 0 = male , 1 = female
-        int gender_int = 1;
         if(gender.equals("male"))
-            gender_int = 0;
+            gender = "0";
+        else
+            gender = "1";
 
 
-
-
-        Toast.makeText(EditProfile.this,"Gender "+gender_int
+        Toast.makeText(EditProfile.this,"Gender "+gender
                 +" Password "+ password
 
                         +" DOB "+ dob
@@ -157,13 +173,9 @@ public class EditProfile extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
 
         //Send these data to database(server)
-        sendNewDataToDatabase(password,dob,contact,email,gender);
+        sendUpdatedDataToDatabase(password,dob,contact,email,gender);
 
     }
-
-    private void sendNewDataToDatabase(String password, String dob, String contact, String email, String gender) {
-    }
-
     /*
         It reset password.
         Take password from user and set it to EditText in EditProfile UI
@@ -228,6 +240,9 @@ public class EditProfile extends AppCompatActivity {
                         .get(KEY_PASSWORD))){
                     password_error.setVisibility(View.VISIBLE);
                     password_error.setText("Current password is wrong");
+                    et_new_pass.setText("");
+                    et_confirm_pass.setText("");
+
                     return;
                 }
 
@@ -235,12 +250,14 @@ public class EditProfile extends AppCompatActivity {
                 if(newPass.length()<6){
                     password_error.setVisibility(View.VISIBLE);
                     password_error.setText("New password must be of at least six characters");
+                    et_confirm_pass.setText("");
                     return;
                 }
 
                 if(!newPass.equals(confirmPass)){
                     password_error.setVisibility(View.VISIBLE);
                     password_error.setText("New password and confirm password do not march");
+                    et_confirm_pass.setText("");
                     return;
                 }
 
@@ -293,6 +310,74 @@ public class EditProfile extends AppCompatActivity {
 
         EditText et_dob = findViewById(R.id.edit_profile_dob);
         et_dob.setText(date);
+    }
+
+
+    private void sendUpdatedDataToDatabase(final String password, final String dob, final String contact,
+                                           final String email, final String gender) {
+
+        final String student_id =  mLoginSession.getStudentDetailsFromSharedPreference().get(KEY_STUDENT_ID);
+
+        String URL_UPDATE_PROFILE = BASE_URL_ATTENDANCE +"updateProfile.php";
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_UPDATE_PROFILE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray responseJsonArray = new JSONArray(response);
+                            JSONObject jsonObject = responseJsonArray.getJSONObject(0);
+
+                            int responseCode = jsonObject.getInt("response_code");
+                            if(responseCode == 1){
+
+                                Toast.makeText(EditProfile.this,"Profile Updated",Toast.LENGTH_SHORT).show();
+
+                                mLoginSession.updatePreference(password,dob,contact,email,gender);
+                                finish();
+                            }
+
+                            else{
+                                Toast.makeText(EditProfile.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> params = new HashMap<>();
+
+                params.put("student_id",student_id);
+                params.put("password",password);
+                params.put("dob",dob);
+                params.put("contact",contact);
+                params.put("email",email);
+                params.put("gender",gender);
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(EditProfile.this).addToRequestQueue(stringRequest);
+
+
 
     }
 }

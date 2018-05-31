@@ -37,7 +37,8 @@
         <activity
             android:name=".TimeTableRelated.EditTimeTable"
             android:label="Edit TimeTable"
-            android:parentActivityName=".NewsRelaled.NewsFeed">
+            android:parentActivityName=".NewsRelaled.NewsFeed"
+            android:noHistory="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />

@@ -161,24 +161,6 @@ public class LoginPage extends AppCompatActivity {
 
                                 String gender       = studentObj.getString("gender");
 
-                               /* if(gender.equals("0"))
-                                    gender = "male";
-                                else
-                                    gender = "female";*/
-
-                               /*Toast.makeText(LoginPage.this,
-                                                ""+student_id
-                                                +" "+name
-                                                +" "+semester
-                                                +" "+class_name
-                                                +" "+college_name
-                                                +" "+branch_name
-                                                +" "+dob
-                                                        +" "+contact_no
-                                                +" "+email
-                                                +" "+password
-                                                        +" "+gender
-                                        ,Toast.LENGTH_LONG).show();*/
 
                                 // Need to save all these in sharedPreference
 

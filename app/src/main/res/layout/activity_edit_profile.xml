@@ -98,29 +98,18 @@
                 android:text="Password"
                 android:textColor="@color/black"/>
 
-            <LinearLayout
+
+            <EditText
+                android:id="@+id/edit_profile_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:clickable="true"
+                android:focusable="false"
+                android:longClickable="false"
+                android:inputType="textPassword"
+                android:onClick="resetPassword"
+                android:text="12345678910" />
 
-                <EditText
-                    android:id="@+id/edit_profile_password"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="12345678910"
-                    android:inputType="textPassword" />
-
-                <ImageView
-                    android:id="@+id/edit_profile_edit_password"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:onClick="resetPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/pencil_black"/>
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -212,7 +201,10 @@
                 android:id="@+id/edit_profile_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:clickable="true"
+                android:focusable="false"
+                android:onClick="setDOBInEditText"
+                android:longClickable="false"
                 android:inputType="date"/>
 
             <TextView

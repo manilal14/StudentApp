@@ -1,5 +1,6 @@
 package com.example.mani.studentapp;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static android.accounts.AccountManager.KEY_PASSWORD;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_BRANCH;
@@ -33,6 +37,7 @@ public class EditProfile extends AppCompatActivity {
 
 
     LoginSessionManager mLoginSession;
+    Calendar mCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,6 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         mLoginSession = new LoginSessionManager(getApplicationContext());
-
 
         setEditProfile();
 
@@ -117,9 +121,6 @@ public class EditProfile extends AppCompatActivity {
 
         EditText et_password,et_dob, et_contact, et_email;
         RadioGroup rg_gender;
-        ImageView edit_password;
-
-
 
         et_password = findViewById(R.id.edit_profile_password);
         et_dob      = findViewById(R.id.edit_profile_dob);
@@ -129,17 +130,16 @@ public class EditProfile extends AppCompatActivity {
         rg_gender = findViewById(R.id.radio_group_gender);
 
 
-        String Password = et_password.getText().toString();
-        String dob      = et_dob.getText().toString();
-        String contact  = et_contact.getText().toString();
-        String email    = et_email.getText().toString();
+        // getting password, dob, contact, email and gender from editText
+        String password = et_password.getText().toString().trim();
+        String dob      = et_dob.getText().toString().trim();
+        String contact  = et_contact.getText().toString().trim();
+        String email    = et_email.getText().toString().trim();
 
-
-        //get gender
-        int id_gender = rg_gender.getCheckedRadioButtonId();
+        //getting gender
+        int id_gender         = rg_gender.getCheckedRadioButtonId();
         RadioButton rb_gender = findViewById(id_gender);
-        String gender = rb_gender.getText().toString();
-
+        String gender         = rb_gender.getText().toString();
         // 0 = male , 1 = female
         int gender_int = 1;
         if(gender.equals("male"))
@@ -147,22 +147,32 @@ public class EditProfile extends AppCompatActivity {
 
 
 
+
         Toast.makeText(EditProfile.this,"Gender "+gender_int
-                +" Password "+ Password
+                +" Password "+ password
 
                         +" DOB "+ dob
                         +" Contact "+ contact
                         +" Email "+ email,
                 Toast.LENGTH_SHORT).show();
+
+        //Send these data to database(server)
+        sendNewDataToDatabase(password,dob,contact,email,gender);
+
+    }
+
+    private void sendNewDataToDatabase(String password, String dob, String contact, String email, String gender) {
     }
 
     /*
-        Its reset password.
-        Take password from user and set it to TextView
+        It reset password.
+        Take password from user and set it to EditText in EditProfile UI
      */
     public void resetPassword(View view) {
 
-        final EditText et_password = findViewById(R.id.edit_profile_password);
+        final EditText et_password = (EditText) view;
+
+        //final EditText et_password = findViewById(R.id.edit_profile_password);
 
         Context context = EditProfile.this;
         final AlertDialog alertDialog;
@@ -253,6 +263,36 @@ public class EditProfile extends AppCompatActivity {
         });
         alertDialog.show();
 
+
+    }
+
+    public void setDOBInEditText(View view) {
+
+        mCalendar =  Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date =  new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                mCalendar.set(Calendar.YEAR, year);
+                mCalendar.set(Calendar.MONTH, month);
+                mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+        new DatePickerDialog(EditProfile.this, date, mCalendar
+                .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+                mCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+    }
+
+    private void updateLabel() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+
+        String date = sdf.format(mCalendar.getTime());
+
+        EditText et_dob = findViewById(R.id.edit_profile_dob);
+        et_dob.setText(date);
 
     }
 }

@@ -32,11 +32,19 @@ public class TuesdayFragment extends Fragment {
         t5 = view.findViewById(R.id.et5);
         t6 = view.findViewById(R.id.et6);
 
-        
-
-
+        setEditTimeTableTuesday();
 
         return view;
+    }
+
+    private void setEditTimeTableTuesday() {
+
+        t1.setText(sharedPreferences.getString("t1key",null));
+        t2.setText(sharedPreferences.getString("t2key",null));
+        t3.setText(sharedPreferences.getString("t3key",null));
+        t4.setText(sharedPreferences.getString("t4key",null));
+        t5.setText(sharedPreferences.getString("t6key",null));
+        t6.setText(sharedPreferences.getString("t6key",null));
     }
 
 

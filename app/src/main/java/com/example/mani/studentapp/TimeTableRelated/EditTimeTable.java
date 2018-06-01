@@ -29,7 +29,7 @@ public class EditTimeTable extends AppCompatActivity {
         fr.add(new MondayFragment());
         fr.add(new TuesdayFragment());
         fr.add(new WednesdayFragment());
-        fr.add(new ThrusdayFragment());
+        fr.add(new ThursdayFragment());
         fr.add(new FridayFragment());
 
         EditTimeTableFragmentPagerAdapter adapter = new EditTimeTableFragmentPagerAdapter(getSupportFragmentManager(),fr);
@@ -38,9 +38,9 @@ public class EditTimeTable extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        //EditText m1 = fr.get(0).getView().findViewById(R.id.em1);
-       // m1.setText("qwerty");
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +63,7 @@ public class EditTimeTable extends AppCompatActivity {
             WednesdayFragment w = (WednesdayFragment) fr.get(2);
             w.saveWednesdayTimeTable();
 
-            ThrusdayFragment th = (ThrusdayFragment) fr.get(3);
+            ThursdayFragment th = (ThursdayFragment) fr.get(3);
             th.saveThrusdayTimeTable();
 
             FridayFragment f = (FridayFragment) fr.get(4);

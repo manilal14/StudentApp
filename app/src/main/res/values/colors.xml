@@ -14,4 +14,5 @@
     <color name="green_tick">#088A08</color>
     <color name="failed_red">#B40404</color>
     <color name="red">#FF0000</color>
+    <color name="TimeTableBackgroundColor">#F5BCA9</color>
 </resources>

@@ -1,14 +1,20 @@
 package com.example.mani.studentapp.TimeTableRelated;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mani.studentapp.R;
+
+import java.util.Calendar;
 
 public class TimeTable extends AppCompatActivity {
 
@@ -20,7 +26,55 @@ public class TimeTable extends AppCompatActivity {
         setContentView(R.layout.activity_time_table);
 
         setTimeTable();
+        setBackgroundColor();
     }
+
+    @SuppressLint("ResourceAsColor")
+    private void setBackgroundColor() {
+
+        LinearLayout llMon, llTue, llWed, llThu, llFri;
+
+        llMon = findViewById(R.id.ll_monday);
+        llTue = findViewById(R.id.ll_tuesday);
+        llWed = findViewById(R.id.ll_wednesday);
+        llThu = findViewById(R.id.ll_thursday);
+        llFri = findViewById(R.id.ll_friday);
+
+        Calendar today = Calendar.getInstance();
+
+        // Sunday = 1, Monday = 2 ....
+        int day = today.get(Calendar.DAY_OF_WEEK);
+
+        switch (day){
+
+            case 2:
+                llMon.setBackgroundColor(Color.parseColor("#F5BCA9"));
+                break;
+
+            case 3:
+                llTue.setBackgroundColor(Color.parseColor("#F5BCA9"));
+                break;
+
+            case 4:
+                llWed.setBackgroundColor(Color.parseColor("#F5BCA9"));
+                break;
+
+            case 5:
+                llThu.setBackgroundColor(Color.parseColor("#F5BCA9"));
+                break;
+
+            case 6:
+                llFri.setBackgroundColor(Color.parseColor("#F5BCA9"));
+                break;
+        }
+
+
+        if(today.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            llMon.setBackgroundColor(Color.BLUE);
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,6 +89,10 @@ public class TimeTable extends AppCompatActivity {
         if (id == R.id.menu_edit_time_table) {
            startActivity(new Intent(TimeTable.this,EditTimeTable.class));
             return true;
+        }
+
+        else if(id == R.id.menu_update_time_table){
+            Toast.makeText(TimeTable.this,"Feature coming soon",Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

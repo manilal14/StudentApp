@@ -34,9 +34,21 @@ public class FridayFragment extends Fragment {
         er5 = view.findViewById(R.id.ef5);
         er6 = view.findViewById(R.id.ef6);
 
+        setEditTimeTableFriday();
+
 
 
         return view;
+    }
+
+    private void setEditTimeTableFriday() {
+
+        er1.setText(sharedPreferences.getString("f1key",null));
+        er2.setText(sharedPreferences.getString("f2key",null));
+        er3.setText(sharedPreferences.getString("f3key",null));
+        er4.setText(sharedPreferences.getString("f4key",null));
+        er5.setText(sharedPreferences.getString("f5key",null));
+        er6.setText(sharedPreferences.getString("f6key",null));
     }
 
     /**  This function save the Monday timeTable in shared

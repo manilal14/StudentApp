@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.example.mani.studentapp.R;
 
 
-public class ThrusdayFragment extends Fragment {
+public class ThursdayFragment extends Fragment {
 
     EditText t1,t2,t3,t4,t5,t6;
     String sm1,sm2,sm3,sm4,sm5,sm6;
@@ -33,8 +33,20 @@ public class ThrusdayFragment extends Fragment {
         t5 = view.findViewById(R.id.eth5);
         t6 = view.findViewById(R.id.eth6);
 
+        setEditTimeTableThursday();
+
 
         return view;
+    }
+
+    private void setEditTimeTableThursday() {
+
+        t1.setText(sharedPreferences.getString("th1key",null));
+        t2.setText(sharedPreferences.getString("th2key",null));
+        t3.setText(sharedPreferences.getString("th3key",null));
+        t4.setText(sharedPreferences.getString("th4key",null));
+        t5.setText(sharedPreferences.getString("th5key",null));
+        t6.setText(sharedPreferences.getString("th6key",null));
     }
 
 

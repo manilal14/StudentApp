@@ -14,7 +14,7 @@ import com.example.mani.studentapp.R;
 
 public class WednesdayFragment extends Fragment {
 
-    EditText t1,t2,t3,t4,t5,t6;
+    EditText w1,w2,w3,w4,w5,w6;
     String sm1,sm2,sm3,sm4,sm5,sm6;
     SharedPreferences sharedPreferences;
 
@@ -26,24 +26,38 @@ public class WednesdayFragment extends Fragment {
 
         sharedPreferences = getContext().getSharedPreferences(TimeTable.MY_PREFERENCES, Context.MODE_PRIVATE);
 
-        t1 = v.findViewById(R.id.ew1);
-        t2 = v.findViewById(R.id.ew2);
-        t3 = v.findViewById(R.id.ew3);
-        t4 = v.findViewById(R.id.ew4);
-        t5 = v.findViewById(R.id.ew5);
-        t6 = v.findViewById(R.id.ew6);
+        w1 = v.findViewById(R.id.ew1);
+        w2 = v.findViewById(R.id.ew2);
+        w3 = v.findViewById(R.id.ew3);
+        w4 = v.findViewById(R.id.ew4);
+        w5 = v.findViewById(R.id.ew5);
+        w6 = v.findViewById(R.id.ew6);
+
+        setEditTimeTableWednesday();
 
         return v;
     }
 
+    private void setEditTimeTableWednesday() {
+
+        w1.setText(sharedPreferences.getString("w1key",null));
+        w2.setText(sharedPreferences.getString("w2key",null));
+        w3.setText(sharedPreferences.getString("w3key",null));
+        w4.setText(sharedPreferences.getString("w4key",null));
+        w5.setText(sharedPreferences.getString("w5key",null));
+        w6.setText(sharedPreferences.getString("w6key",null));
+
+
+    }
+
     public void saveWednesdayTimeTable() {
 
-        sm1 = t1.getText().toString().trim();
-        sm2 = t2.getText().toString().trim();
-        sm3 = t3.getText().toString().trim();
-        sm4 = t4.getText().toString().trim();
-        sm5 = t5.getText().toString().trim();
-        sm6 = t6.getText().toString().trim();
+        sm1 = w1.getText().toString().trim();
+        sm2 = w2.getText().toString().trim();
+        sm3 = w3.getText().toString().trim();
+        sm4 = w4.getText().toString().trim();
+        sm5 = w5.getText().toString().trim();
+        sm6 = w6.getText().toString().trim();
 
 
         SharedPreferences.Editor editor = sharedPreferences.edit();

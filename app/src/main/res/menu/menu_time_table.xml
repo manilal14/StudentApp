@@ -3,6 +3,10 @@
     <item
         android:id="@+id/menu_edit_time_table"
         android:title="Edit TimeTable">
+    </item>
+    <item
+        android:id="@+id/menu_update_time_table"
+        android:title="Update">
 
     </item>
 </menu>

@@ -21,6 +21,8 @@ public class MondayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_monday, container, false);
 
@@ -33,7 +35,20 @@ public class MondayFragment extends Fragment {
         em5 = view.findViewById(R.id.em5);
         em6 = view.findViewById(R.id.em6);
 
+        setEditTimeTableMonday();
+
         return view;
+    }
+
+    private void setEditTimeTableMonday(){
+
+        em1.setText(sharedPreferences.getString("mp1key",null));
+        em2.setText(sharedPreferences.getString("mp2key",null));
+        em3.setText(sharedPreferences.getString("mp3key",null));
+        em4.setText(sharedPreferences.getString("mp4key",null));
+        em5.setText(sharedPreferences.getString("mp5key",null));
+        em6.setText(sharedPreferences.getString("mp6key",null));
+
     }
 
     /**  This function save the Monday timeTable in shared

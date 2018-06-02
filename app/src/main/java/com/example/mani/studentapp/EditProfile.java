@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ import java.util.Map;
 
 import static android.accounts.AccountManager.KEY_PASSWORD;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 import static com.example.mani.studentapp.LoginSessionManager.KEY_BRANCH;
@@ -56,10 +60,31 @@ public class EditProfile extends AppCompatActivity {
     LoginSessionManager mLoginSession;
     Calendar mCalendar;
 
+    LinearLayout mMainEditProfileLayout;
+    LinearLayout mErrorLinearLayout;
+    TextView mErrorTextView;
+    Button mRetry;
+    ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        // Error handling
+        mMainEditProfileLayout   = findViewById(R.id.main_edit_profile_layout);
+        mProgressBar             = findViewById(R.id.progress_bar);
+        mErrorLinearLayout       = findViewById(R.id.ll_error_layout);
+        mErrorTextView           = findViewById(R.id.tv_error_message);
+        mRetry                   = findViewById(R.id.btn_retry);
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainEditProfileLayout.setVisibility(View.VISIBLE);
+                mErrorLinearLayout.setVisibility(View.GONE);
+            }
+        });
 
         mLoginSession = new LoginSessionManager(getApplicationContext());
 
@@ -135,6 +160,9 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void  getFromEditProfile(){
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        mMainEditProfileLayout.setVisibility(View.GONE);
 
         EditText et_password,et_dob, et_contact, et_email;
         RadioGroup rg_gender;
@@ -326,6 +354,8 @@ public class EditProfile extends AppCompatActivity {
 
                         try {
 
+                            mProgressBar.setVisibility(View.GONE);
+
                             JSONArray responseJsonArray = new JSONArray(response);
                             JSONObject jsonObject = responseJsonArray.getJSONObject(0);
 
@@ -339,7 +369,10 @@ public class EditProfile extends AppCompatActivity {
                             }
 
                             else{
-                                Toast.makeText(EditProfile.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+
+                                mErrorLinearLayout.setVisibility(View.VISIBLE);
+                                mErrorTextView.setText("Something went wrong");
+                                //Toast.makeText(EditProfile.this,"Something went wrong",Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 
@@ -353,6 +386,8 @@ public class EditProfile extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
 
             }
         }){

@@ -37,8 +37,8 @@
         <activity
             android:name=".TimeTableRelated.EditTimeTable"
             android:label="Edit TimeTable"
-            android:parentActivityName=".NewsRelaled.NewsFeed"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
@@ -59,6 +59,7 @@
             android:noHistory="true" />
         <activity
             android:name=".AttendanceRelated.FetchSubjectList"
+            android:label="Subjects"
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -79,14 +80,15 @@
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity android:name=".LoginPage" />
-        <activity android:name=".EditProfile"
+        <activity
+            android:name=".EditProfile"
             android:label="Edit Profile"
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
-
         </activity>
+        <activity android:name=".AttendanceRelated.CheckPastAttendance"></activity>
     </application>
 
 </manifest>

@@ -198,9 +198,13 @@ public class FetchStudentList extends AppCompatActivity {
                 updateLabel();
             }
         };
-        new DatePickerDialog(FetchStudentList.this, date, mCalendar
+
+        DatePickerDialog datePickerDialog =  new DatePickerDialog(FetchStudentList.this, date, mCalendar
                 .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
-                mCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                mCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+
     }
 
     private void updateLabel() {

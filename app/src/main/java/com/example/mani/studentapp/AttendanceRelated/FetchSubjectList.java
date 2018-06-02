@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
@@ -37,9 +39,9 @@ import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySecon
 public class FetchSubjectList extends AppCompatActivity {
 
     RecyclerView recyclerView_class_List;
-    List<Subject> subjectList;
+    List<Subject> mSubjectList;
     Integer mTeacher_id;
-    //TextView mErrorTextView;
+
     SwipeRefreshLayout mSwipeRefreshLayout;
     SubjectAdapter mSubjectAdapter;
 
@@ -48,7 +50,7 @@ public class FetchSubjectList extends AppCompatActivity {
     Button mRetry;
 
 
-    public static final String FETCH_CLASS_URL = "http://192.168.43.154/studentApp_attendance/fetch_subjects_tought_by_teacher.php";
+    public static final String FETCH_CLASS_URL = BASE_URL_ATTENDANCE + "fetch_subjects_tought_by_teacher.php";
 
 
     @Override
@@ -75,7 +77,7 @@ public class FetchSubjectList extends AppCompatActivity {
         recyclerView_class_List.setHasFixedSize(true);
 
         mTeacher_id = getIntent().getIntExtra("teacher_id",0);
-        subjectList = new ArrayList<>();
+        mSubjectList = new ArrayList<>();
 
         loadSubjectsFromDatabase();
 
@@ -92,7 +94,7 @@ public class FetchSubjectList extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh,menu);
+        getMenuInflater().inflate(R.menu.menu_fetch_subjects,menu);
         return true;
     }
 
@@ -103,6 +105,11 @@ public class FetchSubjectList extends AppCompatActivity {
         switch (id){
             case R.id.menu_refresh :
                 loadSubjectsFromDatabase();
+                break;
+            case R.id.menu_check_past_attendance :
+
+
+                Toast.makeText(FetchSubjectList.this,"past attendence",Toast.LENGTH_SHORT).show();
                 break;
 
 
@@ -125,7 +132,7 @@ public class FetchSubjectList extends AppCompatActivity {
                         // useful on refreshing
                         if(mSubjectAdapter != null) {
                             mSubjectAdapter.clear();
-                            mSubjectAdapter.addAll(subjectList);
+                            mSubjectAdapter.addAll(mSubjectList);
                         }
 
                         try{
@@ -151,12 +158,12 @@ public class FetchSubjectList extends AppCompatActivity {
                                 String  sem          = aSubject.getString("semester");
 
                                 Subject subject = new Subject(subject_id,class_id,class_name,subject_name,sem);
-                                subjectList.add(subject);
+                                mSubjectList.add(subject);
                             }
 
                             mSwipeRefreshLayout.setRefreshing(false);
 
-                            mSubjectAdapter = new SubjectAdapter(FetchSubjectList.this, subjectList);
+                            mSubjectAdapter = new SubjectAdapter(FetchSubjectList.this, mSubjectList);
                             recyclerView_class_List.setLayoutManager(new LinearLayoutManager(FetchSubjectList.this));
                             recyclerView_class_List.setAdapter(mSubjectAdapter);
 

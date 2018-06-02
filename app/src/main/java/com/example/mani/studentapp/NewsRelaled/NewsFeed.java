@@ -60,8 +60,8 @@ public class NewsFeed extends AppCompatActivity
     LinearLayout mErrorLinearLayout;
     TextView mErrorTextView;
     Button mRetry;
-    NavigationView mNavigationView;
 
+    NavigationView mNavigationView;
     Menu mMenu;
 
     LoginSessionManager mLoginSession;
@@ -76,8 +76,8 @@ public class NewsFeed extends AppCompatActivity
 
         mLoginSession = new LoginSessionManager(getApplicationContext());
 
-        // If Login is to be skipped, then skip checkLogin()
-        // else check it
+        // If Login is to be skipped, then skip, checkLogin() else check it
+
         if(skipedLogin == false) {
 
             if (!mLoginSession.isLoggedIn()) {

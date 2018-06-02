@@ -162,8 +162,6 @@ public class EditProfile extends AppCompatActivity {
             gender = "0";
         else
             gender = "1";
-
-
         /*Toast.makeText(EditProfile.this,"Gender "+gender
                 +" Password "+ password
 

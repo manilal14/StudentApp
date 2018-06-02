@@ -12,7 +12,11 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.skipedLogin;
@@ -45,13 +50,35 @@ public class LoginPage extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
+    FrameLayout mMainLoginLayout;
+    LinearLayout mErrorLinearLayout;
+    TextView mErrorTextView;
+    Button mRetry;
+    ProgressBar mProgressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // When loginPage will open it will be always false
         skipedLogin = false;
+
+        // Error handling
+        mMainLoginLayout   = findViewById(R.id.main_login_layout);
+        mProgressBar       = findViewById(R.id.progress_bar);
+        mErrorLinearLayout = findViewById(R.id.ll_error_layout);
+        mErrorTextView     = findViewById(R.id.tv_error_message);
+        mRetry             = findViewById(R.id.btn_retry);
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainLoginLayout.setVisibility(View.VISIBLE);
+                mErrorLinearLayout.setVisibility(View.GONE);
+            }
+        });
 
         getSupportActionBar().hide();
 
@@ -87,12 +114,15 @@ public class LoginPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
 
         this.doubleBackToExitPressedOnce = true;
+        //Snackbar.make(LoginPage.this, "Replace with your own action", Snackbar.LENGTH_LONG).show();
+
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
@@ -122,11 +152,16 @@ public class LoginPage extends AppCompatActivity {
             return;
         }
 
+        mMainLoginLayout.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,URL_LOGIN,
                 new Response.Listener<String>() {
+
                     @Override
                     public void onResponse(String response) {
+
+                        mProgressBar.setVisibility(View.GONE);
 
                         try {
 
@@ -139,8 +174,13 @@ public class LoginPage extends AppCompatActivity {
                             //Toast.makeText(LoginPage.this,""+responseCode,Toast.LENGTH_SHORT).show();
 
                             if(responseCode == 0) {
-                                Toast.makeText(LoginPage.this, "" + message, Toast.LENGTH_SHORT).show();
+
+                                mErrorLinearLayout.setVisibility(View.VISIBLE);
+                                mErrorTextView.setText("UserId or password is incorrect");
+                                //Toast.makeText(LoginPage.this, "" + message, Toast.LENGTH_SHORT).show();
                                 etPassword.setText("");
+
+
                                 return;
                             }
 
@@ -170,9 +210,17 @@ public class LoginPage extends AppCompatActivity {
                                         college_name,branch_name,class_name,semester,
                                         name,dob,contact_no,email,gender);
 
+                                // I think there is no need for this as it will be automatically disable
+                                // as soon as new activity will start
+                                mProgressBar.setVisibility(View.GONE);
+
                                 startActivity(new Intent(LoginPage.this,NewsFeed.class));
                                 Toast.makeText(LoginPage.this,"Welcome "+name,Toast.LENGTH_SHORT).show();
                                 finish();
+                            }
+                            else {
+                                mErrorLinearLayout.setVisibility(View.VISIBLE);
+                                mErrorTextView.setText("Something went wrong");
                             }
 
                         } catch (JSONException e) {
@@ -185,7 +233,7 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
             }
         }){
             @Override
@@ -205,6 +253,7 @@ public class LoginPage extends AppCompatActivity {
         MySingleton.getInstance(LoginPage.this).addToRequestQueue(stringRequest);
 
     }
+
 
     private void setUpAleartBox(){
 

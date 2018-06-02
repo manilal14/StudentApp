@@ -216,7 +216,7 @@ public class EditProfile extends AppCompatActivity {
         final AlertDialog alertDialog;
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        final View v = inflater.inflate(R.layout.reset_password_layout,null);
+        final View v = inflater.inflate(R.layout.dialog_reset_password,null);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

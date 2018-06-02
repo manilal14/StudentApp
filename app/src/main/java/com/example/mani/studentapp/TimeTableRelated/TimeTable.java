@@ -67,12 +67,6 @@ public class TimeTable extends AppCompatActivity {
                 llFri.setBackgroundColor(Color.parseColor("#F5BCA9"));
                 break;
         }
-
-
-        if(today.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            llMon.setBackgroundColor(Color.BLUE);
-        }
-
     }
 
 

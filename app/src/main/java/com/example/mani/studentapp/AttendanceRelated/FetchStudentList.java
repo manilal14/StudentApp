@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
@@ -67,8 +68,8 @@ public class FetchStudentList extends AppCompatActivity {
     TextView mErrorTextView;
     Button mRetry;
 
-    String FETCH_STUDENTS_URL = "http://192.168.43.154/studentApp_attendance/fetch_studentList.php";
-    String SUBMIT_ATTENDENCE_URL = "http://192.168.43.154/studentApp_attendance/send_attendence_to_database.php";
+    String FETCH_STUDENTS_URL = BASE_URL_ATTENDANCE +"fetch_studentList.php";
+    String SUBMIT_ATTENDENCE_URL = BASE_URL_ATTENDANCE +"send_attendence_to_database.php";
 
 
     @Override
@@ -118,12 +119,12 @@ public class FetchStudentList extends AppCompatActivity {
         String [] hrs = new String[]{"1 hrs","2 hrs","3 hrs"};
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(FetchStudentList.this,
-                R.layout.spinner_item,periods);
+                R.layout.spinner_layout_custom,periods);
         adapter1.setDropDownViewResource(R.layout.spinner_dropdown_items);
         spinner_period.setAdapter(adapter1);
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(FetchStudentList.this,
-                R.layout.spinner_item,hrs);
+                R.layout.spinner_layout_custom,hrs);
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_items);
         spinner_duration.setAdapter(adapter2);
 

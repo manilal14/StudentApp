@@ -14,11 +14,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -60,6 +63,8 @@ public class FetchSubjectList extends AppCompatActivity {
     Button mRetry;
 
     EditText mDialogDate;
+    Spinner mDialogPeriod;
+    Spinner mDialogClass;
 
 
     public static final String FETCH_CLASS_URL = BASE_URL_ATTENDANCE + "fetch_subjects_tought_by_teacher.php";
@@ -146,14 +151,50 @@ public class FetchSubjectList extends AppCompatActivity {
             alertDialog = new AlertDialog.Builder(context);
         }
 
-        //alertDialog.setTitle("Check Past Attendance");
         alertDialog.setView(v);
 
-        mDialogDate = v.findViewById(R.id.dialog_date);
+        mDialogDate   = v.findViewById(R.id.dialog_date);
+        mDialogPeriod = v.findViewById(R.id.dialog_period);
+        mDialogClass   = v.findViewById(R.id.dialog_class);
+
+
+        // date onClick is set as launchCalender
+        // perios and class name is set as spinner
+        String[] periods_for_spinner     = {"1","2","3","4","5","6"};
+        List<String> classes_for_spinner = new ArrayList<>();
+
+        for(int i=0;i<mSubjectList.size();i++){
+
+            String sem        = mSubjectList.get(i).getSemester();
+            String class_name = mSubjectList.get(i).getClassName();
+            classes_for_spinner.add(sem +"   "+ class_name);
+
+        }
+
+        ArrayAdapter<String> adapter_for_period = new ArrayAdapter<>(FetchSubjectList.this,
+                android.R.layout.simple_list_item_1,periods_for_spinner);
+        mDialogPeriod.setAdapter(adapter_for_period);
+
+        ArrayAdapter<String> adapter_for_class = new ArrayAdapter<>(FetchSubjectList.this,
+                android.R.layout.simple_list_item_1,classes_for_spinner);
+
+        mDialogClass.setAdapter(adapter_for_class);
+
+
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                String date     = mDialogDate.getText().toString().trim();
+                String period   = (String) mDialogPeriod.getSelectedItem();
+
+                // get index from spinner and from subjectList gets class id.
+                int index = mDialogClass.getSelectedItemPosition();
+                int class_id = mSubjectList.get(index).getClass_id();
+
+                Toast.makeText(FetchSubjectList.this,""+date+" "+period+"  "+class_id,
+                        Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -270,4 +311,16 @@ public class FetchSubjectList extends AppCompatActivity {
         String date = sdf.format(calendar.getTime());
         mDialogDate.setText(date);
     }
+
+    /*public void setPeriodOnDialog(View view) {
+
+        String[] periods = {"1","2","3","4","5","6"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(FetchSubjectList.this,
+                android.R.layout.select_dialog_singlechoice,periods);
+        mDialogPeriod.setThreshold(1);
+        mDialogPeriod.setAdapter(adapter);
+
+
+    }*/
 }

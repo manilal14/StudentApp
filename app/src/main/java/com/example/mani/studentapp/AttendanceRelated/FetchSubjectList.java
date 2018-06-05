@@ -1,6 +1,5 @@
 package com.example.mani.studentapp.AttendanceRelated;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -36,12 +34,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
@@ -120,13 +115,16 @@ public class FetchSubjectList extends AppCompatActivity {
 
         int id = item.getItemId();
         switch (id){
+
             case R.id.menu_refresh :
                 loadSubjectsFromDatabase();
                 break;
-            case R.id.menu_check_past_attendance :
-                setDialogBox();
 
-                //Toast.makeText(FetchSubjectList.this,"past attendence",Toast.LENGTH_SHORT).show();
+            case R.id.menu_check_past_attendance :
+
+                DialogCheckPastAttendance checkPast = new DialogCheckPastAttendance(
+                        FetchSubjectList.this, mSubjectList);
+                checkPast.setDialogBox();
                 break;
 
 
@@ -284,43 +282,6 @@ public class FetchSubjectList extends AppCompatActivity {
         MySingleton.getInstance(FetchSubjectList.this).addToRequestQueue(stringRequest);
     }
 
-    // On clicking select date in dialog
-    public void launchCalender(View view) {
-
-        final Calendar calendar =  Calendar.getInstance();
-        DatePickerDialog.OnDateSetListener date =  new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel(calendar);
-            }
-        };
-        DatePickerDialog datePickerDialog = new DatePickerDialog(FetchSubjectList.this, date, calendar
-                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        datePickerDialog.show();
-    }
-    private void updateLabel(Calendar calendar) {
-        String myFormat = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
-        String date = sdf.format(calendar.getTime());
-        mDialogDate.setText(date);
-    }
-
-    /*public void setPeriodOnDialog(View view) {
-
-        String[] periods = {"1","2","3","4","5","6"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(FetchSubjectList.this,
-                android.R.layout.select_dialog_singlechoice,periods);
-        mDialogPeriod.setThreshold(1);
-        mDialogPeriod.setAdapter(adapter);
 
 
-    }*/
 }

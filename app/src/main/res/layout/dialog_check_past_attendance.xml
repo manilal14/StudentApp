@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
         android:orientation="vertical">
 
         <TextView
@@ -17,59 +17,117 @@
             android:layout_height="wrap_content"
             android:text="Check Past Attendance"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_marginTop="16dp"
+
+        <LinearLayout
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputEditText
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Date"
+                android:textColor="@color/link_color" />
+
+            <EditText
+
                 android:id="@+id/dialog_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="false"
-                android:longClickable="false"
-                android:onClick="launchCalender"
-                android:hint="Date"
-                android:inputType="date"/>
-        </android.support.design.widget.TextInputLayout>
+                android:inputType="date"
+                android:longClickable="false"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/dialog_period"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:longClickable="false"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-                android:hint="Period"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Period"
+                    android:textColor="@color/link_color" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/dialog_period"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/dialog_class"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:longClickable="false"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-                android:hint="Class"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Class"
+                    android:textColor="@color/link_color" />
+
+                <Spinner
+                    android:id="@+id/dialog_class"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/dialog_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cancel"
+                    android:textAllCaps="true"
+                    android:textColor="#0B6121"
+                    android:layout_marginRight="24dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="end"
+                    android:padding="8dp"/>
+
+                <TextView
+                    android:id="@+id/dialog_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="done"
+                    android:textAllCaps="true"
+                    android:textColor="#0B6121"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="end"
+                    android:padding="8dp"/>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -35,6 +35,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     @Override
     public void onBindViewHolder(@NonNull final StudentAdapter.StudentViewHolder holder, int position) {
+
         final Student student = mStudentList.get(position);
 
         holder.tv_roll_no.setText(String.valueOf(student.getStudent_roll_no()));
@@ -68,8 +69,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
         public StudentViewHolder(View itemView) {
             super(itemView);
-            tv_roll_no = itemView.findViewById(R.id.tv_roll_no);
-            tv_name = itemView.findViewById(R.id.tv_student_name);
+            tv_roll_no          = itemView.findViewById(R.id.tv_roll_no);
+            tv_name             = itemView.findViewById(R.id.tv_student_name);
             attendence_checkbox = itemView.findViewById(R.id.checkbox_for_attendence);
         }
     }

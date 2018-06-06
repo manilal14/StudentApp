@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class DialogCheckPastAttendance {
         });
 
         // period and class name is set as spinner
-        String[] periods_for_spinner     = {"1","2","3","4","5","6"};
+        Integer[] periods_spinner     = {1,2,3,4,5,6};
         List<String> classes_for_spinner = new ArrayList<>();
 
         for(int i=0;i<subjectList.size();i++){
@@ -82,8 +83,8 @@ public class DialogCheckPastAttendance {
 
         }
 
-        ArrayAdapter<String> adapter_for_period = new ArrayAdapter<>(mCtx,
-                android.R.layout.simple_list_item_1,periods_for_spinner);
+        ArrayAdapter<Integer> adapter_for_period = new ArrayAdapter<>(mCtx,
+                android.R.layout.simple_list_item_1,periods_spinner);
         mDialogPeriod.setAdapter(adapter_for_period);
 
         ArrayAdapter<String> adapter_for_class = new ArrayAdapter<>(mCtx,
@@ -97,7 +98,7 @@ public class DialogCheckPastAttendance {
             public void onClick(View v) {
 
                 String date     = mDialogDate.getText().toString().trim();
-                String period   = (String) mDialogPeriod.getSelectedItem();
+                Integer period   = (Integer) mDialogPeriod.getSelectedItem();
 
                 // get index from spinner and from subjectList gets class id.
                 int index = mDialogClass.getSelectedItemPosition();
@@ -108,11 +109,18 @@ public class DialogCheckPastAttendance {
                     return;
                 }
 
+                /*Toast.makeText(mCtx,""+date+" "+period+"  "+class_id,
+                        Toast.LENGTH_SHORT).show();*/
+
                 Intent i = new Intent(mCtx,CheckPastAttendance.class);
 
-                i.putExtra("date",date);
-                i.putExtra("period",period);
-                i.putExtra("class_id",class_id);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("date",date);
+                bundle.putInt("period",period);
+                bundle.putInt("class_id",class_id);
+
+                i.putExtras(bundle);
 
                 mCtx.startActivity(i);
                 alertDialog.dismiss();
@@ -126,9 +134,6 @@ public class DialogCheckPastAttendance {
                 alertDialog.dismiss();
             }
         });
-
-
-
         alertDialog.show();
     }
 

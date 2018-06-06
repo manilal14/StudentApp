@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
+
 public class CheckAttendance extends AppCompatActivity {
 
     Integer mCollege_id;
@@ -136,7 +139,7 @@ public class CheckAttendance extends AppCompatActivity {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (10*1000),0,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(CheckAttendance.this).addToRequestQueue(stringRequest);
     }

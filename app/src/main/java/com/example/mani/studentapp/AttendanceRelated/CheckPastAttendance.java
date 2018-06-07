@@ -2,7 +2,8 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -93,41 +94,16 @@ public class CheckPastAttendance extends AppCompatActivity {
                                 mPastAttendanceList.add(new PastAttendance(i+1,name,status));
                            }
 
-                           /*List<String> studentList = new ArrayList<>();
-
-                           for(int i =0;i<mPastAttendanceList.size();i++){
-                               studentList.add(mPastAttendanceList.get(i).getName());
-                           }*/
-
-                            /*Toast.makeText(CheckPastAttendance.this,"sfsr",
+                           /*Toast.makeText(CheckPastAttendance.this,"sfsr",
                                     Toast.LENGTH_SHORT).show();*/
 
-                            ListView listView = findViewById(R.id.list_view_check_past_attendance);
-
-                            PastAttendanceAdapter adapter = new PastAttendanceAdapter(CheckPastAttendance.this,mPastAttendanceList);
-
-
-
-                           /*ArrayAdapter adapter = new ArrayAdapter<>(CheckPastAttendance.this,
-                                    android.R.layout.simple_list_item_1,studentList);*/
-
-                           listView.setAdapter(adapter);
-
-
-
-
-
-
-
-
-
-                           /*RecyclerView recyclerView = findViewById(R.id.recycler_view_check_past_attendance);
+                           RecyclerView recyclerView = findViewById(R.id.recycler_view_check_past_attendance);
 
                             PastAttendanceAdapter pastAttendanceAdapter = new PastAttendanceAdapter(
                                     CheckPastAttendance.this,mPastAttendanceList);
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(CheckPastAttendance.this));
-                            recyclerView.setAdapter(pastAttendanceAdapter);*/
+                            recyclerView.setAdapter(pastAttendanceAdapter);
 
 
 

@@ -3,59 +3,64 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.mani.studentapp.R;
 
 import java.util.List;
 
-public class PastAttendanceAdapter extends BaseAdapter {
+public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAdapter.PastAttendanceViewHolder>{
 
     Context mCtx;
-    List<PastAttendance> mPastAttendenceList;
+    List<PastAttendance> mPastAttendanceList;
 
-    public PastAttendanceAdapter(Context mCtx, List<PastAttendance> mPastAttendenceList) {
+    public PastAttendanceAdapter(Context mCtx, List<PastAttendance> mPastAttendanceList) {
         this.mCtx = mCtx;
-        this.mPastAttendenceList = mPastAttendenceList;
+        this.mPastAttendanceList = mPastAttendanceList;
+    }
+
+    @NonNull
+    @Override
+    public PastAttendanceAdapter.PastAttendanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        View v = inflater.inflate(R.layout.check_past_attendance_single_layout,parent,false);
+        return new PastAttendanceViewHolder(v);
     }
 
     @Override
-    public int getCount() {
-        return mPastAttendenceList.size();
-    }
+    public void onBindViewHolder(@NonNull PastAttendanceAdapter.PastAttendanceViewHolder holder, int position) {
 
-    @Override
-    public Object getItem(int position) {
-        return mPastAttendenceList.get(position);
-    }
+        PastAttendance aStudent = mPastAttendanceList.get(position);
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        holder.tv_roll_no.setText(String.valueOf(aStudent.getRoll_no()));
+        holder.tv_name.setText(aStudent.getName());
 
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
+        if(aStudent.getStatus() == 0) {
+            holder.tv_name.setTextColor(Color.parseColor("#E50303"));
 
-        if(view==null) {
-            LayoutInflater inflater = LayoutInflater.from(mCtx);
-            view = inflater.inflate(R.layout.check_past_attendance_single_layout,null);
         }
+    }
 
-        TextView tv_roll_no = view.findViewById(R.id.tv_roll_no);
-        TextView tv_student_name = view.findViewById(R.id.tv_student_name);
+    @Override
+    public int getItemCount() {
+        return mPastAttendanceList.size();
+    }
 
-        tv_roll_no.setText(String.valueOf(mPastAttendenceList.get(position).getRoll_no()));
-        tv_student_name.setText(mPastAttendenceList.get(position).getName());
+    public class PastAttendanceViewHolder extends RecyclerView.ViewHolder{
 
-        if(mPastAttendenceList.get(position).getStatus() == 0){
-            tv_student_name.setTextColor(Color.parseColor("#E50303"));
+        TextView tv_roll_no, tv_name;
+
+        public PastAttendanceViewHolder(View itemView) {
+            super(itemView);
+
+            tv_roll_no = itemView.findViewById(R.id.tv_roll_no);
+            tv_name    = itemView.findViewById(R.id.tv_student_name);
         }
-
-        return view;
     }
 }

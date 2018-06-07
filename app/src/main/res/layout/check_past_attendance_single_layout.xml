@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tv_student_name"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft   ="12dp"
             android:layout_width="wrap_content"
             android:singleLine="true"
             android:ellipsize="end"

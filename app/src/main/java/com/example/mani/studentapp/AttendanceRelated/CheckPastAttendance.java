@@ -2,7 +2,6 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -63,12 +62,12 @@ public class CheckPastAttendance extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                       /* Toast.makeText(CheckPastAttendance.this,""+response,
+                       /*Toast.makeText(CheckPastAttendance.this,""+response,
                                 Toast.LENGTH_SHORT).show();*/
 
                         try {
 
-                            JSONArray  jsonArray      = new JSONArray(response);
+                            JSONArray  jsonArray = new JSONArray(response);
 
                             if(jsonArray.length() == 0){
                                 Toast.makeText(CheckPastAttendance.this,"Attendance not taken yet",
@@ -76,7 +75,7 @@ public class CheckPastAttendance extends AppCompatActivity {
                                 return;
                             }
 
-                            // comman variables to all
+                            // common variables to all
 
                             JSONObject zeroJsonObject =  jsonArray.getJSONObject(0);
 
@@ -87,21 +86,30 @@ public class CheckPastAttendance extends AppCompatActivity {
                             for(int i=0; i<jsonArray.length();i++){
 
                                 JSONObject temp = jsonArray.getJSONObject(i);
+
                                 String name = temp.getString("student_name");
                                 int status  = temp.getInt("status");
 
-                                mPastAttendanceList.add(new PastAttendance(name,status));
+                                mPastAttendanceList.add(new PastAttendance(i+1,name,status));
                            }
 
-                           List<String> studentList = new ArrayList<>();
+                           /*List<String> studentList = new ArrayList<>();
 
                            for(int i =0;i<mPastAttendanceList.size();i++){
                                studentList.add(mPastAttendanceList.get(i).getName());
-                           }
+                           }*/
 
-                           ListView listView    = findViewById(R.id.list_view_check_past_attendance);
-                           ArrayAdapter adapter = new ArrayAdapter<>(CheckPastAttendance.this,
-                                    android.R.layout.simple_list_item_1,studentList);
+                            /*Toast.makeText(CheckPastAttendance.this,"sfsr",
+                                    Toast.LENGTH_SHORT).show();*/
+
+                            ListView listView = findViewById(R.id.list_view_check_past_attendance);
+
+                            PastAttendanceAdapter adapter = new PastAttendanceAdapter(CheckPastAttendance.this,mPastAttendanceList);
+
+
+
+                           /*ArrayAdapter adapter = new ArrayAdapter<>(CheckPastAttendance.this,
+                                    android.R.layout.simple_list_item_1,studentList);*/
 
                            listView.setAdapter(adapter);
 

@@ -294,13 +294,14 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/tv_update_attendance"
+            android:id="@+id/tv_check_past_attendance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="16dp"
             android:layout_marginTop="64dp"
             android:textColor="@color/link_color"
-            android:text="Want to update the Attendance?"/>
+            android:text="CHECK IT !"/>
     </LinearLayout>
 
     <!-- Default Response layout -->

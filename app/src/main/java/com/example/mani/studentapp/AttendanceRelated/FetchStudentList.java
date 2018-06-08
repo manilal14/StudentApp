@@ -2,6 +2,7 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -485,11 +486,11 @@ public class FetchStudentList extends AppCompatActivity {
 
             LinearLayout attandaceAlreadyTakenLL;
             Button ok;
-            TextView updateAttendace;
+            TextView check_it;
 
             attandaceAlreadyTakenLL = findViewById(R.id.ll_attandence_already_taken_response_layout);
             ok = findViewById(R.id.alert_ok);
-            updateAttendace = findViewById(R.id.tv_update_attendance);
+            check_it = findViewById(R.id.tv_check_past_attendance);
 
             attandaceAlreadyTakenLL.setVisibility(View.VISIBLE);
             ok.setOnClickListener(new View.OnClickListener() {
@@ -499,10 +500,24 @@ public class FetchStudentList extends AppCompatActivity {
                 }
             });
 
-            updateAttendace.setOnClickListener(new View.OnClickListener() {
+            check_it.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(FetchStudentList.this,"stay tuned for this feature",Toast.LENGTH_SHORT).show();
+
+
+                    Intent i = new Intent(getApplicationContext(),CheckPastAttendance.class);
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("date",mDateSelected);
+                    bundle.putInt("period",mPeriod);
+                    bundle.putInt("class_id",mClass_id);
+
+                    Toast.makeText(FetchStudentList.this,""+mDateSelected+" "+mPeriod+" "+mClass_id,Toast.LENGTH_SHORT).show();
+                    i.putExtras(bundle);
+                    startActivity(i);
+                    finish();
+
                 }
             });
 

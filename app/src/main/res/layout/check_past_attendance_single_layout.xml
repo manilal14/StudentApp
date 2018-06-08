@@ -12,19 +12,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_marginLeft="8dp"
             android:id="@+id/tv_roll_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4"
+
             android:gravity="center"
             android:textSize="16dp"
-            android:textColor="@color/roll_no_color"
+            android:textColor="@color/white"
             android:background="@drawable/circle"/>
 
         <TextView
             android:id="@+id/tv_student_name"
-            android:layout_marginLeft   ="12dp"
+            android:layout_marginLeft="12dp"
             android:layout_width="wrap_content"
             android:singleLine="true"
             android:ellipsize="end"
@@ -34,6 +34,13 @@
             android:fontFamily="serif-monospace"
             android:textStyle="bold"
             android:textSize="16dp"/>
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_close"
+            android:background="@color/red"/>
 
     </LinearLayout>
 

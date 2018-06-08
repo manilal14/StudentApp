@@ -2,17 +2,19 @@ package com.example.mani.studentapp.AttendanceRelated;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mani.studentapp.R;
 
 import java.util.List;
+
+import static android.graphics.Color.parseColor;
 
 public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAdapter.PastAttendanceViewHolder>{
 
@@ -33,6 +35,7 @@ public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAd
         return new PastAttendanceViewHolder(v);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull PastAttendanceAdapter.PastAttendanceViewHolder holder, int position) {
 
@@ -42,9 +45,17 @@ public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAd
         holder.tv_name.setText(aStudent.getName());
 
         if(aStudent.getStatus() == 0) {
-            holder.tv_name.setTextColor(Color.parseColor("#E50303"));
+
+            holder.tv_name.setTextColor(parseColor("#E50303"));
+            holder.icon.setBackgroundResource(R.drawable.ic_close);
+            holder.icon.setBackgroundColor(parseColor("#E50303"));
+        }
+        else{
+            holder.tv_name.setTextColor(parseColor("#000000"));
+            holder.icon.setBackgroundResource(R.drawable.ic_check_box);
 
         }
+
     }
 
     @Override
@@ -54,13 +65,16 @@ public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAd
 
     public class PastAttendanceViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tv_roll_no, tv_name;
+        TextView tv_roll_no;
+        TextView tv_name;
+        ImageView icon;
 
         public PastAttendanceViewHolder(View itemView) {
             super(itemView);
 
             tv_roll_no = itemView.findViewById(R.id.tv_roll_no);
             tv_name    = itemView.findViewById(R.id.tv_student_name);
+            icon       = itemView.findViewById(R.id.image_view);
         }
     }
 }

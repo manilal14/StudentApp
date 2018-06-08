@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,12 +29,20 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 
 public class CheckPastAttendance extends AppCompatActivity {
 
-     List<PastAttendance> mPastAttendanceList;
+    List<PastAttendance> mPastAttendanceList;
+
+    LinearLayout mMainLayout;
+    ProgressBar mProgressBar;
+    LinearLayout mErrorLinearLayout;
+    TextView mErrorTextView;
+    Button mRetry;
+
 
 
     @Override
@@ -40,20 +52,33 @@ public class CheckPastAttendance extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        String date  = bundle.getString("date");
-        int period   = bundle.getInt("period");
-        int class_id = bundle.getInt("class_id");
+        final String date  = bundle.getString("date");
+        final int period   = bundle.getInt("period");
+        final int class_id = bundle.getInt("class_id");
 
         mPastAttendanceList = new ArrayList<>();
 
-        /*Toast.makeText(CheckPastAttendance.this,""+date+" "+period+"  "+class_id,
-                Toast.LENGTH_SHORT).show();*/
+        mMainLayout         = findViewById(R.id.main_check_past_attendance_layout);
+        mProgressBar        = findViewById(R.id.progress_bar);
+        mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
+        mErrorTextView      = findViewById(R.id.tv_error_message);
+        mRetry              = findViewById(R.id.btn_retry);
 
         fetchPastAttendance(date, period, class_id);
+
+        mRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchPastAttendance(date,period,class_id);
+                mErrorLinearLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void fetchPastAttendance(final String date, final int period, final int class_id) {
 
+        mMainLayout.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         String FETCH_PAST_ATTENDANCE_URL = BASE_URL_ATTENDANCE + "fetch_past_attendance.php";
 
@@ -65,31 +90,38 @@ public class CheckPastAttendance extends AppCompatActivity {
 
                        /*Toast.makeText(CheckPastAttendance.this,""+response,
                                 Toast.LENGTH_SHORT).show();*/
+                       try {
 
-                        try {
+                           JSONArray  jsonArray = new JSONArray(response);
 
-                            JSONArray  jsonArray = new JSONArray(response);
+                           if(jsonArray.length() == 0){
 
-                            if(jsonArray.length() == 0){
-                                Toast.makeText(CheckPastAttendance.this,"Attendance not taken yet",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                               mProgressBar.setVisibility(View.GONE);
+                               mErrorLinearLayout.setVisibility(View.VISIBLE);
+                               getSupportActionBar().hide();
+                               mErrorTextView.setText("Attendence yet not taken.");
+                               mRetry.setText("OK");
+                               mRetry.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       finish();
+                                   }
+                               });
+                               return;
+                           }
 
                             // common variables to all
+                           JSONObject zeroJsonObject =  jsonArray.getJSONObject(0);
 
-                            JSONObject zeroJsonObject =  jsonArray.getJSONObject(0);
-
-                            int duration = zeroJsonObject.getInt("duration");
-                            String sub   = zeroJsonObject.getString("subject_name");
+                           int duration    = zeroJsonObject.getInt("duration");
+                           String subject  = zeroJsonObject.getString("subject_name");
 
 
-                            for(int i=0; i<jsonArray.length();i++){
+                           for(int i=0; i<jsonArray.length();i++){
 
-                                JSONObject temp = jsonArray.getJSONObject(i);
-
-                                String name = temp.getString("student_name");
-                                int status  = temp.getInt("status");
+                               JSONObject temp = jsonArray.getJSONObject(i);
+                               String name = temp.getString("student_name");
+                               int status  = temp.getInt("status");
 
                                 mPastAttendanceList.add(new PastAttendance(i+1,name,status));
                            }
@@ -97,18 +129,31 @@ public class CheckPastAttendance extends AppCompatActivity {
                            /*Toast.makeText(CheckPastAttendance.this,"sfsr",
                                     Toast.LENGTH_SHORT).show();*/
 
+                           TextView tv_date;
+                           TextView tv_period;
+                           TextView tv_subject;
+                           TextView tv_duration;
+
+                           tv_date     = findViewById(R.id.tv_date);
+                           tv_period   = findViewById(R.id.tv_period);
+                           tv_subject  = findViewById(R.id.tv_subject);
+                           tv_duration = findViewById(R.id.tv_duration);
+
+                           mProgressBar.setVisibility(View.GONE);
+                           mMainLayout.setVisibility(View.VISIBLE);
+
+                           tv_date.setText(date);
+                           tv_period.setText(String.valueOf("P"+period));
+                           tv_subject.setText(subject);
+                           tv_duration.setText(String.valueOf(duration+" hrs"));
+
                            RecyclerView recyclerView = findViewById(R.id.recycler_view_check_past_attendance);
-
-                            PastAttendanceAdapter pastAttendanceAdapter = new PastAttendanceAdapter(
+                           PastAttendanceAdapter pastAttendanceAdapter = new PastAttendanceAdapter(
                                     CheckPastAttendance.this,mPastAttendanceList);
+                           recyclerView.setLayoutManager(new LinearLayoutManager(CheckPastAttendance.this));
+                           recyclerView.setAdapter(pastAttendanceAdapter);
 
-                            recyclerView.setLayoutManager(new LinearLayoutManager(CheckPastAttendance.this));
-                            recyclerView.setAdapter(pastAttendanceAdapter);
-
-
-
-
-                        } catch (JSONException e) {
+                       } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -118,6 +163,7 @@ public class CheckPastAttendance extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
             }
         }){
             @Override

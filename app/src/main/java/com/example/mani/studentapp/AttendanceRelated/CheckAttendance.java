@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.mani.studentapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.studentapp.CommonVariablesAndFunctions.retrySeconds;
 
@@ -45,7 +46,7 @@ public class CheckAttendance extends AppCompatActivity {
 
     ArrayList<AttendanceReport> mAttandanceList;
 
-    String FETCH_ATTENDANCE_URL = "http://192.168.43.154/studentApp_attendance/fetch_attendance_fron_database.php";
+    String FETCH_ATTENDANCE_URL = BASE_URL_ATTENDANCE+"fetch_attendance_fron_database.php";
 
 
     @Override

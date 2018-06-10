@@ -1,25 +1,18 @@
 package com.example.mani.studentapp.AttendanceRelated;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -133,7 +126,7 @@ public class FetchSubjectList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setDialogBox() {
+   /* private void setDialogBox() {
 
         Context context = FetchSubjectList.this;
         final AlertDialog.Builder alertDialog;
@@ -205,7 +198,7 @@ public class FetchSubjectList extends AppCompatActivity {
         });
 
         alertDialog.show();
-    }
+    }*/
 
     private void loadSubjectsFromDatabase() {
 

@@ -481,7 +481,9 @@ public class FetchStudentList extends AppCompatActivity {
                 }
             });
         }
+
         // Response message if attendance is already taken
+        // option to see past attndence
         else if(responseCode == 0){
 
             LinearLayout attandaceAlreadyTakenLL;
@@ -513,7 +515,8 @@ public class FetchStudentList extends AppCompatActivity {
                     bundle.putInt("period",mPeriod);
                     bundle.putInt("class_id",mClass_id);
 
-                    Toast.makeText(FetchStudentList.this,""+mDateSelected+" "+mPeriod+" "+mClass_id,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(FetchStudentList.this,""+mDateSelected+" "+mPeriod+" "+mClass_id,Toast.LENGTH_SHORT).show();
+
                     i.putExtras(bundle);
                     startActivity(i);
                     finish();

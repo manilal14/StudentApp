@@ -1,9 +1,16 @@
 package com.example.mani.studentapp.AttendanceRelated;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -43,6 +50,11 @@ public class CheckPastAttendance extends AppCompatActivity {
     TextView mErrorTextView;
     Button mRetry;
 
+    String mDate;
+    int mPeriod;
+    int mClass_id;
+    String mSubjectName;
+    int mDuration;
 
 
     @Override
@@ -52,9 +64,9 @@ public class CheckPastAttendance extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        final String date  = bundle.getString("date");
-        final int period   = bundle.getInt("period");
-        final int class_id = bundle.getInt("class_id");
+        mDate     = bundle.getString("date");
+        mPeriod   = bundle.getInt("period");
+        mClass_id = bundle.getInt("class_id");
 
         mPastAttendanceList = new ArrayList<>();
 
@@ -64,18 +76,88 @@ public class CheckPastAttendance extends AppCompatActivity {
         mErrorTextView      = findViewById(R.id.tv_error_message);
         mRetry              = findViewById(R.id.btn_retry);
 
-        fetchPastAttendance(date, period, class_id);
+        fetchPastAttendance();
 
         mRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchPastAttendance(date,period,class_id);
+                fetchPastAttendance();
                 mErrorLinearLayout.setVisibility(View.GONE);
             }
         });
     }
 
-    private void fetchPastAttendance(final String date, final int period, final int class_id) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_past_attendance,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id){
+
+            case R.id.check_past_attendance_info :
+                creatDialogForMoreInfo();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void creatDialogForMoreInfo() {
+
+        final AlertDialog.Builder alertDialog;
+        Context mCtx = CheckPastAttendance.this;
+
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        final View v = inflater.inflate(R.layout.dialog_past_attandance_info,null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            alertDialog = new AlertDialog.Builder(mCtx,android.
+                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth);
+        } else {
+            alertDialog = new AlertDialog.Builder(mCtx);
+        }
+
+        alertDialog.setView(v);
+
+        TextView tv_date    = v.findViewById(R.id.date);
+        TextView tv_subject = v.findViewById(R.id.subject);
+        TextView tv_period  = v.findViewById(R.id.peroid);
+        TextView tv_no_of_hrs      = v.findViewById(R.id.no_of_hrs);
+        TextView tv_total_strength = v.findViewById(R.id.total_strength);
+        TextView tv_present        = v.findViewById(R.id.present);
+
+        int total_strength = mPastAttendanceList.size();
+        int present = 0;
+
+        for(int i=0;i<mPastAttendanceList.size();i++){
+            if(mPastAttendanceList.get(i).getStatus() == 1)
+                present ++;
+        }
+
+        tv_date.setText(mDate);
+        tv_subject.setText(mSubjectName);
+        tv_period.setText(String.valueOf(mPeriod));
+        tv_no_of_hrs.setText(String.valueOf(maxNoOfTries));
+        tv_total_strength.setText(String.valueOf(total_strength));
+        tv_present.setText(String.valueOf(present));
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void fetchPastAttendance() {
 
         mMainLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -112,9 +194,8 @@ public class CheckPastAttendance extends AppCompatActivity {
 
                             // common variables to all
                            JSONObject zeroJsonObject =  jsonArray.getJSONObject(0);
-
-                           int duration    = zeroJsonObject.getInt("duration");
-                           String subject  = zeroJsonObject.getString("subject_name");
+                           mDuration    = zeroJsonObject.getInt("duration");
+                           mSubjectName = zeroJsonObject.getString("subject_name");
 
 
                            for(int i=0; i<jsonArray.length();i++){
@@ -142,10 +223,10 @@ public class CheckPastAttendance extends AppCompatActivity {
                            mProgressBar.setVisibility(View.GONE);
                            mMainLayout.setVisibility(View.VISIBLE);
 
-                           tv_date.setText(date);
-                           tv_period.setText(String.valueOf("P"+period));
-                           tv_subject.setText(subject);
-                           tv_duration.setText(String.valueOf(duration+" hrs"));
+                           tv_date.setText(mDate);
+                           tv_period.setText(String.valueOf("P"+mPeriod));
+                           tv_subject.setText(mSubjectName);
+                           tv_duration.setText(String.valueOf(mDuration+" hrs"));
 
                            RecyclerView recyclerView = findViewById(R.id.recycler_view_check_past_attendance);
                            PastAttendanceAdapter pastAttendanceAdapter = new PastAttendanceAdapter(
@@ -170,9 +251,9 @@ public class CheckPastAttendance extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
 
-                params.put("date",date);
-                params.put("class_id",String.valueOf(class_id));
-                params.put("period",String.valueOf(period));
+                params.put("date",mDate);
+                params.put("class_id",String.valueOf(mClass_id));
+                params.put("period",String.valueOf(mPeriod));
 
                 return params;
             }

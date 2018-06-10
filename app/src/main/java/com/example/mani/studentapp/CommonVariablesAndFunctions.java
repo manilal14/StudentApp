@@ -21,8 +21,8 @@ public class CommonVariablesAndFunctions {
 
     public static final int retrySeconds = 5;
     public static final int maxNoOfTries = 1;
-    public static final String BASE_URL = "http://192.168.43.154/studentApp/";
-    public static final String BASE_URL_ATTENDANCE = "http://192.168.43.154/studentApp_attendance/";
+    public static final String BASE_URL = "http://192.168.43.153/studentApp/";
+    public static final String BASE_URL_ATTENDANCE = "http://192.168.43.153/studentApp_attendance/";
 
     public static boolean postingNewFeed = false;
     public static boolean skipedLogin = false;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StudentApp</string>
+    <string name="app_name">SudoApp</string>
     <string name="title_activity_news_feed">News Feed</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -55,6 +55,9 @@
     <string name="volley_error">Volly Error</string>
     <string name="female">female</string>
     <string name="male">male</string>
+    <string name="feed_title">Feed Title...</string>
+    <string name="feed_describtion">Feed Describtion...</string>
+    <string name="submit_feed">Submit Feed</string>
 
 
 </resources>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mani.studentapp.NewsRelaled.PostNewFeed">
+    tools:context="com.example.mani.sudoapp.NewsRelaled.PostNewFeed">
 
     <RelativeLayout
         android:id="@+id/post_new_fee_layout"
@@ -30,8 +30,9 @@
             android:layout_below="@id/post_new_feed_imageview"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:inputType="text"
             android:background="@drawable/input_outline"
-            android:hint="Feed Title..."
+            android:hint="@string/feed_title"
             android:padding="12dp"
             android:singleLine="true"
             android:textStyle="bold" />
@@ -44,8 +45,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
+            android:inputType="text"
             android:background="@drawable/input_outline"
-            android:hint="Feed Describtion..."
+            android:hint="@string/feed_describtion"
             android:padding="12dp"
             android:singleLine="false" />
 
@@ -56,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
-            android:text="Submit Feed"
+            android:text="@string/submit_feed"
             android:textColor="@color/white" />
 
     </RelativeLayout>

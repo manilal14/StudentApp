@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.mani.studentapp.TimeTableRelated.EditTimeTable">
+    tools:context="com.example.mani.sudoapp.TimeTableRelated.EditTimeTable">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

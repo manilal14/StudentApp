@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mani.studentapp">
+    package="com.example.mani.sudoapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,7 +17,6 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,7 +31,7 @@
             android:screenOrientation="landscape">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name=".TimeTableRelated.EditTimeTable"
@@ -41,7 +40,7 @@
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name=".NewsRelaled.PostNewFeed"
@@ -49,7 +48,7 @@
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -63,21 +62,21 @@
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name=".AttendanceRelated.FetchStudentList"
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name=".AttendanceRelated.CheckAttendance"
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity android:name=".LoginPage" />
         <activity
@@ -86,7 +85,7 @@
             android:parentActivityName=".NewsRelaled.NewsFeed">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.studentapp.NewsRelaled.NewsFeed" />
+                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
         </activity>
         <activity
             android:name=".AttendanceRelated.CheckPastAttendance"

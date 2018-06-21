@@ -44,6 +44,8 @@ dependencies {
     // For circular image
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
+    //for pdf Viewer
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
 }
 

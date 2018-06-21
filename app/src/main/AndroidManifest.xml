@@ -17,6 +17,7 @@
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -89,8 +90,10 @@
         </activity>
         <activity
             android:name=".AttendanceRelated.CheckPastAttendance"
-            android:label="Attendance">
-        </activity>
+            android:label="Attendance"></activity>
+        <activity android:name=".ViewSyllabus"
+            android:label="Syllabus"
+            android:parentActivityName=".NewsRelaled.NewsFeed"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,6 @@
 package com.example.mani.sudoapp;
 
-import android.content.Context;
-import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -21,24 +18,14 @@ public class CommonVariablesAndFunctions {
 
     public static final int retrySeconds = 5;
     public static final int maxNoOfTries = 1;
-    public static final String BASE_URL = "http://192.168.43.153/studentApp/";
-    public static final String BASE_URL_ATTENDANCE = "http://192.168.43.153/studentApp_attendance/";
+    public static final String BASE_URL = "http://192.168.43.153/sudoApp/";
+    public static final String BASE_URL_ATTENDANCE = "http://192.168.43.153/sudoApp_attendance/";
+
+    public  static final String BASE_URL_SYLLABUS = BASE_URL + "syllabus/2015/";
 
     public static boolean postingNewFeed = false;
     public static boolean skipedLogin = false;
 
-    public static void setUpAleartBox(Context context,String title, String message){
-
-        final AlertDialog.Builder alertDialog;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            alertDialog = new AlertDialog.Builder(context,android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth);
-        } else {
-            alertDialog = new AlertDialog.Builder(context);
-        }
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-    }
 
     public static void handleVolleyError(VolleyError error, SwipeRefreshLayout swipeRefreshLayout,
                                          TextView errorTextView, LinearLayout linearLayout){

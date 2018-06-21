@@ -1,7 +1,9 @@
 package com.example.mani.sudoapp.NewsRelaled;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,12 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,7 @@ import com.example.mani.sudoapp.LoginPage;
 import com.example.mani.sudoapp.LoginSessionManager;
 import com.example.mani.sudoapp.R;
 import com.example.mani.sudoapp.TimeTableRelated.TimeTable;
+import com.example.mani.sudoapp.ViewSyllabus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -234,7 +240,8 @@ public class NewsFeed extends AppCompatActivity
         } else if (id == R.id.nav_certificate) {
 
         } else if (id == R.id.nav_syllabus) {
-
+            //startActivity(new Intent(NewsFeed.this, ViewSyllabus.class));
+            launchSyllabusOption();
         } else if (id == R.id.nav_about) {
 
         }
@@ -242,6 +249,75 @@ public class NewsFeed extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void launchSyllabusOption() {
+
+        final Context mCtx = NewsFeed.this;
+
+        final AlertDialog alertDialog;
+
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        final View v = inflater.inflate(R.layout.dialog_view_syllabus,null);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            alertDialog = new AlertDialog.Builder(mCtx,android.
+                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth).create();
+        } else {
+            alertDialog = new AlertDialog.Builder(mCtx).create();
+        }
+
+        alertDialog.setView(v);
+
+        final Spinner s_branch   = v.findViewById(R.id.dialog_branch);
+        final Spinner s_semester = v.findViewById(R.id.dialog_semester);
+
+        TextView done    = v.findViewById(R.id.dialog_done);
+        TextView cancel  = v.findViewById(R.id.dialog_cancel);
+
+        String[] branch_spinner= {"IT","CS","EC"};
+        Integer[] sem_spinner  = {3,4,5,6,7,8};
+
+        ArrayAdapter<String> adapter_for_period = new ArrayAdapter<>(mCtx,
+                android.R.layout.simple_list_item_1,branch_spinner);
+        s_branch.setAdapter(adapter_for_period);
+
+        ArrayAdapter<Integer> adapter_for_class = new ArrayAdapter<>(mCtx,
+                android.R.layout.simple_list_item_1,sem_spinner);
+        s_semester.setAdapter(adapter_for_class);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String branch     = (String) s_branch.getSelectedItem();
+                Integer semester  = (Integer) s_semester.getSelectedItem();
+
+                //Toast.makeText(mCtx,""+branch+" "+semester,Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(mCtx,ViewSyllabus.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("branch",branch);
+                bundle.putInt("semester",semester);
+
+                i.putExtras(bundle);
+                mCtx.startActivity(i);
+                alertDialog.dismiss();
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void setNavigationHeader(){

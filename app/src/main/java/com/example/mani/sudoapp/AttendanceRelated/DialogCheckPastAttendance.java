@@ -33,7 +33,6 @@ public class DialogCheckPastAttendance {
     Spinner mDialogClass;
 
     public DialogCheckPastAttendance(Context mCtx, List <Subject> subjectList){
-
         this.mCtx = mCtx;
         this.subjectList = subjectList;
     }

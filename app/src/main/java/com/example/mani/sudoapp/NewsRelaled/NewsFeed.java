@@ -34,12 +34,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mani.sudoapp.AdminSingnup;
 import com.example.mani.sudoapp.AttendanceRelated.AttendanceHomePage;
 import com.example.mani.sudoapp.EditProfile;
 import com.example.mani.sudoapp.LoginPage;
 import com.example.mani.sudoapp.LoginSessionManager;
 import com.example.mani.sudoapp.R;
-import com.example.mani.sudoapp.TimeTableRelated.TimeTable;
 import com.example.mani.sudoapp.ViewSyllabus;
 
 import org.json.JSONArray;
@@ -229,8 +229,9 @@ public class NewsFeed extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_timetable) {
-            startActivity(new Intent(NewsFeed.this,TimeTable.class));
+        if (id == R.id.nav_admin_signup ) {
+            startActivity(new Intent(NewsFeed.this,AdminSingnup.class));
+            //startActivity(new Intent(NewsFeed.this,TimeTable.class));
 
         } else if (id == R.id.nav_attendence) {
             startActivity(new Intent(NewsFeed.this, AttendanceHomePage.class));

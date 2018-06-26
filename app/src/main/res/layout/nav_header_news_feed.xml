@@ -23,7 +23,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:src="@drawable/ic_female" />
+            android:src="@drawable/ic_male" />
 
         <TextView
             android:id="@+id/header_name"
@@ -41,20 +41,4 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/header_edit_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:padding="16dp"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/pencil_white"/>
-
-    </RelativeLayout>
 </FrameLayout>

@@ -82,9 +82,9 @@ public class LoginPage extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        btn_login  = findViewById(R.id.btn_login);
+        btn_login    = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
-        skip       = findViewById(R.id.tv_skip);
+        skip         = findViewById(R.id.tv_skip);
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,19 +135,19 @@ public class LoginPage extends AppCompatActivity {
 
     private void loginToSudoApp() {
 
-        final EditText et_login, etPassword;
-        final String student_id;
+        final EditText et_email, et_password;
+        final String email;
         final String password;
 
-        final String URL_LOGIN = BASE_URL_ATTENDANCE + "login.php";
+        final String URL_LOGIN = BASE_URL_ATTENDANCE + "sudo_login.php";
 
-        et_login    = findViewById(R.id.et_login_userid);
-        etPassword  = findViewById(R.id.et_login_password);
+        et_email    = findViewById(R.id.et_login_userid);
+        et_password = findViewById(R.id.et_login_password);
 
-        student_id = et_login.getText().toString().trim();
-        password = etPassword.getText().toString().trim();
+        email    = et_email.getText().toString().trim();
+        password = et_password.getText().toString().trim();
 
-        if(student_id.equals("") || password.equals("")){
+        if(email.equals("") || password.equals("")){
             Toast.makeText(LoginPage.this, "Enter user_id and password", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -165,11 +165,11 @@ public class LoginPage extends AppCompatActivity {
 
                         try {
 
-                            JSONArray studentArray = new JSONArray(response);
-                            JSONObject studentObj = studentArray.getJSONObject(0);
+                            JSONArray jsonArray   = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                            int responseCode = studentObj.getInt("response_code");
-                            String message   = studentObj.getString("message");
+                            int responseCode = jsonObject.getInt("response_code");
+                            String message   = jsonObject.getString("message");
 
                             //Toast.makeText(LoginPage.this,""+responseCode,Toast.LENGTH_SHORT).show();
 
@@ -178,44 +178,30 @@ public class LoginPage extends AppCompatActivity {
                                 mErrorLinearLayout.setVisibility(View.VISIBLE);
                                 mErrorTextView.setText("UserId or password is incorrect");
                                 //Toast.makeText(LoginPage.this, "" + message, Toast.LENGTH_SHORT).show();
-                                etPassword.setText("");
-
+                                et_password.setText("");
 
                                 return;
                             }
 
                             if(responseCode == 1){
 
-                                String student_id   = studentObj.getString("student_id");
-                                String name         = studentObj.getString("name");
-                                String semester     = studentObj.getString("semester");
-                                String college_name = studentObj.getString("college_name");
-                                String branch_name  = studentObj.getString("branch_name");
-                                String class_name   = studentObj.getString("class_name");
+                                String sudouser  = jsonObject.getString("sudouser");
+                                String sudoemail = jsonObject.getString("email");
 
-                                String dob          = studentObj.getString("dob");
-                                String contact_no   = studentObj.getString("contact_no");
-
-                                String email        = studentObj.getString("email");
-                                String password     = studentObj.getString("password");
-
-                                String gender       = studentObj.getString("gender");
 
 
                                 // Need to save all these in sharedPreference
 
                                 LoginSessionManager session = new LoginSessionManager(LoginPage.this);
 
-                                session.createLoginSession(student_id,password,
-                                        college_name,branch_name,class_name,semester,
-                                        name,dob,contact_no,email,gender);
+                                session.createLoginSession(sudouser,sudoemail);
 
                                 // I think there is no need for this as it will be automatically disable
                                 // as soon as new activity will start
                                 mProgressBar.setVisibility(View.GONE);
 
                                 startActivity(new Intent(LoginPage.this,NewsFeed.class));
-                                Toast.makeText(LoginPage.this,"Welcome "+name,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginPage.this,"Welcome "+sudouser,Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                             else {
@@ -240,7 +226,7 @@ public class LoginPage extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String,String> params = new HashMap<>();
-                params.put("student_id",student_id);
+                params.put("email",email);
                 params.put("password",password);
 
                 return params;

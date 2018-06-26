@@ -36,7 +36,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mani.sudoapp.AdminSignup;
 import com.example.mani.sudoapp.AttendanceRelated.AttendanceHomePage;
-import com.example.mani.sudoapp.EditProfile;
 import com.example.mani.sudoapp.LoginPage;
 import com.example.mani.sudoapp.LoginSessionManager;
 import com.example.mani.sudoapp.R;
@@ -230,17 +229,36 @@ public class NewsFeed extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_admin_signup ) {
+            if(mLoginSession.isLoggedIn() == false){
+                Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
+                return true;
+            }
             startActivity(new Intent(NewsFeed.this,AdminSignup.class));
 
         } else if (id == R.id.nav_attendence) {
+            if(mLoginSession.isLoggedIn() == false){
+                Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
+                return true;
+            }
             startActivity(new Intent(NewsFeed.this, AttendanceHomePage.class));
 
         } else if (id == R.id.nav_chatroom) {
+            if(mLoginSession.isLoggedIn() == false){
+                Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
+                return true;
+            }
 
         } else if (id == R.id.nav_certificate) {
+            if(mLoginSession.isLoggedIn() == false){
+                Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
+                return true;
+            }
 
         } else if (id == R.id.nav_syllabus) {
-            //startActivity(new Intent(NewsFeed.this, ViewSyllabus.class));
+            if(mLoginSession.isLoggedIn() == false){
+                Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
+                return true;
+            }
             launchSyllabusOption();
         } else if (id == R.id.nav_about) {
 
@@ -324,45 +342,28 @@ public class NewsFeed extends AppCompatActivity
 
         View header;
         TextView headerName,headerEmail;
-        ImageView headerProfilePic, headerEditProfile;
+        ImageView profile_pic;
 
         header = mNavigationView.getHeaderView(0);
 
-        headerName         = header.findViewById(R.id.header_name);
-        headerEmail        = header.findViewById(R.id.header_email);
-        headerProfilePic   = header.findViewById(R.id.header_image);
-        headerEditProfile  = header.findViewById(R.id.header_edit_profile);
+        headerName  = header.findViewById(R.id.header_name);
+        headerEmail = header.findViewById(R.id.header_email);
+        profile_pic = header.findViewById(R.id.header_image);
 
-        headerEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mLoginSession.isLoggedIn()) {
-                    // First close the drawer then start activity
-                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-                    startActivity(new Intent(NewsFeed.this, EditProfile.class));
-                }
-                else
-                    Toast.makeText(NewsFeed.this,"You must Login to edit your profile",
-                            Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         HashMap<String, String> student = mLoginSession.getStudentDetailsFromSharedPreference();
 
         String name       = student.get(LoginSessionManager.KEY_NAME);
         String email      = student.get(LoginSessionManager.KEY_EMAIL);
-        String gender     = student.get(LoginSessionManager.KEY_GENDER);
 
         headerName.setText(name);
         headerEmail.setText(email);
 
-        if(skipedLogin == false) {
-            if (gender.equals("0"))
-                headerProfilePic.setImageResource(R.drawable.me);
-            else
-                headerProfilePic.setImageResource(R.drawable.ic_female);
+        if(mLoginSession.isLoggedIn()){
+            profile_pic.setImageResource(R.drawable.me);
         }
+
     }
 
     private void loadFeedsFromDatabase()

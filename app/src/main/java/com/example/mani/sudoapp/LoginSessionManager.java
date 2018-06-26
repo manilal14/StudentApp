@@ -18,19 +18,9 @@ public class LoginSessionManager {
     private static final String PREF_NAME = "LoginPreference";
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    public static final String KEY_STUDENT_ID = "student_id";
-    private final String KEY_PASSWORD = "password";
-
-    public static final String KEY_SEMESTER = "semester";
-    public static final String KEY_COLLEGE  = "college";
-    public static final String KEY_BRANCH   = "branch";
-    public static final String KEY_CLASS    = "class";
 
     public static final String KEY_NAME     = "name";
-    public static final String KEY_DOB      = "dob";
-    public static final String KEY_CONTACT  = "contact";
     public static final String KEY_EMAIL    = "email";
-    public static final String KEY_GENDER   = "gender";
 
     // constructor
     public LoginSessionManager(Context context) {
@@ -39,41 +29,14 @@ public class LoginSessionManager {
         editor = pref.edit();
     }
 
-   public void createLoginSession(String student_id, String password,
-                                   String college, String branch, String class_name,String sem,
-                                   String name, String dob, String contact, String email, String gender)
-
-    {
+    public void createLoginSession(String name, String email) {
 
         editor.putBoolean(IS_LOGIN, true);
 
-        editor.putString(KEY_STUDENT_ID, student_id);
-        editor.putString(KEY_PASSWORD, password);
-
-        editor.putString(KEY_COLLEGE,college);
-        editor.putString(KEY_BRANCH,branch);
-        editor.putString(KEY_CLASS,class_name);
-        editor.putString(KEY_SEMESTER,sem);
-
         editor.putString(KEY_NAME,name);
-        editor.putString(KEY_DOB,dob);
-        editor.putString(KEY_CONTACT,contact);
         editor.putString(KEY_EMAIL,email);
-        editor.putString(KEY_GENDER,gender);
 
         editor.commit();
-    }
-
-    public void updatePreference(String password, String dob, String contact, String email, String gender){
-
-        editor.putString(KEY_PASSWORD, password);
-        editor.putString(KEY_DOB,dob);
-        editor.putString(KEY_CONTACT,contact);
-        editor.putString(KEY_EMAIL,email);
-        editor.putString(KEY_GENDER,gender);
-
-        editor.commit();
-
     }
 
     public void checkLogin() {
@@ -97,21 +60,8 @@ public class LoginSessionManager {
 
         HashMap<String, String> user = new HashMap<String, String>();
 
-        user.put(KEY_STUDENT_ID, pref.getString(KEY_STUDENT_ID, null));
-        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
-
-        user.put(KEY_COLLEGE, pref.getString(KEY_COLLEGE, null));
-        user.put(KEY_BRANCH, pref.getString(KEY_BRANCH, null));
-        user.put(KEY_CLASS, pref.getString(KEY_CLASS, null));
-        user.put(KEY_SEMESTER, pref.getString(KEY_SEMESTER, null));
-
         user.put(KEY_NAME, pref.getString(KEY_NAME, "You are Awesome"));
-        user.put(KEY_DOB, pref.getString(KEY_DOB, null));
-        user.put(KEY_CONTACT, pref.getString(KEY_CONTACT, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "someoneawesom@gmail.com"));
-
-        // gender is saved as int in shared pref but in HashMap it is passed as String
-        user.put(KEY_GENDER, pref.getString(KEY_GENDER, null));
 
         return user;
     }

@@ -91,8 +91,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:layout_marginTop="4dp"
-                            android:hint="USERID"
-                            android:inputType="number" />
+                            android:hint="EMAIL"
+                            android:inputType="textEmailAddress" />
 
                     </android.support.design.widget.TextInputLayout>
 

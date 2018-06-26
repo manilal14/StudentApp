@@ -105,7 +105,7 @@ public class LoginPage extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginToStudentApp();
+                loginToSudoApp();
             }
         });
 
@@ -133,7 +133,7 @@ public class LoginPage extends AppCompatActivity {
         }, 2000);
     }
 
-    private void loginToStudentApp() {
+    private void loginToSudoApp() {
 
         final EditText et_login, etPassword;
         final String student_id;

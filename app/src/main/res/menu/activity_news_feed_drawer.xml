@@ -5,9 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_timetable"
+            android:id="@+id/nav_admin_signup"
             android:icon="@mipmap/timetable"
-            android:title="TimeTable" />
+            android:title="Admin Signup" />
         <item
             android:id="@+id/nav_attendence"
             android:icon="@mipmap/attendence"

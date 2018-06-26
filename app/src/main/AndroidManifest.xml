@@ -26,24 +26,6 @@
             android:label="@string/title_activity_news_feed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TimeTableRelated.TimeTable"
-            android:label="Time Table"
-            android:parentActivityName=".NewsRelaled.NewsFeed"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
-        </activity>
-        <activity
-            android:name=".TimeTableRelated.EditTimeTable"
-            android:label="Edit TimeTable"
-            android:noHistory="true"
-            android:parentActivityName=".NewsRelaled.NewsFeed">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mani.sudoapp.NewsRelaled.NewsFeed" />
-        </activity>
-        <activity
             android:name=".NewsRelaled.PostNewFeed"
             android:label="Add New Feed"
             android:parentActivityName=".NewsRelaled.NewsFeed">
@@ -90,10 +72,16 @@
         </activity>
         <activity
             android:name=".AttendanceRelated.CheckPastAttendance"
-            android:label="Attendance"></activity>
-        <activity android:name=".ViewSyllabus"
+            android:label="Attendance" />
+        <activity
+            android:name=".ViewSyllabus"
             android:label="Syllabus"
-            android:parentActivityName=".NewsRelaled.NewsFeed"></activity>
+            android:parentActivityName=".NewsRelaled.NewsFeed" />
+        <activity
+            android:name=".AdminSignup"
+            android:label="Admin Signup"
+            android:parentActivityName=".NewsRelaled.NewsFeed">
+        </activity>
     </application>
 
 </manifest>

@@ -18,10 +18,12 @@ public class CommonVariablesAndFunctions {
 
     public static final int retrySeconds = 5;
     public static final int maxNoOfTries = 1;
-    public static final String BASE_URL = "http://192.168.43.153/sudoApp/";
-    public static final String BASE_URL_ATTENDANCE = "http://192.168.43.153/sudoApp_attendance/";
+    //public static final String BASE_URL = "http://192.168.43.153/sudoApp/";
+    //public static final String BASE_URL_ATTENDANCE = "http://192.168.43.153/sudoApp_attendance/";
 
-    public  static final String BASE_URL_SYLLABUS = BASE_URL + "syllabus/2015/";
+    public static final String BASE_URL_ATTENDANCE = "https://sudoapp.000webhostapp.com/";
+
+    public  static final String BASE_URL_SYLLABUS = BASE_URL_ATTENDANCE + "syllabus/2015/";
 
     public static boolean postingNewFeed = false;
     public static boolean skipedLogin = false;

@@ -48,7 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL;
+import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.postingNewFeed;
@@ -72,7 +72,7 @@ public class NewsFeed extends AppCompatActivity
     LoginSessionManager mLoginSession;
 
 
-    private static final String FETCHING_URL = BASE_URL + "fetch_from_database_to_app.php";
+    private static final String FETCHING_URL = BASE_URL_ATTENDANCE + "fetch_from_database_to_app.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -397,7 +397,7 @@ public class NewsFeed extends AppCompatActivity
                                 int imageInt     = productObject.getInt("image_path");
                                 String image = Integer.toString(imageInt) + ".jpeg";
 
-                                image = BASE_URL + "uploaded_image/" + image;
+                                image = BASE_URL_ATTENDANCE + "uploaded_image/" + image;
 
                                 Feeds feeds = new Feeds(id,title,description,image);
                                 mFeedsList.add(feeds);

@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL;
+import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.handleVolleyError;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.postingNewFeed;
@@ -54,7 +54,7 @@ public class PostNewFeed extends AppCompatActivity {
 
     ProgressBar mProgressBar;
 
-    private static final  String uploadUrl = BASE_URL +  "upload_data_from_app_to_database.php";
+    private static final  String uploadUrl = BASE_URL_ATTENDANCE +  "upload_data_from_app_to_database.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

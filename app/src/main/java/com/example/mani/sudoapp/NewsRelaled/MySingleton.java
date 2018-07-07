@@ -15,7 +15,7 @@ public class MySingleton {
 
     private static MySingleton mInstance;
     private RequestQueue requestQueue;
-    private static Context mCtx;
+    private Context mCtx;
 
     private MySingleton(Context context)
     {
@@ -25,8 +25,9 @@ public class MySingleton {
 
     private RequestQueue getRequestQueue()
     {
-        if(requestQueue==null)
+        if(requestQueue==null) {
             requestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+        }
         return requestQueue;
     }
     public static synchronized MySingleton getInstance(Context context)
@@ -39,6 +40,7 @@ public class MySingleton {
     }
     public<T> void addToRequestQueue(Request<T> request)
     {
+        request.setShouldCache(false);
         getRequestQueue().add(request);
     }
 

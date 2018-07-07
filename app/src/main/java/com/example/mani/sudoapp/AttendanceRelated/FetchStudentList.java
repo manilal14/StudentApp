@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +47,7 @@ import static com.example.mani.sudoapp.CommonVariablesAndFunctions.handleVolleyE
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.retrySeconds;
 
+
 public class FetchStudentList extends AppCompatActivity {
 
     RecyclerView recyclerView_studentList;
@@ -64,7 +64,7 @@ public class FetchStudentList extends AppCompatActivity {
     LinearLayout mStudentListLayout;
 
     ProgressBar mProgressBar;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    //SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout mErrorLinearLayout;
     TextView mErrorTextView;
     Button mRetry;
@@ -83,7 +83,6 @@ public class FetchStudentList extends AppCompatActivity {
 
         mStudentListLayout = findViewById(R.id.ll_student_list );
 
-        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mErrorLinearLayout  = findViewById(R.id.ll_error_layout);
         mErrorTextView      = findViewById(R.id.tv_error_message);
         mRetry              = findViewById(R.id.btn_retry);
@@ -129,16 +128,12 @@ public class FetchStudentList extends AppCompatActivity {
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_items);
         spinner_duration.setAdapter(adapter2);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadStudentsFromDatabase();
-            }
-        });
+
 
         mRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mErrorLinearLayout.setVisibility(View.GONE);
                 loadStudentsFromDatabase();
             }
         });
@@ -218,11 +213,10 @@ public class FetchStudentList extends AppCompatActivity {
     }
 
 
-
-
     private void loadStudentsFromDatabase() {
 
-        mSwipeRefreshLayout.setRefreshing(true);
+        // mSwipeRefreshLayout.setRefreshing(true);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         StringRequest stringRequest =  new StringRequest(Request.Method.POST, FETCH_STUDENTS_URL,
                 new Response.Listener<String>() {
@@ -235,16 +229,14 @@ public class FetchStudentList extends AppCompatActivity {
                             mStudentAdapter.clear();
                             mStudentAdapter.addAll(mStudentList);
                         }
-
-
                         try{
 
                             JSONArray students = new JSONArray(response);
 
                             if(students.length() == 0){
-                                mSwipeRefreshLayout.setRefreshing(false);
+                                mProgressBar.setVisibility(View.GONE);
                                 mErrorLinearLayout.setVisibility(View.VISIBLE);
-                                mErrorTextView.setText("No students are available !");
+                                mErrorTextView.setText("Not available");
                                 mRetry.setVisibility(View.GONE);
                                 return;
                             }
@@ -260,7 +252,7 @@ public class FetchStudentList extends AppCompatActivity {
                             }
 
                             mErrorLinearLayout.setVisibility(View.GONE);
-                            mSwipeRefreshLayout.setRefreshing(false);
+                            mProgressBar.setVisibility(View.GONE);
 
                             mStudentAdapter = new StudentAdapter(FetchStudentList.this,mStudentList);
                             recyclerView_studentList.setLayoutManager(new LinearLayoutManager(FetchStudentList.this));
@@ -275,7 +267,7 @@ public class FetchStudentList extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error,mSwipeRefreshLayout,mErrorTextView,mErrorLinearLayout);
+                handleVolleyError(error,mProgressBar,mErrorTextView,mErrorLinearLayout);
             }
         }){
 

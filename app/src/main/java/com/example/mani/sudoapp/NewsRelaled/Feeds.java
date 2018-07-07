@@ -8,6 +8,7 @@ public class Feeds {
     int id;
     private String title,desc;
     String image_path;
+    boolean isSelected = false;
 
     public Feeds(int id,String title, String desc,String image_path) {
         this.id = id;
@@ -28,5 +29,14 @@ public class Feeds {
 
     public String getDesc() {
         return desc;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+
+    public boolean isSelected() {
+        return isSelected;
     }
 }

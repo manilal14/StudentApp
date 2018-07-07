@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.handleVolleyError;
@@ -70,6 +73,8 @@ public class NewsFeed extends AppCompatActivity
     Menu mMenu;
 
     LoginSessionManager mLoginSession;
+
+    int feedCountToBeDeleted = 0;
 
 
     private static final String FETCHING_URL = BASE_URL_ATTENDANCE + "fetch_from_database_to_app.php";
@@ -155,7 +160,9 @@ public class NewsFeed extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
-        } else {
+        }
+
+        else {
 
             new AlertDialog.Builder(this)
                     .setTitle("Really Exit?")
@@ -205,6 +212,27 @@ public class NewsFeed extends AppCompatActivity
                 startActivity(new Intent(NewsFeed.this, LoginPage.class));
 
             finish();
+        }
+        else if(id == R.id.menu_delete_selected_items){
+            Log.e("MewsFeed","delete is clicked");
+            feedCountToBeDeleted = 0;
+            JSONArray jsonArray = new JSONArray();
+
+            for(int i=0;i<mFeedsList.size();i++){
+                Feeds feed = mFeedsList.get(i);
+                if(feed.isSelected()) {
+                    feedCountToBeDeleted++;
+                    jsonArray.put(feed.id);
+                }
+            }
+            if(feedCountToBeDeleted == 0)
+                Toast.makeText(NewsFeed.this,"Long press to select items",Toast.LENGTH_SHORT).show();
+
+            else{
+                //Toast.makeText(this, jsonArray.toString()+feedCountToBeDeleted, Toast.LENGTH_SHORT).show();
+                deleteSelectedItems(jsonArray);
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -366,8 +394,8 @@ public class NewsFeed extends AppCompatActivity
 
     }
 
-    private void loadFeedsFromDatabase()
-    {
+    private void loadFeedsFromDatabase() {
+
         mSwipeRefreshLayout.setRefreshing(true);
         mErrorLinearLayout.setVisibility(View.GONE);
 
@@ -429,7 +457,62 @@ public class NewsFeed extends AppCompatActivity
         Volley.newRequestQueue(this).add(stringRequest);
     }
 
+    private void deleteSelectedItems(final JSONArray jsonArray) {
 
+        mSwipeRefreshLayout.setRefreshing(true);
+        final String URL_DELETE_FEEDS = BASE_URL_ATTENDANCE+"delete_feeds.php";
+
+        StringRequest stringRequest =  new StringRequest(Request.Method.POST,URL_DELETE_FEEDS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("tag","onresponse");
+                        mSwipeRefreshLayout.setRefreshing(false);
+
+                        try {
+                            JSONArray json        = new JSONArray(response);
+                            JSONObject jsonObject = json.getJSONObject(0);
+
+                            int responseCode = jsonObject.getInt("responseCode");
+                            String message   = jsonObject.getString("message");
+
+                            Log.e("tag",message+responseCode);
+
+                            /*if(responseCode == 1){
+                                Toast.makeText(NewsFeed.this,message,Toast.LENGTH_SHORT).show();
+                            }*/
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        loadFeedsFromDatabase();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("tag",error.getMessage());
+                handleVolleyError(error,mSwipeRefreshLayout,mErrorTextView,mErrorLinearLayout);
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.e("tag","send parameter");
+                Map<String,String> params = new HashMap<>();
+                params.put("feeds_id",jsonArray.toString());
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy( (retrySeconds*1000),maxNoOfTries,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        MySingleton.getInstance(NewsFeed.this).addToRequestQueue(stringRequest);
+
+
+    }
 
 }
 

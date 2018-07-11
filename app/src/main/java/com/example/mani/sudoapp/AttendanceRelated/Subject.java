@@ -18,6 +18,16 @@ public class Subject {
         this.semester = semester;
     }
 
+    // only for checking past attandance
+    public Subject(int class_id, String class_name, String semester) {
+        this.class_id = class_id;
+        this.class_name = class_name;
+        this.semester = semester;
+
+        subject_id = 0;
+        subject_name = null;
+    }
+
     public int getSubject_id() {
         return subject_id;
     }

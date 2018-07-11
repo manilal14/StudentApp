@@ -38,6 +38,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mani.sudoapp.AdminSignup;
 import com.example.mani.sudoapp.AttendanceRelated.AttendanceHomePage;
+import com.example.mani.sudoapp.AttendanceRelated.DialogCheckPastAttendance;
+import com.example.mani.sudoapp.AttendanceRelated.Subject;
 import com.example.mani.sudoapp.LoginPage;
 import com.example.mani.sudoapp.LoginSessionManager;
 import com.example.mani.sudoapp.R;
@@ -49,6 +51,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.BASE_URL_ATTENDANCE;
@@ -75,6 +78,7 @@ public class NewsFeed extends AppCompatActivity
     LoginSessionManager mLoginSession;
 
     int feedCountToBeDeleted = 0;
+    List<Subject> mSubjectList;
 
 
     private static final String FETCHING_URL = BASE_URL_ATTENDANCE + "fetch_from_database_to_app.php";
@@ -140,6 +144,8 @@ public class NewsFeed extends AppCompatActivity
         setNavigationHeader();
 
         mFeedsList =  new ArrayList<>();
+        mSubjectList = new ArrayList<>();
+        addAllSubjects();
 
         loadFeedsFromDatabase();
 
@@ -150,7 +156,12 @@ public class NewsFeed extends AppCompatActivity
             }
         });
 
-        //setMenuTitle();
+    }
+
+    private void addAllSubjects() {
+
+        mSubjectList.add(new Subject(10005108,"IT-A","Sem-5"));
+        mSubjectList.add(new Subject(10005109,"IT-B","Sem-5"));
 
     }
 
@@ -214,7 +225,7 @@ public class NewsFeed extends AppCompatActivity
             finish();
         }
         else if(id == R.id.menu_delete_selected_items){
-            Log.e("MewsFeed","delete is clicked");
+            Log.e("NewFeed","delete is clicked");
             feedCountToBeDeleted = 0;
             JSONArray jsonArray = new JSONArray();
 
@@ -276,11 +287,14 @@ public class NewsFeed extends AppCompatActivity
                 return true;
             }
 
-        } else if (id == R.id.nav_certificate) {
+        } else if (id == R.id.nav_past_attendance) {
             if(mLoginSession.isLoggedIn() == false){
                 Toast.makeText(NewsFeed.this,"You have to login first",Toast.LENGTH_SHORT).show();
                 return true;
             }
+            DialogCheckPastAttendance checkPast = new DialogCheckPastAttendance(
+                    NewsFeed.this, mSubjectList);
+            checkPast.setDialogBox();
 
         } else if (id == R.id.nav_syllabus) {
             if(mLoginSession.isLoggedIn() == false){

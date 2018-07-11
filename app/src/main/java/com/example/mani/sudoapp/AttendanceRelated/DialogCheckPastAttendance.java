@@ -39,6 +39,21 @@ public class DialogCheckPastAttendance {
 
     public void setDialogBox() {
 
+        // Available classes for spinner
+        final List<String> classes_for_spinner = new ArrayList<>();
+
+        for(int i=0;i<subjectList.size();i++){
+            String sem        = subjectList.get(i).getSemester();
+            String class_name = subjectList.get(i).getClassName();
+            classes_for_spinner.add(sem +"   "+ class_name);
+        }
+
+        if(classes_for_spinner.isEmpty()){
+            Toast.makeText(mCtx,"No Classes are available",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
 
         final AlertDialog alertDialog;
 
@@ -70,17 +85,8 @@ public class DialogCheckPastAttendance {
             }
         });
 
-        // period and class name is set as spinner
-        Integer[] periods_spinner     = {1,2,3,4,5,6};
-        List<String> classes_for_spinner = new ArrayList<>();
-
-        for(int i=0;i<subjectList.size();i++){
-
-            String sem        = subjectList.get(i).getSemester();
-            String class_name = subjectList.get(i).getClassName();
-            classes_for_spinner.add(sem +"   "+ class_name);
-
-        }
+        // period is set as spinner
+        Integer[] periods_spinner  = {1,2,3,4,5,6};
 
         ArrayAdapter<Integer> adapter_for_period = new ArrayAdapter<>(mCtx,
                 android.R.layout.simple_list_item_1,periods_spinner);
@@ -97,14 +103,16 @@ public class DialogCheckPastAttendance {
             public void onClick(View v) {
 
                 String date     = mDialogDate.getText().toString().trim();
-                Integer period   = (Integer) mDialogPeriod.getSelectedItem();
+                Integer period  = (Integer) mDialogPeriod.getSelectedItem();
 
                 // get index from spinner and from subjectList gets class id.
                 int index = mDialogClass.getSelectedItemPosition();
                 int class_id = subjectList.get(index).getClass_id();
 
+                //Log.e("class_id",class_id+"");
+
                 if(date.equals("")){
-                    Toast.makeText(mCtx,"Enter date",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx,"All field are required",Toast.LENGTH_SHORT).show();
                     return;
                 }
 

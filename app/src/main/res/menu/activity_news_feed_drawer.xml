@@ -17,9 +17,9 @@
             android:icon="@mipmap/chat"
             android:title="Chatroom" />
         <item
-            android:id="@+id/nav_certificate"
+            android:id="@+id/nav_past_attendance"
             android:icon="@mipmap/certificate"
-            android:title="Certificate" />
+            android:title="Past Attendance" />
     </group>
 
     <item android:title="Communicate">

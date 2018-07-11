@@ -122,9 +122,6 @@
                     android:gravity="end"
                     android:padding="8dp"/>
 
-
-
-
             </LinearLayout>
 
         </LinearLayout>

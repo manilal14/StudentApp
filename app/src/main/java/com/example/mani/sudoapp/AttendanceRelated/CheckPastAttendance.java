@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,12 @@ public class CheckPastAttendance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+
+    }
+
+    private void init(){
+
         setContentView(R.layout.activity_check_past_attendance);
 
         Bundle bundle = getIntent().getExtras();
@@ -67,6 +74,8 @@ public class CheckPastAttendance extends AppCompatActivity {
         mDate     = bundle.getString("date");
         mPeriod   = bundle.getInt("period");
         mClass_id = bundle.getInt("class_id");
+
+        Log.e("tag",mDate+" "+mPeriod+" "+mClass_id);
 
         mPastAttendanceList = new ArrayList<>();
 
@@ -85,6 +94,7 @@ public class CheckPastAttendance extends AppCompatActivity {
                 mErrorLinearLayout.setVisibility(View.GONE);
             }
         });
+
     }
 
     @Override
@@ -100,13 +110,136 @@ public class CheckPastAttendance extends AppCompatActivity {
 
         switch (id){
 
-            case R.id.check_past_attendance_info :
+            case R.id.menu_check_past_attendance_edit:
+                editPastAttendanceDialog();
+                break;
+
+            case R.id.menu_check_past_attendance_info :
                 creatDialogForMoreInfo();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void editPastAttendanceDialog() {
+
+        final AlertDialog alertDialog;
+        Context context = CheckPastAttendance.this;
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final View v = inflater.inflate(R.layout.dialog_edit_past_attendance,null);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            alertDialog = new AlertDialog.Builder(context,android.
+                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth).create();
+        } else {
+            alertDialog = new AlertDialog.Builder(context).create();
+        }
+
+        alertDialog.setView(v);
+
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_view_edit_past_attendance);
+        EditPastAttendanceAdapter adapter = new EditPastAttendanceAdapter(context,mPastAttendanceList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CheckPastAttendance.this));
+        recyclerView.setAdapter(adapter);
+
+        TextView done   = v.findViewById(R.id.dialog_done);
+        TextView cancle = v.findViewById(R.id.dialog_cancel);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                   updatePastAttendance();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                alertDialog.dismiss();
+
+                mMainLayout.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
+
+    }
+
+    private void updatePastAttendance() throws JSONException {
+
+        final JSONArray jsonArray = new JSONArray();
+
+        for(int i=0;i<mPastAttendanceList.size();i++){
+
+            PastAttendance p = mPastAttendanceList.get(i);
+
+            int status = 0 ;
+            if(p.getStatus() == true)
+                status = 1;
+
+            JSONObject tempObject = new JSONObject();
+
+            tempObject.put("student_name",p.getName());
+            tempObject.put("attendance_id",p.getAttendance_id());
+            tempObject.put("status",status);
+
+            jsonArray.put(tempObject);
+        }
+
+        //Log.e("updated attendance",jsonArray.toString());
+
+        final String URL_EDIT_PAST_ATTENDANCE = BASE_URL_ATTENDANCE+"update_past_attendance.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_EDIT_PAST_ATTENDANCE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.e("tag","onResponse "+response);
+                        fetchPastAttendance();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("tag",error.getMessage());
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Log.e("tag","params sending");
+
+                Map<String,String> params = new HashMap<>();
+                params.put("past_attendance_to_be_edited",jsonArray.toString());
+
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(retrySeconds*1000,maxNoOfTries,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        MySingleton.getInstance(CheckPastAttendance.this).addToRequestQueue(stringRequest);
+    }
+
 
     private void creatDialogForMoreInfo() {
 
@@ -136,7 +269,7 @@ public class CheckPastAttendance extends AppCompatActivity {
         int present = 0;
 
         for(int i=0;i<mPastAttendanceList.size();i++){
-            if(mPastAttendanceList.get(i).getStatus() == 1)
+            if(mPastAttendanceList.get(i).getStatus() == true)
                 present ++;
         }
 
@@ -162,7 +295,11 @@ public class CheckPastAttendance extends AppCompatActivity {
         mMainLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
 
-        String FETCH_PAST_ATTENDANCE_URL = BASE_URL_ATTENDANCE + "fetch_past_attendance.php";
+        //mPastAttendanceList = new ArrayList<>();
+
+        mPastAttendanceList.clear();
+
+        final String FETCH_PAST_ATTENDANCE_URL = BASE_URL_ATTENDANCE + "fetch_past_attendance.php";
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, FETCH_PAST_ATTENDANCE_URL,
@@ -170,8 +307,13 @@ public class CheckPastAttendance extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                       /*Toast.makeText(CheckPastAttendance.this,""+response,
-                                Toast.LENGTH_SHORT).show();*/
+                        PastAttendanceAdapter pastAttendanceAdapter = null;
+
+                        if(pastAttendanceAdapter != null) {
+                            pastAttendanceAdapter.clear();
+                            pastAttendanceAdapter.addAll(mPastAttendanceList);
+                        }
+
                        try {
 
                            JSONArray  jsonArray = new JSONArray(response);
@@ -181,7 +323,7 @@ public class CheckPastAttendance extends AppCompatActivity {
                                mProgressBar.setVisibility(View.GONE);
                                mErrorLinearLayout.setVisibility(View.VISIBLE);
                                getSupportActionBar().hide();
-                               mErrorTextView.setText("Attendence yet not taken.");
+                               mErrorTextView.setText("Attendence yet not taken");
                                mRetry.setText("OK");
                                mRetry.setOnClickListener(new View.OnClickListener() {
                                    @Override
@@ -201,14 +343,12 @@ public class CheckPastAttendance extends AppCompatActivity {
                            for(int i=0; i<jsonArray.length();i++){
 
                                JSONObject temp = jsonArray.getJSONObject(i);
-                               String name = temp.getString("student_name");
-                               int status  = temp.getInt("status");
+                               int attendance_id = temp.getInt("attendance_id");
+                               String name       = temp.getString("student_name");
+                               int status        = temp.getInt("status");
 
-                                mPastAttendanceList.add(new PastAttendance(i+1,name,status));
+                               mPastAttendanceList.add(new PastAttendance(attendance_id,i+1,name,status));
                            }
-
-                           /*Toast.makeText(CheckPastAttendance.this,"sfsr",
-                                    Toast.LENGTH_SHORT).show();*/
 
                            TextView tv_date;
                            TextView tv_period;
@@ -229,7 +369,7 @@ public class CheckPastAttendance extends AppCompatActivity {
                            tv_duration.setText(String.valueOf(mDuration+" hrs"));
 
                            RecyclerView recyclerView = findViewById(R.id.recycler_view_check_past_attendance);
-                           PastAttendanceAdapter pastAttendanceAdapter = new PastAttendanceAdapter(
+                           pastAttendanceAdapter = new PastAttendanceAdapter(
                                     CheckPastAttendance.this,mPastAttendanceList);
                            recyclerView.setLayoutManager(new LinearLayoutManager(CheckPastAttendance.this));
                            recyclerView.setAdapter(pastAttendanceAdapter);

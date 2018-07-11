@@ -120,85 +120,10 @@ public class FetchSubjectList extends AppCompatActivity {
                 checkPast.setDialogBox();
                 break;
 
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-   /* private void setDialogBox() {
-
-        Context context = FetchSubjectList.this;
-        final AlertDialog.Builder alertDialog;
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-        final View v = inflater.inflate(R.layout.dialog_check_past_attendance,null);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            alertDialog = new AlertDialog.Builder(context,android.
-                    R.style.Theme_DeviceDefault_Light_Dialog_MinWidth);
-        } else {
-            alertDialog = new AlertDialog.Builder(context);
-        }
-
-        alertDialog.setView(v);
-
-        mDialogDate   = v.findViewById(R.id.dialog_date);
-        mDialogPeriod = v.findViewById(R.id.dialog_period);
-        mDialogClass   = v.findViewById(R.id.dialog_class);
-
-
-        // date onClick is set as launchCalender
-        // perios and class name is set as spinner
-        String[] periods_for_spinner     = {"1","2","3","4","5","6"};
-        List<String> classes_for_spinner = new ArrayList<>();
-
-        for(int i=0;i<mSubjectList.size();i++){
-
-            String sem        = mSubjectList.get(i).getSemester();
-            String class_name = mSubjectList.get(i).getClassName();
-            classes_for_spinner.add(sem +"   "+ class_name);
-
-        }
-
-        ArrayAdapter<String> adapter_for_period = new ArrayAdapter<>(FetchSubjectList.this,
-                android.R.layout.simple_list_item_1,periods_for_spinner);
-        mDialogPeriod.setAdapter(adapter_for_period);
-
-        ArrayAdapter<String> adapter_for_class = new ArrayAdapter<>(FetchSubjectList.this,
-                android.R.layout.simple_list_item_1,classes_for_spinner);
-
-        mDialogClass.setAdapter(adapter_for_class);
-
-
-
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                String date     = mDialogDate.getText().toString().trim();
-                String period   = (String) mDialogPeriod.getSelectedItem();
-
-                // get index from spinner and from subjectList gets class id.
-                int index = mDialogClass.getSelectedItemPosition();
-                int class_id = mSubjectList.get(index).getClass_id();
-
-                Toast.makeText(FetchSubjectList.this,""+date+" "+period+"  "+class_id,
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        alertDialog.show();
-    }*/
 
     private void loadSubjectsFromDatabase() {
 

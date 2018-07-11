@@ -28,23 +28,26 @@ public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAd
 
     @NonNull
     @Override
-    public PastAttendanceAdapter.PastAttendanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PastAttendanceAdapter.PastAttendanceViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View v = inflater.inflate(R.layout.check_past_attendance_single_layout,parent,false);
+        View v = inflater.inflate(R.layout.check_past_attendance_single_layout,
+                parent,false);
         return new PastAttendanceViewHolder(v);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull PastAttendanceAdapter.PastAttendanceViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PastAttendanceAdapter.
+            PastAttendanceViewHolder holder, int position) {
 
         PastAttendance aStudent = mPastAttendanceList.get(position);
 
         holder.tv_roll_no.setText(String.valueOf(aStudent.getRoll_no()));
         holder.tv_name.setText(aStudent.getName());
 
-        if(aStudent.getStatus() == 0) {
+        if(aStudent.getStatus() == false) {
 
             holder.tv_name.setTextColor(parseColor("#E50303"));
             holder.icon.setBackgroundResource(R.drawable.ic_close);
@@ -76,5 +79,17 @@ public class PastAttendanceAdapter extends RecyclerView.Adapter<PastAttendanceAd
             tv_name    = itemView.findViewById(R.id.tv_student_name);
             icon       = itemView.findViewById(R.id.image_view);
         }
+    }
+
+    public void clear() {
+        mPastAttendanceList.clear();
+        notifyDataSetChanged();
+
+    }
+
+    public void addAll(List<PastAttendance> list) {
+        mPastAttendanceList.addAll(list);
+        notifyDataSetChanged();
+
     }
 }

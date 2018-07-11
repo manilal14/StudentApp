@@ -160,9 +160,9 @@ public class ViewSyllabus extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
-    /*private void readFromFile(){
+    private void readFromFile(){
 
         file = new File(getCacheDir(),filename);
         InputStream in = null;

@@ -185,6 +185,7 @@ public class LoginPage extends AppCompatActivity {
 
                             if(responseCode == 1){
 
+                                String sudo_id   = jsonObject.getString("sudo_id");
                                 String sudouser  = jsonObject.getString("sudouser");
                                 String sudoemail = jsonObject.getString("email");
 
@@ -194,7 +195,7 @@ public class LoginPage extends AppCompatActivity {
 
                                 LoginSessionManager session = new LoginSessionManager(LoginPage.this);
 
-                                session.createLoginSession(sudouser,sudoemail);
+                                session.createLoginSession(sudo_id,sudouser,sudoemail);
 
                                 // I think there is no need for this as it will be automatically disable
                                 // as soon as new activity will start

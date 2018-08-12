@@ -33,6 +33,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
 
     @Override
     public FeedsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.news_feed_recycler_view_layout,parent,false);
         return new FeedsViewHolder(view);
@@ -81,7 +82,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.FeedsViewHol
             recycler_imageView = itemView.findViewById(R.id.news_feed_recycyler_view_imageview);
             recycler_title     = itemView.findViewById(R.id.news_feed_recycyler_view_title);
             recycler_desc      = itemView.findViewById(R.id.news_feed_recycyler_view_desc);
-
             cardView           = itemView.findViewById(R.id.news_feed_cardView);
         }
     }

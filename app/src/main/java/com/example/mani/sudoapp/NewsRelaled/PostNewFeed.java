@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.mani.sudoapp.LoginSessionManager;
 import com.example.mani.sudoapp.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -40,6 +42,7 @@ import static com.example.mani.sudoapp.CommonVariablesAndFunctions.handleVolleyE
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.maxNoOfTries;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.postingNewFeed;
 import static com.example.mani.sudoapp.CommonVariablesAndFunctions.retrySeconds;
+import static com.example.mani.sudoapp.LoginSessionManager.KEY_SUDO_ID;
 
 public class PostNewFeed extends AppCompatActivity {
 
@@ -193,10 +196,17 @@ public class PostNewFeed extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
+                String sudo_id = new LoginSessionManager(PostNewFeed.this)
+                        .getStudentDetailsFromSharedPreference().get(KEY_SUDO_ID);
+
+                Log.e("tag",sudo_id);
+
                 Map<String, String> params = new HashMap<>();
                 params.put("image", imageToString(mBitmap));
                 params.put("title", mTitle.getText().toString().trim());
                 params.put("description",mDescription.getText().toString().trim());
+                params.put("uploaded_by",String.valueOf(sudo_id));
+
                 return params;
             }
         };

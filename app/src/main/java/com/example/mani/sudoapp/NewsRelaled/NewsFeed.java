@@ -100,8 +100,6 @@ public class NewsFeed extends AppCompatActivity
             }
         }
 
-
-
         // If skipedLoginCheck == true then execution will start from here
         if(skipedLogin == true)
             Toast.makeText(NewsFeed.this,"Login is skipped",Toast.LENGTH_SHORT).show();
@@ -158,10 +156,13 @@ public class NewsFeed extends AppCompatActivity
 
     }
 
+    // List of classes for spinner
+    // Add new classes manually id needed
     private void addAllSubjects() {
 
-        mSubjectList.add(new Subject(10005108,"IT-A","Sem-5"));
-        mSubjectList.add(new Subject(10005109,"IT-B","Sem-5"));
+        mSubjectList.add(new Subject(10005108,"IT - A","Sem-5"));
+        mSubjectList.add(new Subject(10005109,"IT - B","Sem-5"));
+        mSubjectList.add(new Subject(10035108,"ME - A","Sem-5"));
 
     }
 
@@ -336,7 +337,8 @@ public class NewsFeed extends AppCompatActivity
         TextView done    = v.findViewById(R.id.dialog_done);
         TextView cancel  = v.findViewById(R.id.dialog_cancel);
 
-        String[] branch_spinner= {"IT","CS","EC"};
+        //Use only short form
+        String[] branch_spinner= {"IT","ME"};
         Integer[] sem_spinner  = {3,4,5,6,7,8};
 
         ArrayAdapter<String> adapter_for_period = new ArrayAdapter<>(mCtx,

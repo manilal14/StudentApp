@@ -19,6 +19,7 @@ public class LoginSessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
 
 
+    public static final String KEY_SUDO_ID  = "sudo_id";
     public static final String KEY_NAME     = "name";
     public static final String KEY_EMAIL    = "email";
 
@@ -29,10 +30,11 @@ public class LoginSessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String name, String email) {
+    public void createLoginSession(String sudo_id, String name, String email) {
 
         editor.putBoolean(IS_LOGIN, true);
 
+        editor.putString(KEY_SUDO_ID,sudo_id);
         editor.putString(KEY_NAME,name);
         editor.putString(KEY_EMAIL,email);
 
@@ -60,6 +62,7 @@ public class LoginSessionManager {
 
         HashMap<String, String> user = new HashMap<String, String>();
 
+        user.put(KEY_SUDO_ID, pref.getString(KEY_SUDO_ID,null));
         user.put(KEY_NAME, pref.getString(KEY_NAME, "You are Awesome"));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "someoneawesom@gmail.com"));
 
